@@ -54,7 +54,7 @@ const todoList = {
                     <input type="text" v-if="!todo.finished"
                         v-model="todo.task" :id="'task-'+todo.id"
                         readonly>
-                    <button @click="editTask(todo.id)" v-if="!todo.finished">Edit</button>
+                    <button :id="'btn-'+todo.id" @click="editTask(todo.id)" v-if="!todo.finished">Edit</button>
                 </div>
                 <h3 v-if="category.todo.filter(p => p.finished !== false).length > 0">Finished tasks</h3>
                 <div v-for="todo in category.todo">
@@ -92,9 +92,16 @@ const todoList = {
         },
 
         editTask: function(id){
-            console.log(id)
-            app.querySelector(`#task-${id}`).removeAttribute('readonly')
-
+            let btn = app.querySelector(`#btn-${id}`)
+            let task = app.querySelector(`#task-${id}`) 
+            if(btn.innerText.toLocaleLowerCase() !== 'save'){
+                task.removeAttribute('readonly')
+                task.focus()
+                btn.innerText = 'Save'
+            }else{
+                btn.innerText = 'Edit'
+                task.setAttribute('readonly', 'readonly')
+            }
         },
     }
 }
