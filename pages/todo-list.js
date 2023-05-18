@@ -50,11 +50,12 @@ const todoList = {
             
             <div v-for="category in tasks">
                 <h1>{{ category.type }}</h1>
-                <div v-for="todo in category.todo" >
+                <div :id="'container-'+todo.id" v-for="todo in category.todo" >
                     <input type="text" v-if="!todo.finished"
                         v-model="todo.task" :id="'task-'+todo.id"
                         readonly>
-                    <button :id="'btn-'+todo.id" @click="editTask(todo.id)" v-if="!todo.finished">Edit</button>
+                    <button :id="'btn-edit-'+todo.id" @click="editTask(todo.id)" v-if="!todo.finished">Edit</button>
+                    <button :id="'btn-remove-'+todo.id" @click="removeTask(todo.id)" v-if="!todo.finished">Remove</button>
                 </div>
                 <h3 v-if="category.todo.filter(p => p.finished !== false).length > 0">Finished tasks</h3>
                 <div v-for="todo in category.todo">
@@ -92,7 +93,7 @@ const todoList = {
         },
 
         editTask: function(id){
-            let btn = app.querySelector(`#btn-${id}`)
+            let btn = app.querySelector(`#btn-edit-${id}`)
             let task = app.querySelector(`#task-${id}`) 
             if(btn.innerText.toLocaleLowerCase() !== 'save'){
                 task.removeAttribute('readonly')
@@ -102,6 +103,14 @@ const todoList = {
                 btn.innerText = 'Edit'
                 task.setAttribute('readonly', 'readonly')
             }
+        },
+
+        removeTask: function(id){
+            //TODO: Make a modal to confirm it
+            let category = this.$data.tasks.find(categ => categ.todo.find(task => task.id == id))
+            let task = category.todo.find(task => task.id === id)
+            let taskIndex = category.todo.indexOf(task)
+            category.todo.splice(taskIndex, 1)
         },
     }
 }
