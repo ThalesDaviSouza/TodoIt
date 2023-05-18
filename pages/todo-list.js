@@ -2,7 +2,7 @@ const todoList = {
     data(){
         return{
             newItem: {type:'',task:''},
-            bora: 'bora',
+            newCategory: '',
             tasks: [{
                     type:'Personal',
                     todo: 
@@ -19,8 +19,8 @@ const todoList = {
                         finished: false
                     },
                     {
-                            task:'Write 20 lines',
-                            finished: true
+                        task:'Write 20 lines',
+                        finished: true
                     }]
                 },
             ],
@@ -40,6 +40,10 @@ const todoList = {
                 </select>
                 <button class="add-task-button" @click="addTask">Add Task</button>
             </div>
+
+            <input type="text" v-model="newCategory">
+            <button @click="addCategory">Add Category</button>
+            
             <div v-for="category in tasks">
                 <h1>{{ category.type }}</h1>
                 <div v-for="todo in category.todo">
@@ -54,6 +58,16 @@ const todoList = {
     </div>`,
     
     methods: {
+        addCategory: function(){
+            let category = this.$data.newCategory
+            this.$data.newCategory = ''
+
+            if(this.$data.tasks.find(item => item.type.toLocaleUpperCase() === category.toLocaleUpperCase())){
+                console.log('error')
+            }else{
+                this.$data.tasks.push({type:category, todo:[]})
+            }
+        },
         addTask: function(){
             let newTask = {
                 task: this.$data.newItem.task,
@@ -63,9 +77,8 @@ const todoList = {
             this.$data.newItem.type = ''
             this.$data.newItem.task = ''
             
-            console.log(newTask)
-
-            this.$data.tasks.find(category => category.type === newTask.type).todo.push({task:newTask.task, finished:false})
+            this.$data.tasks.find(category => category.type === newTask.type)
+                .todo.push({task:newTask.task, finished:false})
         }
     }
 }
