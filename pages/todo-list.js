@@ -63,7 +63,13 @@ const todoList = {
                 </div>
                 <h3 v-if="category.todo.filter(p => p.finished !== false).length > 0">Finished tasks</h3>
                 <div v-for="todo in category.todo">
-                    <p :id="'task-'+todo.id" v-if="todo.finished">{{ todo.task }}</p>
+                    <input type="checkbox" :id="'check-'+todo.id"
+                        @click="endTask(todo.id)" v-if="todo.finished" checked>
+                    <input type="text" v-if="todo.finished"
+                        v-model="todo.task" :id="'task-'+todo.id"
+                        readonly>
+                    <button :id="'btn-edit-'+todo.id" @click="editTask(todo.id)" v-if="todo.finished">Edit</button>
+                    <button :id="'btn-remove-'+todo.id" @click="removeTask(todo.id)" v-if="todo.finished">Remove</button>
                 </div>
             </div>
         </div>
@@ -103,7 +109,7 @@ const todoList = {
 
         endTask: function(id){
             let task = this.findTask(id)
-            task.finished = true
+            task.finished = !task.finished
         },
 
         editTask: function(id){
