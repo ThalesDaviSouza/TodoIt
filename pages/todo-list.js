@@ -3,7 +3,9 @@ const todoList = {
         return{
             newItem: {type:'',task:''},
             newCategory: '',
+            //TODO: start id in 0
             nextId: 3,
+            //TODO: start without tasks
             tasks: [{
                     type:'Personal',
                     todo: 
@@ -78,6 +80,7 @@ const todoList = {
         },
 
         addTask: function(){
+            //TODO: start id in 0
             let newTask = {
                 task: this.$data.newItem.task,
                 type: this.$data.newItem.type,
