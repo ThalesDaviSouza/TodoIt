@@ -53,6 +53,8 @@ const todoList = {
             <div v-for="category in tasks">
                 <h1>{{ category.type }}</h1>
                 <div :id="'container-'+todo.id" v-for="todo in category.todo" >
+                    <input type="checkbox" :id="'check-'+todo.id"
+                        @click="endTask(todo.id)" v-if="!todo.finished">
                     <input type="text" v-if="!todo.finished"
                         v-model="todo.task" :id="'task-'+todo.id"
                         readonly>
@@ -68,6 +70,10 @@ const todoList = {
     </div>`,
     
     methods: {
+        findTask: function(id){
+            return this.$data.tasks.filter(categ => categ.todo.find(task => task.id == id))[0].todo.find(task => task.id === id)
+        },
+
         addCategory: function(){
             let category = this.$data.newCategory
             this.$data.newCategory = ''
@@ -95,6 +101,11 @@ const todoList = {
                 .todo.push({id:newTask.id, task:newTask.task, finished:false})
         },
 
+        endTask: function(id){
+            let task = this.findTask(id)
+            task.finished = true
+        },
+
         editTask: function(id){
             let btn = app.querySelector(`#btn-edit-${id}`)
             let task = app.querySelector(`#task-${id}`) 
@@ -110,8 +121,8 @@ const todoList = {
 
         removeTask: function(id){
             //TODO: Make a modal to confirm it
+            let task = this.findTask(id)
             let category = this.$data.tasks.find(categ => categ.todo.find(task => task.id == id))
-            let task = category.todo.find(task => task.id === id)
             let taskIndex = category.todo.indexOf(task)
             category.todo.splice(taskIndex, 1)
         },
