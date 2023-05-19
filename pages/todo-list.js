@@ -8,6 +8,7 @@ const todoList = {
             //TODO: start without tasks
             tasks: [{
                     id: 0,
+                    isSelected: false,
                     openToEdit: false,
                     type:'Personal',
                     todo: 
@@ -19,6 +20,7 @@ const todoList = {
                 },
                 {
                     id: 1,
+                    isSelected: false,
                     openToEdit: false,
                     type:'Carrer',
                     todo: 
@@ -55,7 +57,12 @@ const todoList = {
             <button @click="addCategory">Add Category</button>
             <br/>
             <br/>
-            <div v-for="category in tasks">
+            <ul id="category-tabs">
+                <li :id="'tab-'+category.id" v-for="category in tasks">
+                    <button :id="'btn-category-show-'+category.id" @click="showCategory(category.id)">{{ category.type }}</button>
+                </li>
+            </ul>
+            <div v-show="category.isSelected" :id="'category-wrapper-'+category.id" v-for="category in tasks">
                 <div>
                     <h1 v-if="!category.openToEdit">{{ category.type }}</h1>
                     <input type="text" v-model="category.type" v-if="category.openToEdit">
@@ -111,7 +118,7 @@ const todoList = {
             if(this.$data.tasks.find(item => item.type.toLocaleUpperCase() === category.type.toLocaleUpperCase())){
                 alert('This category already exist')
             }else{
-                this.$data.tasks.push({id: category.id, openToEdit:false, type:category.type, todo:[]})
+                this.$data.tasks.push({id: category.id, isSelected:false, openToEdit:false, type:category.type, todo:[]})
             }
         },
 
@@ -125,6 +132,16 @@ const todoList = {
                 category.openToEdit = false
                 app.querySelector(`#category-edit-${id}`).innerText = 'Edit Category'
             }
+
+        },
+
+        showCategory: function(id){
+            this.$data.tasks.forEach(category => {
+                category.isSelected = (category.id === id)
+            })
+            Array.from(app.querySelector('#category-tabs').children).forEach(li => {
+                li.className = (li.id === `tab-${id}`) ? 'active' : '' 
+            })
 
         },
 
