@@ -3,6 +3,7 @@ const todoList = {
         return{
             newItem: {type:'',task:''},
             newCategory: '',
+            showAllTasks: true,
             //TODO: start id in 0
             nextId: 3,
             //TODO: start without tasks
@@ -58,10 +59,40 @@ const todoList = {
             <br/>
             <br/>
             <ul id="category-tabs">
+                <li id="tab--1" class="active">
+                    <button @click="showCategory(-1)">All Tasks</button>
+                </li>
                 <li :id="'tab-'+category.id" v-for="category in tasks">
                     <button :id="'btn-category-show-'+category.id" @click="showCategory(category.id)">{{ category.type }}</button>
                 </li>
             </ul>
+            
+            <div v-show="showAllTasks">
+                <h1>All Tasks</h1>
+                <div v-for="category in tasks">
+                    <div :id="'container-'+todo.id" v-for="todo in category.todo" >
+                        <input type="checkbox" :id="'check-'+todo.id"
+                            @click="endTask(todo.id)" v-if="!todo.finished">
+                        <input type="text" v-if="!todo.finished"
+                            v-model="todo.task" :id="'task-'+todo.id"
+                            readonly>
+                        <button :id="'btn-edit-'+todo.id" @click="editTask(todo.id)" v-if="!todo.finished">Edit</button>
+                        <button :id="'btn-remove-'+todo.id" @click="removeTask(todo.id)" v-if="!todo.finished">Remove</button>
+                    </div>
+                </div>
+                <h3>Finished tasks</h3>
+                <div v-for="category in tasks">
+                    <div v-for="todo in category.todo">
+                        <input type="checkbox" :id="'check-'+todo.id"
+                            @click="endTask(todo.id)" v-if="todo.finished" checked>
+                        <input type="text" v-if="todo.finished"
+                            v-model="todo.task" :id="'task-'+todo.id"
+                            readonly>
+                        <button :id="'btn-edit-'+todo.id" @click="editTask(todo.id)" v-if="todo.finished">Edit</button>
+                        <button :id="'btn-remove-'+todo.id" @click="removeTask(todo.id)" v-if="todo.finished">Remove</button>
+                    </div>
+                </div>
+            </div>
             <div v-show="category.isSelected" :id="'category-wrapper-'+category.id" v-for="category in tasks">
                 <div>
                     <h1 v-if="!category.openToEdit">{{ category.type }}</h1>
@@ -136,6 +167,11 @@ const todoList = {
         },
 
         showCategory: function(id){
+            if(id !== -1){
+                this.$data.showAllTasks = false
+            }else{
+                this.$data.showAllTasks = true
+            }
             this.$data.tasks.forEach(category => {
                 category.isSelected = (category.id === id)
             })
