@@ -7,6 +7,8 @@ const todoList = {
             nextId: 3,
             //TODO: start without tasks
             tasks: [{
+                    id: 0,
+                    openToEdit: false,
                     type:'Personal',
                     todo: 
                     [{
@@ -16,6 +18,8 @@ const todoList = {
                     }]
                 },
                 {
+                    id: 1,
+                    openToEdit: false,
                     type:'Carrer',
                     todo: 
                     [{
@@ -46,12 +50,18 @@ const todoList = {
                 </select>
                 <button class="add-task-button" @click="addTask">Add Task</button>
             </div>
-    
+            <br/>
             <input type="text" v-model="newCategory">
             <button @click="addCategory">Add Category</button>
-            
+            <br/>
+            <br/>
             <div v-for="category in tasks">
-                <h1>{{ category.type }}</h1>
+                <div>
+                    <h1 v-if="!category.openToEdit">{{ category.type }}</h1>
+                    <input type="text" v-model="category.type" v-if="category.openToEdit">
+                    <button @click="editCategory(category.id)" :id="'category-edit-'+category.id">Edit Category</button>
+                </div>
+                <br/>
                 <div :id="'container-'+todo.id" v-for="todo in category.todo" >
                     <input type="checkbox" :id="'check-'+todo.id"
                         @click="endTask(todo.id)" v-if="!todo.finished">
@@ -61,6 +71,7 @@ const todoList = {
                     <button :id="'btn-edit-'+todo.id" @click="editTask(todo.id)" v-if="!todo.finished">Edit</button>
                     <button :id="'btn-remove-'+todo.id" @click="removeTask(todo.id)" v-if="!todo.finished">Remove</button>
                 </div>
+                <br/>
                 <h3 v-if="category.todo.filter(p => p.finished !== false).length > 0">Finished tasks</h3>
                 <div v-for="todo in category.todo">
                     <input type="checkbox" :id="'check-'+todo.id"
@@ -72,6 +83,7 @@ const todoList = {
                     <button :id="'btn-remove-'+todo.id" @click="removeTask(todo.id)" v-if="todo.finished">Remove</button>
                 </div>
             </div>
+            <br/>
         </div>
     </div>`,
     
@@ -80,15 +92,40 @@ const todoList = {
             return this.$data.tasks.filter(categ => categ.todo.find(task => task.id == id))[0].todo.find(task => task.id === id)
         },
 
-        addCategory: function(){
-            let category = this.$data.newCategory
-            this.$data.newCategory = ''
+        nextCategoryId: function(){
+            let nextId = 0
+            this.$data.tasks.forEach(category => {
+                nextId = Math.max(category.id, nextId)
+            })
+            nextId++
+            return nextId
+        },
 
-            if(this.$data.tasks.find(item => item.type.toLocaleUpperCase() === category.toLocaleUpperCase())){
+        addCategory: function(){
+            let category = {
+                type: this.$data.newCategory,
+                id: this.nextCategoryId()
+            }
+            this.$data.newCategory = ''
+            
+            if(this.$data.tasks.find(item => item.type.toLocaleUpperCase() === category.type.toLocaleUpperCase())){
                 alert('This category already exist')
             }else{
-                this.$data.tasks.push({type:category, todo:[]})
+                this.$data.tasks.push({id: category.id, openToEdit:false, type:category.type, todo:[]})
             }
+        },
+
+        editCategory: function(id){
+            let category = this.$data.tasks.find(category => category.id == id)
+            let btn = app.querySelector(`#category-edit-${id}`)
+            if(btn.innerText.toLocaleLowerCase() !== 'save category'){
+                category.openToEdit = true
+                app.querySelector(`#category-edit-${id}`).innerText = 'Save Category'
+            }else{
+                category.openToEdit = false
+                app.querySelector(`#category-edit-${id}`).innerText = 'Edit Category'
+            }
+
         },
 
         addTask: function(){
