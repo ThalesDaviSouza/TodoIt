@@ -42,17 +42,21 @@ const todoList = {
         <h1>Todo List</h1>
         <div class="todo-list">
             <div class="add-task">
-                <input type="text" id="task-name" v-model="newItem.task">
-                <select v-model="newItem.category">
-                    <option :value="category.id" v-for="category in categories">
-                        {{ category.name }}
-                    </option>
-                </select>
-                <button class="add-task-button" @click="addTask">Add Task</button>
+                <form @submit.prevent="">
+                    <input type="text" id="task-name" v-model="newItem.task">
+                    <select v-model="newItem.category">
+                        <option :value="category.id" v-for="category in categories">
+                            {{ category.name }}
+                        </option>
+                    </select>
+                    <button class="add-task-button" @click="addTask">Add Task</button>
+                </form>
             </div>
             <br/>
-            <input type="text" v-model="newCategory">
-            <button @click="addCategory">Add Category</button>
+            <form @submit.prevent="">
+                <input type="text" v-model="newCategory">
+                <button @click="addCategory">Add Category</button>
+            </form>
             <br/>
             <br/>
             <ul id="category-tabs">
@@ -64,14 +68,15 @@ const todoList = {
                 </li>
             </ul>
             
-            <div v-show="showAllTasks">
+            <div v-if="showAllTasks">
                 <h1>All Tasks</h1>
                 <div v-for="task in tasks">
                     <div v-if="!task.finished">
                         <input type="checkbox" :id="'check-'+task.id"
                             @click="endTask(task.id)">
                         <input type="text" v-model="task.todo"
-                            :id="'task-'+task.id" readonly>
+                            :id="'task-'+task.id" @click="editTask(task.id)"
+                            @keydown.enter="editTask(task.id)" readonly>
                         <button :id="'btn-edit-'+task.id" @click="editTask(task.id)">Edit</button>
                         <button :id="'btn-remove-'+task.id" @click="removeTask(task.id)">Remove</button>
                     </div>
@@ -82,7 +87,8 @@ const todoList = {
                         <input type="checkbox" :id="'check-'+task.id"
                             @click="endTask(task.id)" checked>
                         <input type="text" v-model="task.todo"
-                            :id="'task-'+task.id" readonly>
+                            :id="'task-'+task.id" @click="editTask(task.id)"
+                            @keydown.enter="editTask(task.id)" readonly>
                         <button :id="'btn-edit-'+task.id" @click="editTask(task.id)">Edit</button>
                         <button :id="'btn-remove-'+task.id" @click="removeTask(task.id)">Remove</button>
                     </div>
@@ -90,17 +96,20 @@ const todoList = {
             </div>
             <div v-show="category.isSelected" :id="'category-wrapper-'+category.id" v-for="category in categories">
                 <div>
-                    <h1 v-if="!category.openToEdit">{{ category.name }}</h1>
-                    <input type="text" v-model="category.name" v-if="category.openToEdit">
-                    <button @click="editCategory(category.id)" :id="'category-edit-'+category.id">Edit Category</button>
-                    <button @click="deleteCategory(category.id)">Delete Category</button>
+                    <form @submit.prevent="">
+                        <h1 v-if="!category.openToEdit" @click="editCategory(category.id)">{{ category.name }}</h1>
+                        <input type="text" v-model="category.name" :id="'category-input-'+category.id" v-if="category.openToEdit">
+                        <button @click="editCategory(category.id)" :id="'category-edit-'+category.id">Edit Category</button>
+                        <button @click="deleteCategory(category.id)">Delete Category</button>
+                    </form>
                 </div>
                 <br/>
                 <div :id="'container-'+task.id" v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)">
                     <input type="checkbox" :id="'check-'+task.id"
                         @click="endTask(task.id)">
-                    <input type="text" v-model="task.todo"
-                        :id="'task-'+task.id" readonly>
+                    <input type="text" v-model="task.todo" 
+                        :id="'task-'+task.id" @click="editTask(task.id)"
+                        @keydown.enter="editTask(task.id)" readonly>
                     <button :id="'btn-edit-'+task.id" @click="editTask(task.id)">Edit</button>
                     <button :id="'btn-remove-'+task.id" @click="removeTask(task.id)">Remove</button>
                 </div>
@@ -109,9 +118,9 @@ const todoList = {
                 <div v-for="task in getTasksByCategory(category.id).filter(task => task.finished)">
                     <input type="checkbox" :id="'check-'+task.id"
                         @click="endTask(task.id)" checked>
-                    <input type="text"
-                        v-model="task.todo" :id="'task-'+task.id"
-                        readonly>
+                    <input type="text" v-model="task.todo"
+                        :id="'task-'+task.id" @click="editTask(task.id)"
+                        @keydown.enter="editTask(task.id)" readonly>
                     <button :id="'btn-edit-'+task.id" @click="editTask(task.id)">Edit</button>
                     <button :id="'btn-remove-'+task.id" @click="removeTask(task.id)">Remove</button>
                 </div>
@@ -149,13 +158,16 @@ const todoList = {
         editCategory: function(id){
             let category = this.$data.categories.find(category => category.id == id)
             let btn = app.querySelector(`#category-edit-${id}`)
-
+            
             if(btn.innerText.toLocaleLowerCase() !== 'save category'){
                 category.openToEdit = true
-                app.querySelector(`#category-edit-${id}`).innerText = 'Save Category'
+                btn.innerText = 'Save Category'
             }else{
                 category.openToEdit = false
-                app.querySelector(`#category-edit-${id}`).innerText = 'Edit Category'
+                btn.innerText = 'Edit Category'
+                btn.blur()
+                let input = app.querySelector(`#category-input-${id}`)
+                input.blur()
             }
         },
 
@@ -231,6 +243,7 @@ const todoList = {
             }else{
                 btn.innerText = 'Edit'
                 task.setAttribute('readonly', 'readonly')
+                task.blur()
             }
         },
 
