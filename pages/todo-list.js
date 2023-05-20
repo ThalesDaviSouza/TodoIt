@@ -126,19 +126,23 @@ const todoList = {
         },
 
         addCategory: function(){
-            let category = {
-                type: this.$data.newCategory,
-                id: parseInt(this.$data.categories.reduce((biggerId, categoryActual) => {
-                    return Math.max(biggerId, categoryActual.id)
-                }, -1))+1
-            }
-            this.$data.newCategory = ''
-
-            if(this.$data.categories.find(cat => cat.name.toLocaleLowerCase() == category.type.toLocaleLowerCase())){
-                //TODO: Make a modal to alert it
-                alert('This category already exist')
+            if(this.$data.newCategory.replace(/\s/g, '').length === 0){
+                alert('Insert the name of category')
             }else{
-                this.$data.categories.push({id: category.id, name: category.type, isSelected:false, openToEdit:false})
+                let category = {
+                    type: this.$data.newCategory,
+                    id: parseInt(this.$data.categories.reduce((biggerId, categoryActual) => {
+                        return Math.max(biggerId, categoryActual.id)
+                    }, -1))+1
+                }
+                this.$data.newCategory = ''
+                
+                if(this.$data.categories.find(cat => cat.name.toLocaleLowerCase() == category.type.toLocaleLowerCase())){
+                    //TODO: Make a modal to alert it
+                    alert('This category already exist')
+                }else{
+                    this.$data.categories.push({id: category.id, name: category.type, isSelected:false, openToEdit:false})
+                }
             }
         },
 
@@ -185,26 +189,33 @@ const todoList = {
         },
 
         addTask: function(){
-            //TODO: start id in 0
-            let newTask = {
-                task: this.$data.newItem.task,
-                category: this.$data.newItem.category,
-                id: parseInt(this.$data.tasks.reduce((biggerId, taskActual) => {
+            //TODO: Modal here
+            if(this.$data.newItem.task.replace(/\s/g, '').length == 0){
+                alert('Insert some task')
+            }else if(this.$data.newItem.category === ''){
+                alert('Select the category of your task')
+            }else{
+                //TODO: start id in 0
+                let newTask = {
+                    task: this.$data.newItem.task,
+                    category: this.$data.newItem.category,
+                    id: parseInt(this.$data.tasks.reduce((biggerId, taskActual) => {
                     return Math.max(biggerId, taskActual.id)
                 }, -1))+1,
+                }
+                
+                this.$data.newItem.task = ''
+                this.$data.newItem.category = ''
+                
+                this.$data.tasks.push({
+                    id: newTask.id,
+                    todo: newTask.task,
+                    categoryId: newTask.category,
+                    finished: false
+                })
             }
-
-            this.$data.newItem.task = ''
-            this.$data.newItem.category = ''
-
-            this.$data.tasks.push({
-                id: newTask.id,
-                todo: newTask.task,
-                categoryId: newTask.category,
-                finished: false
-            })
         },
-
+        
         endTask: function(id){
             let task = this.$data.tasks.find(task => task.id === id)
             task.finished = !task.finished
