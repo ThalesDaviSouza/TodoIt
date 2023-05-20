@@ -1,42 +1,39 @@
 const todoList = {
     data(){
         return{
-            newItem: {type:'',task:''},
+            newItem: {task:'', category:''},
             newCategory: '',
             showAllTasks: true,
             //TODO: start id in 0
             nextId: 3,
+            categories: 
+            [{
+                id: 0,
+                name: 'Personal',
+                isSelected: false,
+                openToEdit: false,
+            },
+            {
+                id: 1,
+                name: 'Carrer',
+                isSelected: false,
+                openToEdit: false,
+            }],
+
             //TODO: start without tasks
-            tasks: [{
-                    id: 0,
-                    isSelected: false,
-                    openToEdit: false,
-                    type:'Personal',
-                    todo: 
-                    [{
-                        id:0,
-                        task:'Make a book',
-                        finished: false
-                    }]
-                },
-                {
-                    id: 1,
-                    isSelected: false,
-                    openToEdit: false,
-                    type:'Carrer',
-                    todo: 
-                    [{
-                        id:1,
-                        task:'Write a program',
-                        finished: false
-                    },
-                    {
-                        id:2,
-                        task:'Write 20 lines',
-                        finished: true
-                    }]
-                },
-            ],
+            tasks: 
+            [{
+                id: 0,
+                todo: 'Read the book about squids',
+                categoryId: 0,
+                finished: false,
+            },
+            {
+                id: 1,
+                todo: 'Write code',
+                categoryId: 1,
+                finished: false, 
+            }],
         }
     },
     
@@ -46,9 +43,9 @@ const todoList = {
         <div class="todo-list">
             <div class="add-task">
                 <input type="text" id="task-name" v-model="newItem.task">
-                <select v-model="newItem.type">
-                    <option v-for="category in tasks">
-                        {{ category.type }}
+                <select v-model="newItem.category">
+                    <option :value="category.id" v-for="category in categories">
+                        {{ category.name }}
                     </option>
                 </select>
                 <button class="add-task-button" @click="addTask">Add Task</button>
@@ -62,64 +59,61 @@ const todoList = {
                 <li id="tab--1" class="active">
                     <button @click="showCategory(-1)">All Tasks</button>
                 </li>
-                <li :id="'tab-'+category.id" v-for="category in tasks">
-                    <button :id="'btn-category-show-'+category.id" @click="showCategory(category.id)">{{ category.type }}</button>
+                <li :id="'tab-'+category.id" v-for="category in categories">
+                    <button :id="'btn-category-show-'+category.id" @click="showCategory(category.id)">{{ category.name }}</button>
                 </li>
             </ul>
             
             <div v-show="showAllTasks">
                 <h1>All Tasks</h1>
-                <div v-for="category in tasks">
-                    <div :id="'container-'+todo.id" v-for="todo in category.todo" >
-                        <input type="checkbox" :id="'check-'+todo.id"
-                            @click="endTask(todo.id)" v-if="!todo.finished">
-                        <input type="text" v-if="!todo.finished"
-                            v-model="todo.task" :id="'task-'+todo.id"
-                            readonly>
-                        <button :id="'btn-edit-'+todo.id" @click="editTask(todo.id)" v-if="!todo.finished">Edit</button>
-                        <button :id="'btn-remove-'+todo.id" @click="removeTask(todo.id)" v-if="!todo.finished">Remove</button>
+                <div v-for="task in tasks">
+                    <div v-if="!task.finished">
+                        <input type="checkbox" :id="'check-'+task.id"
+                            @click="endTask(task.id)">
+                        <input type="text" v-model="task.todo"
+                            :id="'task-'+task.id" readonly>
+                        <button :id="'btn-edit-'+task.id" @click="editTask(task.id)">Edit</button>
+                        <button :id="'btn-remove-'+task.id" @click="removeTask(task.id)">Remove</button>
                     </div>
                 </div>
                 <h3>Finished tasks</h3>
-                <div v-for="category in tasks">
-                    <div v-for="todo in category.todo">
-                        <input type="checkbox" :id="'check-'+todo.id"
-                            @click="endTask(todo.id)" v-if="todo.finished" checked>
-                        <input type="text" v-if="todo.finished"
-                            v-model="todo.task" :id="'task-'+todo.id"
-                            readonly>
-                        <button :id="'btn-edit-'+todo.id" @click="editTask(todo.id)" v-if="todo.finished">Edit</button>
-                        <button :id="'btn-remove-'+todo.id" @click="removeTask(todo.id)" v-if="todo.finished">Remove</button>
+                <div v-for="task in tasks">
+                    <div v-if="task.finished">
+                        <input type="checkbox" :id="'check-'+task.id"
+                            @click="endTask(task.id)" checked>
+                        <input type="text" v-model="task.todo"
+                            :id="'task-'+task.id" readonly>
+                        <button :id="'btn-edit-'+task.id" @click="editTask(task.id)">Edit</button>
+                        <button :id="'btn-remove-'+task.id" @click="removeTask(task.id)">Remove</button>
                     </div>
                 </div>
             </div>
-            <div v-show="category.isSelected" :id="'category-wrapper-'+category.id" v-for="category in tasks">
+            <div v-show="category.isSelected" :id="'category-wrapper-'+category.id" v-for="category in categories">
                 <div>
-                    <h1 v-if="!category.openToEdit">{{ category.type }}</h1>
-                    <input type="text" v-model="category.type" v-if="category.openToEdit">
+                    <h1 v-if="!category.openToEdit">{{ category.name }}</h1>
+                    <input type="text" v-model="category.name" v-if="category.openToEdit">
                     <button @click="editCategory(category.id)" :id="'category-edit-'+category.id">Edit Category</button>
                     <button @click="deleteCategory(category.id)">Delete Category</button>
                 </div>
                 <br/>
-                <div :id="'container-'+todo.id" v-for="todo in category.todo" >
-                    <input type="checkbox" :id="'check-'+todo.id"
-                        @click="endTask(todo.id)" v-if="!todo.finished">
-                    <input type="text" v-if="!todo.finished"
-                        v-model="todo.task" :id="'task-'+todo.id"
-                        readonly>
-                    <button :id="'btn-edit-'+todo.id" @click="editTask(todo.id)" v-if="!todo.finished">Edit</button>
-                    <button :id="'btn-remove-'+todo.id" @click="removeTask(todo.id)" v-if="!todo.finished">Remove</button>
+                <div :id="'container-'+task.id" v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)">
+                    <input type="checkbox" :id="'check-'+task.id"
+                        @click="endTask(task.id)">
+                    <input type="text" v-model="task.todo"
+                        :id="'task-'+task.id" readonly>
+                    <button :id="'btn-edit-'+task.id" @click="editTask(task.id)">Edit</button>
+                    <button :id="'btn-remove-'+task.id" @click="removeTask(task.id)">Remove</button>
                 </div>
                 <br/>
-                <h3 v-if="category.todo.filter(p => p.finished !== false).length > 0">Finished tasks</h3>
-                <div v-for="todo in category.todo">
-                    <input type="checkbox" :id="'check-'+todo.id"
-                        @click="endTask(todo.id)" v-if="todo.finished" checked>
-                    <input type="text" v-if="todo.finished"
-                        v-model="todo.task" :id="'task-'+todo.id"
+                <h3 v-if="getTasksByCategory(category.id).filter(task => task.finished).length > 0">Finished tasks</h3>
+                <div v-for="task in getTasksByCategory(category.id).filter(task => task.finished)">
+                    <input type="checkbox" :id="'check-'+task.id"
+                        @click="endTask(task.id)" checked>
+                    <input type="text"
+                        v-model="task.todo" :id="'task-'+task.id"
                         readonly>
-                    <button :id="'btn-edit-'+todo.id" @click="editTask(todo.id)" v-if="todo.finished">Edit</button>
-                    <button :id="'btn-remove-'+todo.id" @click="removeTask(todo.id)" v-if="todo.finished">Remove</button>
+                    <button :id="'btn-edit-'+task.id" @click="editTask(task.id)">Edit</button>
+                    <button :id="'btn-remove-'+task.id" @click="removeTask(task.id)">Remove</button>
                 </div>
             </div>
             <br/>
@@ -127,36 +121,31 @@ const todoList = {
     </div>`,
     
     methods: {
-        findTask: function(id){
-            return this.$data.tasks.filter(categ => categ.todo.find(task => task.id == id))[0].todo.find(task => task.id === id)
-        },
-
-        nextCategoryId: function(){
-            let nextId = 0
-            this.$data.tasks.forEach(category => {
-                nextId = Math.max(category.id, nextId)
-            })
-            nextId++
-            return nextId
+        getTasksByCategory: function(categoryId){
+            return this.$data.tasks.filter(task => task.categoryId == categoryId)
         },
 
         addCategory: function(){
             let category = {
                 type: this.$data.newCategory,
-                id: this.nextCategoryId()
+                id: parseInt(this.$data.categories.reduce((biggerId, categoryActual) => {
+                    return Math.max(biggerId, categoryActual.id)
+                }, -1))+1
             }
             this.$data.newCategory = ''
-            
-            if(this.$data.tasks.find(item => item.type.toLocaleUpperCase() === category.type.toLocaleUpperCase())){
+
+            if(this.$data.categories.find(cat => cat.name.toLocaleLowerCase() == category.type.toLocaleLowerCase())){
+                //TODO: Make a modal to alert it
                 alert('This category already exist')
             }else{
-                this.$data.tasks.push({id: category.id, isSelected:false, openToEdit:false, type:category.type, todo:[]})
+                this.$data.categories.push({id: category.id, name: category.type, isSelected:false, openToEdit:false})
             }
         },
 
         editCategory: function(id){
-            let category = this.$data.tasks.find(category => category.id == id)
+            let category = this.$data.categories.find(category => category.id == id)
             let btn = app.querySelector(`#category-edit-${id}`)
+
             if(btn.innerText.toLocaleLowerCase() !== 'save category'){
                 category.openToEdit = true
                 app.querySelector(`#category-edit-${id}`).innerText = 'Save Category'
@@ -164,13 +153,20 @@ const todoList = {
                 category.openToEdit = false
                 app.querySelector(`#category-edit-${id}`).innerText = 'Edit Category'
             }
-
         },
 
         deleteCategory: function(id){
-            let category = this.$data.tasks.find(category => category.id == id)
-            let categoryIndex = this.$data.tasks.indexOf(category)
-            this.$data.tasks.splice(categoryIndex, 1)
+            let category = this.$data.categories.find(category => category.id === id)
+            let categoryIndex = this.$data.categories.indexOf(category)
+            
+            let tasksToRemove = this.$data.tasks.filter(task => task.categoryId == category.id)
+
+            tasksToRemove.forEach(task => {
+                if(task.categoryId === category.id){
+                    this.removeTask(task.id)
+                }
+            })
+            this.$data.categories.splice(categoryIndex, 1)
         },
 
         showCategory: function(id){
@@ -179,33 +175,38 @@ const todoList = {
             }else{
                 this.$data.showAllTasks = true
             }
-            this.$data.tasks.forEach(category => {
+
+            this.$data.categories.forEach(category => {
                 category.isSelected = (category.id === id)
             })
             Array.from(app.querySelector('#category-tabs').children).forEach(li => {
                 li.className = (li.id === `tab-${id}`) ? 'active' : '' 
             })
-
         },
 
         addTask: function(){
             //TODO: start id in 0
             let newTask = {
                 task: this.$data.newItem.task,
-                type: this.$data.newItem.type,
-                id: this.$data.nextId,
+                category: this.$data.newItem.category,
+                id: parseInt(this.$data.tasks.reduce((biggerId, taskActual) => {
+                    return Math.max(biggerId, taskActual.id)
+                }, -1))+1,
             }
-            
-            this.$data.newItem.type = ''
-            this.$data.newItem.task = ''
-            this.$data.nextId++
 
-            this.$data.tasks.find(category => category.type === newTask.type)
-                .todo.push({id:newTask.id, task:newTask.task, finished:false})
+            this.$data.newItem.task = ''
+            this.$data.newItem.category = ''
+
+            this.$data.tasks.push({
+                id: newTask.id,
+                todo: newTask.task,
+                categoryId: newTask.category,
+                finished: false
+            })
         },
 
         endTask: function(id){
-            let task = this.findTask(id)
+            let task = this.$data.tasks.find(task => task.id === id)
             task.finished = !task.finished
         },
 
@@ -224,10 +225,9 @@ const todoList = {
 
         removeTask: function(id){
             //TODO: Make a modal to confirm it
-            let task = this.findTask(id)
-            let category = this.$data.tasks.find(categ => categ.todo.find(task => task.id == id))
-            let taskIndex = category.todo.indexOf(task)
-            category.todo.splice(taskIndex, 1)
+            let task = this.$data.tasks.find(task => task.id === id)
+            let taskIndex = this.$data.tasks.indexOf(task)
+            this.$data.tasks.splice(taskIndex, 1)
         },
     }
 }
