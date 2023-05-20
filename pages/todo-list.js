@@ -98,6 +98,7 @@ const todoList = {
                     <h1 v-if="!category.openToEdit">{{ category.type }}</h1>
                     <input type="text" v-model="category.type" v-if="category.openToEdit">
                     <button @click="editCategory(category.id)" :id="'category-edit-'+category.id">Edit Category</button>
+                    <button @click="deleteCategory(category.id)">Delete Category</button>
                 </div>
                 <br/>
                 <div :id="'container-'+todo.id" v-for="todo in category.todo" >
@@ -164,6 +165,12 @@ const todoList = {
                 app.querySelector(`#category-edit-${id}`).innerText = 'Edit Category'
             }
 
+        },
+
+        deleteCategory: function(id){
+            let category = this.$data.tasks.find(category => category.id == id)
+            let categoryIndex = this.$data.tasks.indexOf(category)
+            this.$data.tasks.splice(categoryIndex, 1)
         },
 
         showCategory: function(id){
