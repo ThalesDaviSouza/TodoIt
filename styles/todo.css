@@ -1,0 +1,133 @@
+:root{
+    --background-color: black;
+    --background-select-color: darkgray;
+    --text-base-color: white;
+    --text-secondary-color: gray;
+    --placeholder-color: rgb(102, 102, 102);
+}
+
+.todo-list{
+    height: 83vh;
+    position: relative;
+    padding-bottom: 50px;
+}
+#todo-wrapper{
+    height: 60vh;
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.todo-list-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.category-tabs {list-style-type: none;}
+
+.category-tabs li button{
+    background-color: var(--background-color);
+    color: var(--text-secondary-color);
+    border: 0;
+    width: 100%;
+    height: 100%;
+    text-align: start;
+    font-size: 1.4rem;
+}
+
+.category-tabs li:hover{
+    background-color: var(--background-select-color);
+}
+
+.category-tabs li:hover button{
+    cursor: pointer;
+    background-color: var(--background-select-color);
+    color: var(--text-base-color);
+}
+
+.category-title{cursor: pointer;}
+
+input, select{
+    border: 0;
+    padding: 7px 0 7px 0;
+    text-align: center;
+    width: 100%;
+}
+input::placeholder{color: var(--placeholder-color);}
+
+#add-task{position: relative;}
+#add-task form{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+#add-task-button, #add-category-button{
+    cursor: pointer;
+    vertical-align: middle;
+    width: 100%;
+    padding: 4px 0 4px 0;
+    background-color: var(--background-select-color);
+    border: 0;
+}
+
+.task-item{
+    position: relative;
+    border: 0.2px solid black;
+}
+.task-item button{
+    position: absolute;
+    background-color: transparent;
+    color: var(--text-secondary-color);
+    border: 0;
+}
+
+.task-remove{right: 2px;}
+.task-edit{right: 18px;}
+.end-task{left: 2px;}
+.task-remove, .task-edit, .end-task{
+    bottom: 4px;
+    display: none;
+    cursor: pointer;
+}
+.task-item:hover .task-remove, .task-item:hover .task-edit, .task-item:hover .end-task{
+    display: block;
+}
+.task-item:hover .task-remove:hover, .task-item:hover .task-edit:hover, .task-item:hover .end-task:hover{
+    color: black;
+}
+
+.category-title{position: relative;}
+.category-title .category-edit, .category-title .category-delete{
+    background-color: transparent;
+    color: var(--text-secondary-color);
+    cursor: pointer;
+    border: 0;
+    display: none;
+    position: absolute;
+    top: 13px;
+}
+.category-edit{right: 20px;}
+.category-delete{right: 2px;}
+.category-title:hover .category-edit, .category-title:hover .category-delete{
+    display: block;
+}
+.category-edit:hover, .category-delete:hover{
+    color: var(--text-base-color);
+}
+
+.category-tabs{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+@media (min-width:650px) and (max-width:1200px) {
+    .todo-list{width: 60vw;}
+}
+
+@media (min-width:1200px){
+    .todo-list{width: 40vw;}
+}
