@@ -1,3 +1,5 @@
+import {createTaskModal} from './components/createTaskModal.js'
+
 const todoList = {
     data(){
         return{
@@ -30,9 +32,12 @@ const todoList = {
             }
         }
     },
-    
+    components:{
+        createTaskModal: createTaskModal,
+    },
     template:
         `<div class="todo-list-container">
+        <createTaskModal />
         <h2>Todo List</h2>
         <div class="todo-list">
             <div id="add-task">
