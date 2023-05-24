@@ -3,6 +3,7 @@ import {createTaskModal} from './components/createTaskModal.js'
 const todoList = {
     data(){
         return{
+            showCreateTaskModal: false,
             newItem: {task:'', category:''},
             newCategory: '',
             selectedCategoryId: -1,
@@ -37,7 +38,7 @@ const todoList = {
     },
     template:
         `<div class="todo-list-container">
-        <createTaskModal :categories="categories" />
+        <createTaskModal v-if="showCreateTaskModal" @saveTask="saveTask" :categories="categories" />
         <h2>Todo List</h2>
         <div class="todo-list">
             <div id="add-task">
@@ -288,8 +289,8 @@ const todoList = {
                     task: this.$data.newItem.task,
                     category: this.$data.newItem.category,
                     id: parseInt(this.$data.tasks.reduce((biggerId, taskActual) => {
-                    return Math.max(biggerId, taskActual.id)
-                }, -1))+1,
+                        return Math.max(biggerId, taskActual.id)
+                    }, -1))+1,
                 }
                 
                 this.$data.newItem.task = ''
@@ -304,6 +305,25 @@ const todoList = {
 
                 this.saveTasks()
             }
+        },
+
+        saveTask: function({newItem}){
+            let newTask = {
+                task: newItem.todo,
+                categoryId: newItem.categoryId,
+                id: parseInt(this.$data.tasks.reduce((biggerId, taskActual) => {
+                    return Math.max(biggerId, taskActual.id)
+                }, -1))+1,
+            }
+
+            this.$data.tasks.push({
+                id: newTask.id,
+                todo: newTask.task,
+                categoryId: newTask.categoryId,
+                finished: false
+            })
+
+            this.saveTasks()
         },
         
         endTask: function(id){
