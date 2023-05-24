@@ -16,12 +16,12 @@ const createTaskModal = {
 
     template: 
     `
-    <div class="modal-overlay">
-        <div class="modal-body">
+    <div class="modal-overlay" @click.self="closeModal">
+        <div id="create-task-modal" class="modal-body">
             <h1>Create Task</h1>
             <form action="">
                 <input type="text" v-model="newItem.todo" id="task-modal-todo" placeholder="Input your task">
-                <h3>Choose your Task:</h3>
+                <h3>Choose category:</h3>
                 <select v-model="newItem.categoryId">
                     <option :value="category.id" v-for="category in categories">
                         {{ category.name }}
@@ -35,8 +35,8 @@ const createTaskModal = {
     </div>
     `,
     methods: {
-        test: function(obj){
-            console.log(obj)
+        closeModal: function(){
+            this.$emit('closeModal')
         },
 
         addTask: function(newItem){
@@ -47,6 +47,7 @@ const createTaskModal = {
                     alert('Select a category to your task')
                 }else{
                     this.$emit('saveTask', {newItem})
+                    this.closeModal()
                 }
             }
         }

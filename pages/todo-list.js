@@ -38,19 +38,12 @@ const todoList = {
     },
     template:
         `<div class="todo-list-container">
-        <createTaskModal v-if="showCreateTaskModal" @saveTask="saveTask" :categories="categories" />
+        <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
+            @saveTask="saveTask" :categories="categories" />
         <h2>Todo List</h2>
         <div class="todo-list">
             <div id="add-task">
-                <form @submit.prevent="">
-                    <input type="text" id="task-name" v-model="newItem.task" placeholder="Write your next task..." >
-                    <select v-model="newItem.category">
-                        <option :value="category.id" v-for="category in categories">
-                            {{ category.name }}
-                        </option>
-                    </select>
-                    <button id="add-task-button" @click="addTask">Add Task</button>
-                </form>
+                <button id="add-task-button" @click="showCreateTaskModal=true">Add Task</button>
             </div>
             <br/>
             <div id="add-category">
@@ -194,6 +187,10 @@ const todoList = {
     </div>`,
     
     methods: {
+        closeCreateTaskModal: function(){
+            this.$data.showCreateTaskModal = false
+        },
+
         saveCategories: function(){
             let JsonCategories = JSON.stringify(this.$data.categories)
             localStorage.setItem('categories', JsonCategories)
@@ -277,36 +274,6 @@ const todoList = {
             this.$data.selectedCategoryId = id
         },
 
-        addTask: function(){
-            //TODO: Modal here
-            if(this.$data.newItem.task.replace(/\s/g, '').length == 0){
-                alert('Insert some task')
-            }else if(this.$data.newItem.category === ''){
-                alert('Select the category of your task')
-            }else{
-                //TODO: start id in 0
-                let newTask = {
-                    task: this.$data.newItem.task,
-                    category: this.$data.newItem.category,
-                    id: parseInt(this.$data.tasks.reduce((biggerId, taskActual) => {
-                        return Math.max(biggerId, taskActual.id)
-                    }, -1))+1,
-                }
-                
-                this.$data.newItem.task = ''
-                this.$data.newItem.category = ''
-                
-                this.$data.tasks.push({
-                    id: newTask.id,
-                    todo: newTask.task,
-                    categoryId: newTask.category,
-                    finished: false
-                })
-
-                this.saveTasks()
-            }
-        },
-
         saveTask: function({newItem}){
             let newTask = {
                 task: newItem.todo,
@@ -324,6 +291,7 @@ const todoList = {
             })
 
             this.saveTasks()
+            this.closeCreateTaskModal()
         },
         
         endTask: function(id){
