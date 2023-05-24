@@ -37,7 +37,7 @@ const todoList = {
     },
     template:
         `<div class="todo-list-container">
-        <createTaskModal />
+        <createTaskModal :categories="categories" />
         <h2>Todo List</h2>
         <div class="todo-list">
             <div id="add-task">

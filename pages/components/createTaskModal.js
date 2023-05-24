@@ -1,4 +1,14 @@
 const createTaskModal = {
+    props: [
+        'categories'
+    ],
+
+    data(){
+        return {
+            categories: this.categories,
+        }
+    },
+
     template: 
     `
     <div class="modal-overlay">
@@ -8,16 +18,19 @@ const createTaskModal = {
                 <input type="text" id="task-modal-todo" placeholder="Input your task">
                 <h3>Choose your Task:</h3>
                 <select>
-                    <option value="">
+                    <option :value="category.id" v-for="category in categories">
+                        {{ category.name }}
                     </option>
                 </select>
                 <h3>Due Date:</h3>
                 <input type="date">
-                <button>Save Task</button>
+                <button @click="test('Message from modal')">Save Task</button>
             </form>
         </div>
     </div>
     `,
+    methods: {
+    }
 }
 
 export {createTaskModal}
