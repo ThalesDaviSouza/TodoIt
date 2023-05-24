@@ -19,7 +19,7 @@ const createTaskModal = {
     <div class="modal-overlay" @click.self="closeModal">
         <div id="create-task-modal" class="modal-body">
             <h1>Create Task</h1>
-            <form action="">
+            <form @submit.prevent="addTask(newItem)">
                 <input type="text" v-model="newItem.todo" id="task-modal-todo" placeholder="Input your task">
                 <h3>Choose category:</h3>
                 <select v-model="newItem.categoryId">
@@ -40,6 +40,7 @@ const createTaskModal = {
         },
 
         addTask: function(newItem){
+            //TODO: Add due date to tasks
             if(newItem){
                 if(newItem.todo.replace(/\s/g, '').length == 0){
                     alert('Please, add a title to your task')
