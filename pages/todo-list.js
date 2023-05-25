@@ -1,11 +1,16 @@
 import {createTaskModal} from './components/createTaskModal.js'
 import {createCategoryModal} from './components/createCategoryModal.js'
+import {chooseCategoryModal} from './components/chooseCategoryModal.js'
 
 const todoList = {
     data(){
         return{
             showCreateTaskModal: false,
             showCreateCategoryModal: false,
+            showChooseCategoryModal: false,
+
+            selectedCategoryId:-1,
+
             newItem: {task:'', category:''},
             newCategory: '',
             selectedCategoryId: -1,
@@ -38,13 +43,16 @@ const todoList = {
     components:{
         createTaskModal: createTaskModal,
         createCategoryModal: createCategoryModal,
+        chooseCategoryModal: chooseCategoryModal,
     },
     template:
         `<div class="todo-list-container">
         <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
-            @saveTask="saveTask" :categories="categories" />
+            @saveTask="saveTask" :categories="categories" @chooseCategory="showChooseCategoryModal = true"/>
         <createCategoryModal v-show="showCreateCategoryModal" @closeModal="closeCreateCategoryModal"
             @saveCategory="saveCategory" :categories="categories" />
+        <chooseCategoryModal v-show="showChooseCategoryModal" @closeModal="closeChooseCategoryModal"
+            :categories="categories"/>
         <h2>Todo List</h2>
         <div class="todo-list">
             <div id="add-task">
@@ -195,6 +203,10 @@ const todoList = {
 
         closeCreateCategoryModal: function(){
             this.$data.showCreateCategoryModal = false
+        },
+
+        closeChooseCategoryModal: function(){
+            this.$data.showChooseCategoryModal = false
         },
 
         saveCategories: function(){

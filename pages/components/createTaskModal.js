@@ -22,6 +22,7 @@ const createTaskModal = {
             <form @submit.prevent="addTask(newItem)">
                 <input type="text" v-model="newItem.todo" id="task-modal-todo" placeholder="Input your task">
                 <h3>Choose category:</h3>
+                <button @click.prevent="chooseCategory">Choose Category</button>
                 <select v-model="newItem.categoryId">
                     <option :value="category.id" v-for="category in categories">
                         {{ category.name }}
@@ -37,6 +38,10 @@ const createTaskModal = {
     methods: {
         closeModal: function(){
             this.$emit('closeModal')
+        },
+
+        chooseCategory: function(){
+            this.$emit('chooseCategory')
         },
 
         addTask: function(newItem){
