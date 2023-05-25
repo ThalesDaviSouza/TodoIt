@@ -49,6 +49,7 @@ const createTaskModal = {
                 }else{
                     this.$emit('saveTask', {newItem})
                     this.closeModal()
+                    this.$data.newItem = {}
                 }
             }
         }

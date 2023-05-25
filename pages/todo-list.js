@@ -52,11 +52,7 @@ const todoList = {
             </div>
             <br/>
             <div id="add-category">
-                <button @click="showCreateCategoryModal = true">Add Category</button>
-                <form @submit.prevent="">
-                    <input type="text" v-model="newCategory" placeholder="Add a new category...">
-                    <button id="add-category-button" @click="addCategory">Add Category</button>
-                </form>
+                <button id="add-category-button" @click="showCreateCategoryModal = true">Add Category</button>
             </div>
             <br/>
             <br/>
@@ -213,28 +209,6 @@ const todoList = {
 
         getTasksByCategory: function(categoryId){
             return this.$data.tasks.filter(task => task.categoryId == categoryId)
-        },
-
-        addCategory: function(){
-            if(this.$data.newCategory.replace(/\s/g, '').length === 0){
-                alert('Insert the name of category')
-            }else{
-                let category = {
-                    type: this.$data.newCategory,
-                    id: parseInt(this.$data.categories.reduce((biggerId, categoryActual) => {
-                        return Math.max(biggerId, categoryActual.id)
-                    }, -1))+1
-                }
-                this.$data.newCategory = ''
-                
-                if(this.$data.categories.find(cat => cat.name.toLocaleLowerCase() == category.type.toLocaleLowerCase())){
-                    //TODO: Make a modal to alert it
-                    alert('This category already exist')
-                }else{
-                    this.$data.categories.push({id: category.id, name: category.type, isSelected:false, openToEdit:false})
-                    this.saveCategories()
-                }
-            }
         },
 
         saveCategory: function(newCategory){

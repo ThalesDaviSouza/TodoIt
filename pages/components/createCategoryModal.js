@@ -32,6 +32,7 @@ const createCategoryModal = {
                 alert('Insert a name to your category')
             }else{
                 this.$emit('saveCategory', newCategory)
+                this.$data.newCategory = {}
             }
         },
     }
