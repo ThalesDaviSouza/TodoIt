@@ -24,15 +24,14 @@ const createCategoryModal = {
     `,
     methods: {
         closeModal: function(){
-            console.log(this.getCat())
             this.$emit('closeModal')
         },
 
         addCategory: function(newCategory){
             if(newCategory.name.replace(/\s/g, '').length === 0){
                 alert('Insert a name to your category')
-            }else if(this.$data.categories.find(cat => cat.name.toLocaleLowerCase() == newCategory.name.toLocaleLowerCase())){
-                alert('This category alredy exist')
+            }else{
+                this.$emit('saveCategory', newCategory)
             }
         },
     }

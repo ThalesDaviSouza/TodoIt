@@ -44,7 +44,7 @@ const todoList = {
         <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
             @saveTask="saveTask" :categories="categories" />
         <createCategoryModal v-show="showCreateCategoryModal" @closeModal="closeCreateCategoryModal"
-            :categories="categories" />
+            @saveCategory="saveCategory" :categories="categories" />
         <h2>Todo List</h2>
         <div class="todo-list">
             <div id="add-task">
@@ -234,6 +234,23 @@ const todoList = {
                     this.$data.categories.push({id: category.id, name: category.type, isSelected:false, openToEdit:false})
                     this.saveCategories()
                 }
+            }
+        },
+
+        saveCategory: function(newCategory){
+            if(this.$data.categories.find(cat => cat.name.toLocaleLowerCase() == newCategory.name.toLocaleLowerCase())){
+                //TODO: Make a modal to alert it
+                alert('This category already exist')
+            }else{
+                let category = {
+                    name: newCategory.name,
+                    id: parseInt(this.$data.categories.reduce((biggerId, categoryActual) => {
+                        return Math.max(biggerId, categoryActual.id)
+                    }, -1))+1
+                }
+                this.$data.categories.push({id: category.id, name: category.name, isSelected:false, openToEdit:false})
+                this.saveCategories()
+                this.closeCreateCategoryModal()
             }
         },
 
