@@ -29,7 +29,7 @@ const createTaskModal = {
                 </select>
                 <h3>Due Date:</h3>
                 <input type="date">
-                <button @click="addTask(newItem)">Save Task</button>
+                <button>Save Task</button>
             </form>
         </div>
     </div>
@@ -42,6 +42,7 @@ const createTaskModal = {
         addTask: function(newItem){
             //TODO: Add due date to tasks
             if(newItem){
+                console.log('Chamado')
                 if(newItem.todo.replace(/\s/g, '').length == 0){
                     alert('Please, add a title to your task')
                 }else if(newItem.categoryId == -1){
