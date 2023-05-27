@@ -1,4 +1,5 @@
 import {chooseCategoryModal} from './chooseCategoryModal.js'
+import {confirmModal} from './confirmModal.js'
 
 const editTaskModal = {
     props: ['categories', 'tasks', 'taskSelectedId'],
@@ -7,6 +8,10 @@ const editTaskModal = {
         return {
             categories: this.categories,
             showChooseCategoryModal: false,
+            showConfirmDeleteModal: false,
+            confirmDeleteTask: false,
+
+            confirmData:{title:'', message:''},
         }
     },
 
@@ -24,6 +29,7 @@ const editTaskModal = {
 
     components: {
         chooseCategoryModal: chooseCategoryModal,
+        confirmModal: confirmModal,
     },
 
     template: 
@@ -32,6 +38,9 @@ const editTaskModal = {
         
         <chooseCategoryModal v-show="showChooseCategoryModal" @closeModal="closeChooseCategoryModal"
             @selectCategory="selectCategory" @saveCategory="saveCategory" :categories="categories" />
+
+        <confirmModal v-show="showConfirmDeleteModal" @closeModal="closeConfirmDeleteModal" 
+            :confirm="confirmData" :acceptFunction="deleteTask" />
 
         <div id="edit-task-modal" class="modal-body">
             <div>
@@ -42,7 +51,7 @@ const editTaskModal = {
                 <h4>Category:</h4>
                 <button @click="chooseCategory">{{ btnChooseCategoryText() }}</button>
             </div>
-            <button @click="deleteTask">Delete Task</button>
+            <button @click="confirmDelete">Delete Task</button>
             <button @click="closeModal">Save Task</button>
         </div>
     </div>
@@ -61,8 +70,17 @@ const editTaskModal = {
             this.$data.showChooseCategoryModal = false
         },
 
+        closeConfirmDeleteModal: function(){
+            this.$data.showConfirmDeleteModal = false
+        },
+
+        confirmDelete: function(){
+            this.$data.confirmData.title = 'Are you sure?'
+            this.$data.confirmData.message = 'Are you sure you want to delete this task?'
+            this.$data.showConfirmDeleteModal = true
+        },
+
         deleteTask: function(){
-            //Todo: add a modal here
             this.closeModal()
             this.$emit('deleteTask', this.task.id)
         },

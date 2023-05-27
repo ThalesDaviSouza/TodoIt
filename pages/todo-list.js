@@ -222,11 +222,9 @@ const todoList = {
             })
             
             this.$data.selectedCategoryId = id
-            console.log(this.$data.categories, id)
         },
 
         selectCategory: function(categoryId){
-            console.log(categoryId)
             this.$data.newItem.categoryId = categoryId
         },
 
