@@ -39,6 +39,7 @@ const editTaskModal = {
                 <button @click="endTask">{{ taskEndOrNot }}</button>
             </div>
             <div>
+                <h4>Category:</h4>
                 <button @click="chooseCategory">{{ btnChooseCategoryText() }}</button>
             </div>
             <button @click="deleteTask">Delete Task</button>
@@ -61,6 +62,7 @@ const editTaskModal = {
         },
 
         deleteTask: function(){
+            //Todo: add a modal here
             this.closeModal()
             this.$emit('deleteTask', this.task.id)
         },

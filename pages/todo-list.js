@@ -9,6 +9,11 @@ const todoList = {
             showCreateCategoryModal: false,
             showEditTaskModal: false,
 
+            warning: {
+                title:'',
+                message:'',
+            },
+
             taskSelectedId: -1,
             
             newItem: {task:'', category:''},
@@ -161,20 +166,15 @@ const todoList = {
         },
 
         saveCategory: function(newCategory){
-            if(this.$data.categories.find(cat => cat.name.toLocaleLowerCase() == newCategory.name.toLocaleLowerCase())){
-                //TODO: Make a modal to alert it
-                alert('This category already exist')
-            }else{
-                let category = {
-                    name: newCategory.name,
-                    id: parseInt(this.$data.categories.reduce((biggerId, categoryActual) => {
-                        return Math.max(biggerId, categoryActual.id)
-                    }, -1))+1
-                }
-                this.$data.categories.push({id: category.id, name: category.name, isSelected:false, openToEdit:false})
-                this.saveCategories()
-                this.closeCreateCategoryModal()
+            let category = {
+                name: newCategory.name,
+                id: parseInt(this.$data.categories.reduce((biggerId, categoryActual) => {
+                    return Math.max(biggerId, categoryActual.id)
+                }, -1))+1
             }
+            this.$data.categories.push({id: category.id, name: category.name, isSelected:false, openToEdit:false})
+            this.saveCategories()
+            this.closeCreateCategoryModal()
         },
 
         editCategory: function(id){
