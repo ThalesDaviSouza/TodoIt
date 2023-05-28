@@ -12,8 +12,13 @@ const createCategoryModal = {
                 name: '',
             },
 
-            categories: this.categories,
             warning:{title:'',message:''},
+        }
+    },
+
+    computed: {
+        Categories(){
+            return this.categories
         }
     },
 
@@ -50,7 +55,7 @@ const createCategoryModal = {
         addCategory: function(newCategory){
             if(newCategory.name.replace(/\s/g, '').length === 0){
                 this.showWarning("Category's Name Empty", 'Insert a name to your category')
-            }else if(this.categories.find(cat => cat.name.toLocaleLowerCase() == newCategory.name.toLocaleLowerCase())){
+            }else if(this.Categories.find(cat => cat.name.toLocaleLowerCase() == newCategory.name.toLocaleLowerCase())){
                 this.showWarning('Duplicate Categories', 'This category already Exist')
             }else{
                 this.$emit('saveCategory', newCategory)

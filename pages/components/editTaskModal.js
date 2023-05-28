@@ -6,7 +6,6 @@ const editTaskModal = {
 
     data(){
         return {
-            categories: this.categories,
             showChooseCategoryModal: false,
             showConfirmDeleteModal: false,
 
@@ -21,7 +20,11 @@ const editTaskModal = {
             }
         },
 
-        taskEndOrNot(){
+        Categories(){
+            return this.categories
+        },
+
+        endTaskText(){
             return this.task.finished ? 'Unfinish task' : 'End Task'
         },
     },
@@ -36,7 +39,7 @@ const editTaskModal = {
     <div class="modal-overlay" @click.self="closeModal">
         
         <chooseCategoryModal v-show="showChooseCategoryModal" @closeModal="closeChooseCategoryModal"
-            @selectCategory="selectCategory" @saveCategory="saveCategory" :categories="categories" />
+            @selectCategory="selectCategory" @saveCategory="saveCategory" :categories="Categories" />
 
         <confirmModal v-show="showConfirmDeleteModal" @closeModal="closeConfirmDeleteModal" 
             :confirm="confirmData" :acceptFunction="deleteTask" />
@@ -44,7 +47,7 @@ const editTaskModal = {
         <div id="edit-task-modal" class="modal-body">
             <div>
                 <input v-model="task.todo" @blur="saveChanges" type="text" placeholder="Insert Task tittle">
-                <button @click="endTask">{{ taskEndOrNot }}</button>
+                <button @click="endTask">{{ endTaskText }}</button>
             </div>
             <div>
                 <h4>Category:</h4>
@@ -94,8 +97,7 @@ const editTaskModal = {
         },
 
         btnChooseCategoryText: function(){
-            let taskSelected = this.task
-            let categoryToShow = this.categories.find(category => category.id == taskSelected.categoryId) 
+            let categoryToShow = this.Categories.find(category => category.id == this.task.categoryId) 
             
             return categoryToShow.name
         },

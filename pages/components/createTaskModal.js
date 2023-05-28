@@ -1,33 +1,42 @@
 import {chooseCategoryModal} from './chooseCategoryModal.js'
+import {warningModal} from './warningModal.js'
 
 const createTaskModal = {
-    props: [
-        'categories',
-    ],
+    props: ['categories'],
 
     data(){
         return {
             newItem:{
                 todo: '',
                 categoryId: -1,
-                date: new Date(),
             },
-            categories: this.categories,
             showChooseCategoryModal: false,
+            showWarningModal: false,
+
+            warning: {title:'', message:''},
         }
     },
 
+    computed: {
+        Categories() {
+            return this.categories
+        }
+
+    },
+
     components: {
-        chooseCategoryModal: chooseCategoryModal
+        chooseCategoryModal: chooseCategoryModal,
+        warningModal: warningModal,
     },
 
     template: 
     `
     <div class="modal-overlay" @click.self="closeModal">
         <div id="create-task-modal" class="modal-body">
+            <warningModal :warning="warning" v-show="showWarningModal" @closeModal="closeWarningModal" />
 
             <chooseCategoryModal v-show="showChooseCategoryModal" @closeModal="closeChooseCategoryModal"
-                @selectCategory="selectCategory" @saveCategory="saveCategory" :categories="categories" />
+                @selectCategory="selectCategory" @saveCategory="saveCategory" :categories="Categories" />
 
             <h1>Create Task</h1>
             <form @submit.prevent="addTask(newItem)">
@@ -50,22 +59,28 @@ const createTaskModal = {
             this.$data.showChooseCategoryModal = false
         },
 
+        closeWarningModal: function(){
+            this.$data.showWarningModal = false
+        },
+
+        showWarning: function(title, message){
+            this.$data.warning.title = title
+            this.$data.warning.message = message
+            this.$data.showWarningModal = true
+        },
+
         saveCategory: function(newCategory){
             this.$emit('saveCategory', newCategory)
         },
 
         btnChooseCategoryText: function(){
-            let categoryToShow = this.categories.find(category => category.id == this.$data.newItem.categoryId) 
+            let categoryToShow = this.Categories.find(category => category.id == this.$data.newItem.categoryId) 
             
             if(categoryToShow){
                 return categoryToShow.name
             }else{
                 return 'Choose Category'
             }
-        },
-
-        chooseCategory: function(){
-            this.$emit('chooseCategory')
         },
 
         selectCategory: function(categoryId){
@@ -76,9 +91,9 @@ const createTaskModal = {
             //TODO: Add due date to tasks
             if(newItem){
                 if(newItem.todo.replace(/\s/g, '').length == 0){
-                    alert('Please, add a title to your task')
+                    this.showWarning('Task Empty', 'Please, add a title to your task')
                 }else if(newItem.categoryId == -1){
-                    alert('Select a category to your task')
+                    this.showWarning('Category Empty', 'Select a category to your task')
                 }else{
                     this.$emit('saveTask', {newItem})
                     this.closeModal()

@@ -34,7 +34,7 @@ const editCategoryModal = {
     `
     <div class="modal-overlay" @click.self="closeModal">
         <div id="confirm-modal" class="modal-body">
-            <warningModal :warning="warning" v-show="showWarningCategory" @closeModal="showWarningCategory=false" />
+            <warningModal :warning="warning" v-show="showWarningCategory" @closeModal="closeWarningModal" />
             
             <confirmModal v-show="showConfirmDeleteModal" @closeModal="closeConfirmDeleteModal" 
                 :confirm="confirmDeleteData" :acceptFunction="deleteCategory" />
@@ -50,6 +50,10 @@ const editCategoryModal = {
     methods:{
         closeModal: function(){
             this.$emit('closeModal')
+        },
+
+        closeWarningModal: function(){
+            this.$data.showWarningCategory = false
         },
 
         closeConfirmDeleteModal: function(){
@@ -96,6 +100,7 @@ const editCategoryModal = {
 
         deleteCategory: function(){
             this.$data.showConfirmDeleteModal = false
+            this.closeModal()
             this.$emit('deleteCategory', this.category.id)
         }
     }

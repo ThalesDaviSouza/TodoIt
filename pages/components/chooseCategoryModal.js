@@ -5,8 +5,13 @@ const chooseCategoryModal = {
 
     data(){
         return {
-            categories: this.categories,
             showCreateCategoryModal: false,
+        }
+    },
+
+    computed: {
+        Categories(){
+            return this.categories
         }
     },
 
@@ -19,11 +24,11 @@ const chooseCategoryModal = {
     <div class="modal-overlay" @click.self="closeModal">
         <div id="choose-category-modal" class="modal-body">
             <createCategoryModal v-show="showCreateCategoryModal" @closeModal="closeCreateCategoryModal"
-                @saveCategory="saveCategory" :categories="categories" />
+                @saveCategory="saveCategory" :categories="Categories" />
 
             <button @click="addCategory">Add Category</button>
             <h1>Choose Category</h1>
-            <button @click="chooseCategory(category.id)" v-for="category in categories">{{ category.name }}</button>
+            <button @click="chooseCategory(category.id)" v-for="category in Categories">{{ category.name }}</button>
         </div>
     </div>
     `,

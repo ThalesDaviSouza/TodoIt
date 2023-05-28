@@ -59,7 +59,7 @@ const todoList = {
         `
         <div class="todo-list-container">
             <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
-                @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" @chooseCategory="showChooseCategoryModal = true"/>
+                @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" />
 
             <createCategoryModal v-show="showCreateCategoryModal" @closeModal="closeCreateCategoryModal"
                 @saveCategory="saveCategory" :categories="categories" />
@@ -167,6 +167,7 @@ const todoList = {
         saveCategory: function(newCategory){
             let category = {
                 name: newCategory.name,
+                // get the next id
                 id: parseInt(this.$data.categories.reduce((biggerId, categoryActual) => {
                     return Math.max(biggerId, categoryActual.id)
                 }, -1))+1
@@ -176,29 +177,12 @@ const todoList = {
             this.closeCreateCategoryModal()
         },
 
-        // editCategory: function(id){
-        //     let category = this.$data.categories.find(category => category.id == id)
-        //     let btn = app.querySelector(`#category-edit-${id}`)
-        //     let input = app.querySelector(`#category-input-${id}`)
-            
-        //     if(input.style.display == 'none'){
-        //         category.openToEdit = true
-        //     }else{
-        //         category.openToEdit = false
-        //         btn.blur()
-        //         input.blur()
-        //         this.saveCategories()
-        //     }
-        // },
-
         editCategory: function(id){
             this.$data.selectedCategoryId = id
             this.$data.showEditCategoryModal = true
         },
 
         deleteCategory: function(id){
-            this.$data.showEditCategoryModal = false
-
             let category = this.$data.categories.find(category => category.id === id)
             let categoryIndex = this.$data.categories.indexOf(category)
             
@@ -247,7 +231,7 @@ const todoList = {
                 id: newTask.id,
                 todo: newTask.task,
                 categoryId: newTask.categoryId,
-                finished: false
+                finished: false,
             })
 
             this.saveTasks()
