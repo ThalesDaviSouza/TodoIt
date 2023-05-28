@@ -9,7 +9,6 @@ const editTaskModal = {
             categories: this.categories,
             showChooseCategoryModal: false,
             showConfirmDeleteModal: false,
-            confirmDeleteTask: false,
 
             confirmData:{title:'', message:''},
         }
@@ -56,6 +55,7 @@ const editTaskModal = {
         </div>
     </div>
     `,
+    
     methods: {
         saveChanges: function(){
             this.$emit('saveChanges')
