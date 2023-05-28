@@ -142,6 +142,7 @@ const editTaskModal = {
         verifyTask: function(){
             if(this.task.todo.replace(/\s/g, '').length == 0){
                 this.showWarning('Task Title Empty', 'Please, input something in tasks title')
+                this.resetTaskName()
             }else{
                 return true
             }
