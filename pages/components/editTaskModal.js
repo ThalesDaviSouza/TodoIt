@@ -1,5 +1,6 @@
 import {chooseCategoryModal} from './chooseCategoryModal.js'
 import {confirmModal} from './confirmModal.js'
+import {warningModal} from './warningModal.js'
 
 const editTaskModal = {
     props: ['categories', 'tasks', 'taskSelectedId'],
@@ -8,8 +9,12 @@ const editTaskModal = {
         return {
             showChooseCategoryModal: false,
             showConfirmDeleteModal: false,
+            showWarningModal: false,
 
             confirmData:{title:'', message:''},
+            warning:{title:'', message:''},
+
+            taskTodoBeforeChanges:'',
         }
     },
 
@@ -32,6 +37,7 @@ const editTaskModal = {
     components: {
         chooseCategoryModal: chooseCategoryModal,
         confirmModal: confirmModal,
+        warningModal: warningModal,
     },
 
     template: 
@@ -44,9 +50,11 @@ const editTaskModal = {
         <confirmModal v-show="showConfirmDeleteModal" @closeModal="closeConfirmDeleteModal" 
             :confirm="confirmData" :acceptFunction="deleteTask" />
 
+        <warningModal :warning="warning" v-show="showWarningModal" @closeModal="closeWarningModal" />
+
         <div id="edit-task-modal" class="modal-body">
             <div>
-                <input v-model="task.todo" @blur="saveChanges" type="text" placeholder="Insert Task tittle">
+                <input v-model="task.todo" @click="saveActualName" type="text" placeholder="Insert Task tittle">
                 <button @click="endTask">{{ endTaskText }}</button>
             </div>
             <div>
@@ -60,13 +68,11 @@ const editTaskModal = {
     `,
     
     methods: {
-        saveChanges: function(){
-            this.$emit('saveChanges')
-        },
-
         closeModal: function(){
-            this.saveChanges()
-            this.$emit('closeModal')
+            if(this.verifyTask()){
+                this.saveChanges()
+                this.$emit('closeModal')
+            }
         },
 
         closeChooseCategoryModal: function(){
@@ -75,6 +81,20 @@ const editTaskModal = {
 
         closeConfirmDeleteModal: function(){
             this.$data.showConfirmDeleteModal = false
+        },
+
+        closeWarningModal: function(){
+            this.$data.showWarningModal = false
+        },
+
+        showWarning: function(title, message){
+            this.$data.warning.title = title
+            this.$data.warning.message = message
+            this.$data.showWarningModal = true
+        },
+
+        saveActualName: function(){
+            this.$data.taskTodoBeforeChanges = this.task.todo
         },
 
         confirmDelete: function(){
@@ -113,7 +133,28 @@ const editTaskModal = {
                 this.task.finished = true
             }
             this.saveChanges()
-        }
+        },
+
+        resetTaskName: function(){
+            this.task.todo = this.$data.taskTodoBeforeChanges
+        },
+
+        verifyTask: function(){
+            if(this.task.todo.replace(/\s/g, '').length == 0){
+                this.showWarning('Task Title Empty', 'Please, input something in tasks title')
+            }else{
+                return true
+            }
+            return false
+        },
+
+        saveChanges: function(){
+            if(this.verifyTask()){
+                this.$emit('saveChanges')
+            }else{
+                this.resetTaskName()
+            }
+        },
     }
 }
 
