@@ -63,11 +63,13 @@ input::placeholder{color: var(--placeholder-color);}
     flex-wrap: wrap;
     justify-content: space-between;
 }
-#add-task-button, #add-category-button{
+
+button{
     cursor: pointer;
     vertical-align: middle;
     width: 100%;
     padding: 4px 0 4px 0;
+    margin-top: 10px;
     background-color: var(--background-select-color);
     border: 0;
 }
