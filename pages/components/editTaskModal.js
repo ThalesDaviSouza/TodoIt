@@ -30,7 +30,7 @@ const editTaskModal = {
         },
 
         endTaskText(){
-            return this.task.finished ? 'Unfinish task' : 'End Task'
+            return this.task.finished ? 'Unfinish task' : 'Finish Task'
         },
     },
 

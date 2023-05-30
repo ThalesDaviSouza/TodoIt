@@ -78,27 +78,8 @@ button{
     position: relative;
     border: 0.2px solid black;
 }
-.task-item button{
-    position: absolute;
-    background-color: transparent;
-    color: var(--text-secondary-color);
-    border: 0;
-}
-
-.task-remove{right: 2px;}
-.task-edit{right: 18px;}
-.end-task{left: 2px;}
-.task-remove, .task-edit, .end-task{
-    bottom: 4px;
-    display: none;
-    cursor: pointer;
-}
-.task-item:hover .task-remove, .task-item:hover .task-edit, .task-item:hover .end-task{
-    display: block;
-}
-.task-item:hover .task-remove:hover, .task-item:hover .task-edit:hover, .task-item:hover .end-task:hover{
-    color: black;
-}
+.task-item input{width: 75%;}
+.task-item button{width: 25%; padding: auto; margin: 0; height: 100%;}
 
 .category-title{position: relative;}
 .category-title .category-edit, .category-title .category-delete{

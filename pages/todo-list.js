@@ -92,6 +92,7 @@ const todoList = {
                             <div class="task-item" v-if="!task.finished">
                                 <input type="text" v-model="task.todo"
                                     :id="'task-'+task.id" @click="editTask(task.id)" readonly>
+                                <button @click="finishTask(task.id)">Finish Task</button>
                             </div>
                         </div>
                         <h3>Finished tasks</h3>
@@ -99,6 +100,7 @@ const todoList = {
                             <div class="task-item" v-if="task.finished">
                                 <input type="text" v-model="task.todo"
                                 :id="'task-'+task.id" @click="editTask(task.id)" readonly>
+                                <button @click="finishTask(task.id)">Unfinish Task</button>
                             </div>
                         </div>
                     </div>
@@ -110,12 +112,14 @@ const todoList = {
                         <div class="task-item" :id="'container-'+task.id" v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)">
                             <input type="text" v-model="task.todo"
                                 :id="'task-'+task.id" @click="editTask(task.id)" readonly>
+                                <button @click="finishTask(task.id)">Finish Task</button>
                         </div>
                         <br/>
                         <h3 v-if="getTasksByCategory(category.id).filter(task => task.finished).length > 0">Finished tasks</h3>
                         <div class="task-item" v-for="task in getTasksByCategory(category.id).filter(task => task.finished)">
                             <input type="text" v-model="task.todo"
                                 :id="'task-'+task.id" @click="editTask(task.id)" readonly>
+                                <button @click="finishTask(task.id)">Unfinish Task</button>
                         </div>
                     </div>
                 </div>
@@ -238,7 +242,7 @@ const todoList = {
             this.closeCreateTaskModal()
         },
         
-        endTask: function(id){
+        finishTask: function(id){
             let task = this.$data.tasks.find(task => task.id === id)
             task.finished = !task.finished
 
