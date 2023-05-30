@@ -42,6 +42,14 @@
     z-index: 12;
 }
 
+.category-select{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: start;
+}
+
+.category-select input{width: auto;}
+
 #edit-task-modal{
     width: 500px;
     height: 300px;

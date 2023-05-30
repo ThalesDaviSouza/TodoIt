@@ -25,6 +25,14 @@ const editTaskModal = {
             }
         },
 
+        taskCategoryId(){
+            if(this.task){
+                return this.task.categoryId
+            }else{
+                return false
+            }
+        },
+
         Categories(){
             return this.categories
         },
@@ -45,7 +53,7 @@ const editTaskModal = {
     <div class="modal-overlay" @click.self="closeModal">
         
         <chooseCategoryModal v-show="showChooseCategoryModal" @closeModal="closeChooseCategoryModal"
-            @selectCategory="selectCategory" @saveCategory="saveCategory" :categories="Categories" />
+            @selectCategory="selectCategory" @saveCategory="saveCategory" :categories="Categories" :selectedCategory="taskCategoryId" />
 
         <confirmModal v-show="showConfirmDeleteModal" @closeModal="closeConfirmDeleteModal" 
             :confirm="confirmData" :acceptFunction="deleteTask" />

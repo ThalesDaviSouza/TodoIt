@@ -1,7 +1,7 @@
 import {createCategoryModal} from './createCategoryModal.js'
 
 const chooseCategoryModal = {
-    props: ['categories'],
+    props: ['categories', 'selectedCategory'],
 
     data(){
         return {
@@ -12,6 +12,9 @@ const chooseCategoryModal = {
     computed: {
         Categories(){
             return this.categories
+        },
+        SelectedCategoryId(){
+            return this.selectedCategory == null ? -1 : this.selectedCategory
         }
     },
 
@@ -28,7 +31,12 @@ const chooseCategoryModal = {
 
             <button @click="addCategory">Add Category</button>
             <h1>Choose Category</h1>
-            <button @click="chooseCategory(category.id)" v-for="category in Categories">{{ category.name }}</button>
+            <div class="category-select" v-for="category in categories">
+                <label for="'category-'+category.id">{{ category.name }}</label> 
+                <input type="radio" id="'category-'+category.id" name="category-selected" @click="chooseCategory(category.id)" v-if="SelectedCategoryId != category.id" />
+                <input type="radio" id="'category-'+category.id" name="category-selected" @click="chooseCategory(category.id)" v-if="SelectedCategoryId == category.id" checked/>
+            </div>
+             <!-- <button @click="chooseCategory(category.id)" v-for="category in Categories">{{ category.name }}</button> -->
         </div>
     </div>
     `,
