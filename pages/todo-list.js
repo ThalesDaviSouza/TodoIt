@@ -2,6 +2,7 @@ import {createTaskModal} from './components/createTaskModal.js'
 import {createCategoryModal} from './components/createCategoryModal.js'
 import {editTaskModal} from './components/editTaskModal.js'
 import {editCategoryModal} from './components/editCategory.js'
+import {tabCategoryModal} from './components/tabCategoryModal.js'
 
 const todoList = {
     data(){
@@ -10,6 +11,7 @@ const todoList = {
             showCreateCategoryModal: false,
             showEditTaskModal: false,
             showEditCategoryModal: false,
+            showTabCategoryModal: false,
 
             warning: {
                 title:'',
@@ -26,6 +28,13 @@ const todoList = {
             tasks: [],
         }
     },
+
+    computed: {
+        selectedCategory(){
+            return this.$data.selectedCategoryId != -1 ? this.$data.categories.find(category => category.id == this.$data.selectedCategoryId) : null
+        }
+    },
+
     mounted(){
         if(localStorage.getItem('tasks')){
             try {
@@ -53,6 +62,7 @@ const todoList = {
         createCategoryModal: createCategoryModal,
         editTaskModal: editTaskModal,
         editCategoryModal: editCategoryModal,
+        tabCategoryModal: tabCategoryModal,
     },
 
     template:
@@ -67,6 +77,9 @@ const todoList = {
             <editCategoryModal v-show="showEditCategoryModal" @closeModal="closeEditCategoryModal"
                 :categorySelected="selectedCategoryId" :categoriesList="categories"
                 @saveCategories="saveCategories" @deleteCategory="deleteCategory" />
+
+            <tabCategoryModal v-show="showTabCategoryModal" @closeModal="closeTabCategoryModal"
+                @selectCategory="selectTabCategory" @saveCategory="saveCategory" :categories="categories" :selectedCategory="selectedCategory" />
 
             <h2>Todo List</h2>
             <div class="todo-list">
@@ -84,6 +97,15 @@ const todoList = {
                     :categories="categories" :tasks="tasks" :taskSelectedId="taskSelectedId"
                     @closeModal="closeEditTaskModal" @saveCategory="saveCategory"
                     @deleteTask="removeTask" @saveChanges="saveTasks" />
+                
+                <ul class="category-tabs">
+                    <li id="tab--1" v-if="selectedCategoryId !== -1">
+                        <button :id="'btn-category-show-'-1" @click="selectCategoryToShow()">All Tasks</button>
+                    </li>
+                    <li>
+                        <button @click="selectCategoryToShow()">Show other category</button>
+                    </li>
+                </ul>
 
                 <div id="todo-wrapper">
                     <div v-if="showAllTasks">
@@ -124,14 +146,7 @@ const todoList = {
                     </div>
                 </div>
                 <br/>
-                <ul class="category-tabs">
-                    <li id="tab--1" v-if="selectedCategoryId !== -1">
-                        <button :id="'btn-category-show-'-1" @click="showCategory(-1)">All Tasks</button>
-                    </li>
-                    <li :id="'tab-'+category.id" v-for="category in categories.filter(category => category.id != selectedCategoryId)">
-                        <button :id="'btn-category-show-'+category.id" @click="showCategory(category.id)">{{ category.name }}</button>
-                    </li>
-                </ul>
+                
             </div>
         </div>
     `,
@@ -152,6 +167,10 @@ const todoList = {
 
         closeEditCategoryModal: function(){
             this.$data.showEditCategoryModal = false
+        },
+
+        closeTabCategoryModal: function(){
+            this.$data.showTabCategoryModal = false
         },
 
         saveCategories: function(){
@@ -216,6 +235,25 @@ const todoList = {
             })
             
             this.$data.selectedCategoryId = id
+        },
+
+        selectCategoryToShow: function(){
+            this.$data.showTabCategoryModal = true
+        },
+
+        selectTabCategory: function(id){
+            if(id != -1){
+                this.$data.showAllTasks = false
+            }else{
+                this.$data.showAllTasks = true
+            }
+            this.$data.categories.forEach(category => {
+                if(category.id == id){
+                    category.isSelected = true
+                }else{
+                    category.isSelected = false
+                }
+            })
         },
 
         selectCategory: function(categoryId){

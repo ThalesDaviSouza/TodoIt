@@ -14,7 +14,7 @@ const chooseCategoryModal = {
             return this.categories
         },
         SelectedCategoryId(){
-            return this.selectedCategory == null ? -1 : this.selectedCategory
+            return this.selectedCategory == null ? -1 : this.selectedCategory.id
         }
     },
 
@@ -36,7 +36,6 @@ const chooseCategoryModal = {
                 <input type="radio" id="'category-'+category.id" name="category-selected" @click="chooseCategory(category.id)" v-if="SelectedCategoryId != category.id" />
                 <input type="radio" id="'category-'+category.id" name="category-selected" @click="chooseCategory(category.id)" v-if="SelectedCategoryId == category.id" checked/>
             </div>
-             <!-- <button @click="chooseCategory(category.id)" v-for="category in Categories">{{ category.name }}</button> -->
         </div>
     </div>
     `,
