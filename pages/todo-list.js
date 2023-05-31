@@ -20,6 +20,7 @@ const todoList = {
 
             taskSelectedId: -1,
             selectedCategoryId: -1,
+            selectedTabCategoryId: -1,
             
             newItem: {task:'', category:''},
             newCategory: '',
@@ -31,7 +32,7 @@ const todoList = {
 
     computed: {
         selectedCategory(){
-            return this.$data.selectedCategoryId != -1 ? this.$data.categories.find(category => category.id == this.$data.selectedCategoryId) : null
+            return this.$data.selectedTabCategoryId != -1 ? this.$data.categories.find(category => category.id == this.$data.selectedTabCategoryId) : null
         }
     },
 
@@ -99,12 +100,7 @@ const todoList = {
                     @deleteTask="removeTask" @saveChanges="saveTasks" />
                 
                 <ul class="category-tabs">
-                    <li id="tab--1" v-if="selectedCategoryId !== -1">
-                        <button :id="'btn-category-show-'-1" @click="selectCategoryToShow()">All Tasks</button>
-                    </li>
-                    <li>
-                        <button @click="selectCategoryToShow()">Show other category</button>
-                    </li>
+                    <button @click="selectCategoryToShow()">Select Category to Show</button>
                 </ul>
 
                 <div id="todo-wrapper">
@@ -234,7 +230,7 @@ const todoList = {
                 category.isSelected = (category.id === id)
             })
             
-            this.$data.selectedCategoryId = id
+            this.$data.selectedTabCategoryId = id
         },
 
         selectCategoryToShow: function(){

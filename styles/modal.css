@@ -38,7 +38,7 @@
 
 #choose-category-modal{
     width: 500px;
-    height: 600px;
+    height: 500px;
     z-index: 12;
 }
 
@@ -49,6 +49,12 @@
 }
 
 .category-select input{width: auto;}
+
+#choose-category-tab-modal{
+    width: 500px;
+    height: 500px;
+}
+
 
 #edit-task-modal{
     width: 500px;

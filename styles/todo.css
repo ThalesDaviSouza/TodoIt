@@ -100,13 +100,6 @@ button{
     color: var(--text-base-color);
 }
 
-.category-tabs{
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-}
-
 @media (min-width:650px) and (max-width:1200px) {
     .todo-list{width: 60vw;}
 }
