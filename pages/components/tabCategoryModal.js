@@ -39,7 +39,7 @@ const tabCategoryModal = {
                 <input type="radio" id="category-tab--1" name="category-tab-selected" v-if="SelectedCategoryId != -1">
                 <input type="radio" id="category-tab--1" name="category-tab-selected" v-if="SelectedCategoryId == -1" checked>
             </div>
-            <div class="category-select" @click.once="chooseCategory(category.id)" v-for="category in categories">
+            <div class="category-select" @click="chooseCategory(category.id)" v-for="category in categories">
                 <label :for="'category-tab-'+category.id">{{ category.name }}</label> 
                 <input type="radio" :id="'category-tab-'+category.id" name="category-tab-selected" v-if="SelectedCategoryId != category.id" />
                 <input type="radio" :id="'category-tab-'+category.id" name="category-tab-selected" v-if="SelectedCategoryId == category.id" checked/>

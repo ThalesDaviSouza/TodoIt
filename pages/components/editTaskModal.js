@@ -126,8 +126,11 @@ const editTaskModal = {
 
         btnChooseCategoryText: function(){
             let categoryToShow = this.Categories.find(category => category.id == this.task.categoryId) 
-            
-            return categoryToShow.name
+            if(categoryToShow){
+                return categoryToShow.name
+            }else{
+                return 'Choose a Category'
+            }
         },
         
         chooseCategory: function(){
