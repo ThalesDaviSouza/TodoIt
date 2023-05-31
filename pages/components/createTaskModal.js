@@ -90,6 +90,7 @@ const createTaskModal = {
         addTask: function(newItem){
             //TODO: Add due date to tasks
             if(newItem){
+                console.log(newItem)
                 if(newItem.todo.replace(/\s/g, '').length == 0){
                     this.showWarning('Task Empty', 'Please, add a title to your task')
                 }else if(newItem.categoryId == -1){
@@ -97,7 +98,8 @@ const createTaskModal = {
                 }else{
                     this.$emit('saveTask', {newItem})
                     this.closeModal()
-                    this.$data.newItem = {}
+                    //Reseting new item to next creation 
+                    this.$data.newItem = {todo: '', categoryId: -1}
                 }
             }
         }
