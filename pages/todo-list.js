@@ -40,7 +40,11 @@ const todoList = {
         if(localStorage.getItem('tasks')){
             try {
                 this.$data.tasks = JSON.parse(localStorage.getItem('tasks'))
-                this.$data.tasks.forEach(task => task.dueDate = new Date(task.dueDate))
+                this.$data.tasks.forEach(task => {
+                    if(task.dueDate){
+                        task.dueDate = new Date(task.dueDate)
+                    }
+                })
             } catch (e) {
                 localStorage.removeItem('tasks')
             }
@@ -193,7 +197,7 @@ const todoList = {
         printDueDate: function(dueDate){
             if(dueDate){
                 let date = this.getDueDate(dueDate)
-                return `- ${date.getUTCMonth()}/${date.getUTCDay()}/${date.getUTCFullYear()}`
+                return ` - ${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
             }else{
                 return ''
             }
