@@ -81,8 +81,6 @@ button{
 .task-item input{width: 75%;}
 .task-item button{width: 25%; padding: auto; margin: 0; height: 100%;}
 
-.overdueTask > input {color:red;}
-
 .category-title{position: relative;}
 .category-title .category-edit, .category-title .category-delete{
     background-color: transparent;
