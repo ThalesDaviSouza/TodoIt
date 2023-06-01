@@ -19,10 +19,8 @@ const editTaskModal = {
     },
 
     computed: {
-        task: {
-            get(){
-                return this.tasks.find(task => task.id == this.taskSelectedId)
-            }
+        task(){
+            return this.tasks.find(task => task.id == this.taskSelectedId)
         },
 
         taskCategory(){
@@ -30,6 +28,19 @@ const editTaskModal = {
                 return this.Categories.find(category => category.id == this.task.categoryId)
             }else{
                 return false
+            }
+        },
+
+        getDueDate(){
+            if(this.task.dueDate){
+                let date = new Date(this.task.dueDate) 
+                return `${date.getFullYear()}-` +
+                    `${date.getMonth() >= 10 ? date.getMonth()+1 : '0' + (date.getMonth()+1).toString()}-`+ 
+                    `${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate().toString()}T` +
+                    `${date.getHours() >= 10 ? date.getHours() : '0' + date.getHours().toString()}:` +
+                    `${date.getMinutes() >= 10 ? date.getMinutes() : '0' + date.getMinutes().toString()}:00`
+            }else{
+                return 
             }
         },
 
@@ -64,6 +75,7 @@ const editTaskModal = {
             <div>
                 <input v-model="task.todo" @click="saveActualName" type="text" placeholder="Insert Task tittle">
                 <button @click="endTask">{{ endTaskText }}</button>
+                <input id="task-edit-duedate" type="datetime-local" :value="getDueDate" @input="saveNewDueDate" />
             </div>
             <div>
                 <h4>Category:</h4>
@@ -99,6 +111,10 @@ const editTaskModal = {
             this.$data.warning.title = title
             this.$data.warning.message = message
             this.$data.showWarningModal = true
+        },
+
+        saveNewDueDate: function(){
+            this.task.dueDate = document.querySelector('#task-edit-duedate').value
         },
 
         saveActualName: function(){

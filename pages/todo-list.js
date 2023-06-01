@@ -40,6 +40,11 @@ const todoList = {
         if(localStorage.getItem('tasks')){
             try {
                 this.$data.tasks = JSON.parse(localStorage.getItem('tasks'))
+                this.$data.tasks.forEach(task => {
+                    if(task.dueDate){
+                        task.dueDate = new Date(task.dueDate)
+                    }
+                })
             } catch (e) {
                 localStorage.removeItem('tasks')
             }
@@ -93,22 +98,21 @@ const todoList = {
                 </div>
                 <br/>
                 <br/>
-
                 <editTaskModal v-if="showEditTaskModal"
                     :categories="categories" :tasks="tasks" :taskSelectedId="taskSelectedId"
                     @closeModal="closeEditTaskModal" @saveCategory="saveCategory"
                     @deleteTask="removeTask" @saveChanges="saveTasks" />
                 
                 <ul class="category-tabs">
-                    <button @click="selectCategoryToShow()">Select Category to Show</button>
+                    <button @click="selectCategoryToShow()">Show Tasks by Category</button>
                 </ul>
 
                 <div id="todo-wrapper">
                     <div v-if="showAllTasks">
                         <h2>All Tasks</h2>
                         <div v-for="task in tasks">
-                            <div class="task-item" v-if="!task.finished">
-                                <input type="text" v-model="task.todo"
+                            <div :class="'task-item ' + overdueTask(task.dueDate)" v-if="!task.finished">
+                                <input type="text" :value="task.todo + printDueDate(task.dueDate)"
                                     :id="'task-'+task.id" @click="editTask(task.id)" readonly>
                                 <button @click="finishTask(task.id)">Finish Task</button>
                             </div>
@@ -116,7 +120,7 @@ const todoList = {
                         <h3>Finished tasks</h3>
                         <div v-for="task in tasks">
                             <div class="task-item" v-if="task.finished">
-                                <input type="text" v-model="task.todo"
+                                <input type="text" :value="task.todo + printDueDate(task.dueDate)"
                                 :id="'task-'+task.id" @click="editTask(task.id)" readonly>
                                 <button @click="finishTask(task.id)">Unfinish Task</button>
                             </div>
@@ -127,15 +131,15 @@ const todoList = {
                             <h2 @click="editCategory(category.id)" class="category-title">{{ category.name }}</h2>
                         </div>
                         <br/>
-                        <div class="task-item" :id="'container-'+task.id" v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)">
-                            <input type="text" v-model="task.todo"
+                        <div :class="'task-item ' + overdueTask(task.dueDate)" :id="'container-'+task.id" v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)">
+                            <input type="text" :value="task.todo + printDueDate(task.dueDate)"
                                 :id="'task-'+task.id" @click="editTask(task.id)" readonly>
                                 <button @click="finishTask(task.id)">Finish Task</button>
                         </div>
                         <br/>
                         <h3 v-if="getTasksByCategory(category.id).filter(task => task.finished).length > 0">Finished tasks</h3>
                         <div class="task-item" v-for="task in getTasksByCategory(category.id).filter(task => task.finished)">
-                            <input type="text" v-model="task.todo"
+                            <input type="text" :value="task.todo + printDueDate(task.dueDate)"
                                 :id="'task-'+task.id" @click="editTask(task.id)" readonly>
                                 <button @click="finishTask(task.id)">Unfinish Task</button>
                         </div>
@@ -181,6 +185,38 @@ const todoList = {
 
         getTasksByCategory: function(categoryId){
             return this.$data.tasks.filter(task => task.categoryId == categoryId)
+        },
+
+        getDueDate: function(dueDate){
+            return new Date(dueDate)
+        },
+
+        printDueDate: function(dueDate){
+            if(dueDate){
+                let date = this.getDueDate(dueDate)
+                return ` - ${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
+            }else{
+                return ''
+            }
+        },
+
+        isOverdueTask: function(dueDate){
+            let date = this.getDueDate(dueDate)
+            return new Date() > date ? true : false
+        },
+
+        overdueTask: function(dueDate){
+            // If the due date is empty
+            if(!dueDate){
+                return ''
+            }
+
+            if(this.isOverdueTask(dueDate)){
+                return 'overdueTask'
+            }else{
+                return ''
+            }
+            
         },
 
         saveCategory: function(newCategory){
@@ -260,6 +296,7 @@ const todoList = {
             let newTask = {
                 task: newItem.todo,
                 categoryId: newItem.categoryId,
+                dueDate: newItem.dueDate,
                 id: parseInt(this.$data.tasks.reduce((biggerId, taskActual) => {
                     return Math.max(biggerId, taskActual.id)
                 }, -1))+1,
@@ -269,6 +306,7 @@ const todoList = {
                 id: newTask.id,
                 todo: newTask.task,
                 categoryId: newTask.categoryId,
+                dueDate: newTask.dueDate,
                 finished: false,
             })
 
