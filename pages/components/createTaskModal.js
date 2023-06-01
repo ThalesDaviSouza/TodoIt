@@ -9,6 +9,7 @@ const createTaskModal = {
             newItem:{
                 todo: '',
                 categoryId: -1,
+                dueDate: null,
             },
             showChooseCategoryModal: false,
             showWarningModal: false,
@@ -44,7 +45,7 @@ const createTaskModal = {
                 <h3>Choose category:</h3>
                 <button @click.prevent="showChooseCategoryModal = true">{{ btnChooseCategoryText() }}</button>
                 <h3>Due Date:</h3>
-                <input type="date">
+                <input type="datetime-local" v-model="newItem.dueDate">
                 <button>Save Task</button>
             </form>
         </div>
@@ -90,16 +91,24 @@ const createTaskModal = {
         addTask: function(newItem){
             //TODO: Add due date to tasks
             if(newItem){
-                console.log(newItem)
                 if(newItem.todo.replace(/\s/g, '').length == 0){
                     this.showWarning('Task Empty', 'Please, add a title to your task')
                 }else if(newItem.categoryId == -1){
                     this.showWarning('Category Empty', 'Select a category to your task')
-                }else{
+                }
+                // else if(!newItem.dueDate){
+                //     this.showWarning('No due date', 'Please, select a due date')
+                // }
+                else{
+                    if(newItem.dueDate){
+                        newItem.dueDate = new Date(newItem.dueDate).toISOString()
+                    }
+
                     this.$emit('saveTask', {newItem})
                     this.closeModal()
+
                     //Reseting new item to next creation 
-                    this.$data.newItem = {todo: '', categoryId: -1}
+                    this.$data.newItem = {todo: '', categoryId: -1, dueDate: null}
                 }
             }
         }
