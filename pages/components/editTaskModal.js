@@ -39,7 +39,6 @@ const editTaskModal = {
                     `${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate().toString()}T` +
                     `${date.getHours() >= 10 ? date.getHours() : '0' + date.getHours().toString()}:` +
                     `${date.getMinutes() >= 10 ? date.getMinutes() : '0' + date.getMinutes().toString()}:00`
-                return '2023-04-03T22:00:00'
             }else{
                 return 
             }
@@ -115,7 +114,6 @@ const editTaskModal = {
         },
 
         saveNewDueDate: function(){
-            console.log(document.querySelector('#task-edit-duedate').value)
             this.task.dueDate = document.querySelector('#task-edit-duedate').value
         },
 

@@ -98,16 +98,13 @@ const todoList = {
                 </div>
                 <br/>
                 <br/>
-
-                <button @click="console.log(tasks[1].dueDate)">Test date</button>
-
                 <editTaskModal v-if="showEditTaskModal"
                     :categories="categories" :tasks="tasks" :taskSelectedId="taskSelectedId"
                     @closeModal="closeEditTaskModal" @saveCategory="saveCategory"
                     @deleteTask="removeTask" @saveChanges="saveTasks" />
                 
                 <ul class="category-tabs">
-                    <button @click="selectCategoryToShow()">Select Category to Show</button>
+                    <button @click="selectCategoryToShow()">Show Tasks by Category</button>
                 </ul>
 
                 <div id="todo-wrapper">
