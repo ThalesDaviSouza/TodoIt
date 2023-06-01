@@ -297,6 +297,7 @@ const todoList = {
                 task: newItem.todo,
                 categoryId: newItem.categoryId,
                 dueDate: newItem.dueDate,
+                description: newItem.description,
                 id: parseInt(this.$data.tasks.reduce((biggerId, taskActual) => {
                     return Math.max(biggerId, taskActual.id)
                 }, -1))+1,
@@ -307,11 +308,12 @@ const todoList = {
                 todo: newTask.task,
                 categoryId: newTask.categoryId,
                 dueDate: newTask.dueDate,
+                description: newTask.description,
                 finished: false,
             })
 
             this.saveTasks()
-            this.closeCreateTaskModal()
+            // this.closeCreateTaskModal()
         },
         
         finishTask: function(id){

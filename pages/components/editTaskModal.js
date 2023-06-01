@@ -75,7 +75,12 @@ const editTaskModal = {
             <div>
                 <input v-model="task.todo" @click="saveActualName" type="text" placeholder="Insert Task tittle">
                 <button @click="endTask">{{ endTaskText }}</button>
+                <h3>Due Date:</h3>
                 <input id="task-edit-duedate" type="datetime-local" :value="getDueDate" @input="saveNewDueDate" />
+                <h3>Task Description:</h3>
+                <textarea name="task-edit-description" v-model="task.description"
+                    cols="68" rows="5" placeholder="Insert here the task's description">
+                </textarea>
             </div>
             <div>
                 <h4>Category:</h4>
