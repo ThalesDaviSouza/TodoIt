@@ -1,8 +1,13 @@
+// Classes
+import {Task, Category} from '../js/classes.js'
+
+// Modals
 import {createTaskModal} from './components/createTaskModal.js'
 import {createCategoryModal} from './components/createCategoryModal.js'
 import {editTaskModal} from './components/editTaskModal.js'
 import {editCategoryModal} from './components/editCategory.js'
 import {tabCategoryModal} from './components/tabCategoryModal.js'
+
 
 const todoList = {
     data(){
@@ -20,9 +25,7 @@ const todoList = {
 
             taskSelectedId: -1,
             selectedCategoryId: -1,
-            selectedTabCategoryId: -1,
             
-            newItem: {task:'', category:''},
             newCategory: '',
             showAllTasks: true,
             categories: [],
@@ -32,7 +35,7 @@ const todoList = {
 
     computed: {
         selectedCategory(){
-            return this.$data.selectedTabCategoryId != -1 ? this.$data.categories.find(category => category.id == this.$data.selectedTabCategoryId) : null
+            return this.$data.selectedCategoryId != -1 ? this.$data.categories.find(category => category.id == this.$data.selectedCategoryId) : null
         }
     },
 
@@ -112,7 +115,7 @@ const todoList = {
                         <h2>All Tasks</h2>
                         <div v-for="task in tasks">
                             <div :class="'task-item ' + overdueTask(task.dueDate)" v-if="!task.finished">
-                                <input type="text" :value="task.todo + printDueDate(task.dueDate)"
+                                <input type="text" :value="task.title + printDueDate(task.dueDate)"
                                     :id="'task-'+task.id" @click="editTask(task.id)" readonly>
                                 <button @click="finishTask(task.id)">Finish Task</button>
                             </div>
@@ -120,7 +123,7 @@ const todoList = {
                         <h3>Finished tasks</h3>
                         <div v-for="task in tasks">
                             <div class="task-item" v-if="task.finished">
-                                <input type="text" :value="task.todo + printDueDate(task.dueDate)"
+                                <input type="text" :value="task.title + printDueDate(task.dueDate)"
                                 :id="'task-'+task.id" @click="editTask(task.id)" readonly>
                                 <button @click="finishTask(task.id)">Unfinish Task</button>
                             </div>
@@ -132,14 +135,14 @@ const todoList = {
                         </div>
                         <br/>
                         <div :class="'task-item ' + overdueTask(task.dueDate)" :id="'container-'+task.id" v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)">
-                            <input type="text" :value="task.todo + printDueDate(task.dueDate)"
+                            <input type="text" :value="task.title + printDueDate(task.dueDate)"
                                 :id="'task-'+task.id" @click="editTask(task.id)" readonly>
                                 <button @click="finishTask(task.id)">Finish Task</button>
                         </div>
                         <br/>
                         <h3 v-if="getTasksByCategory(category.id).filter(task => task.finished).length > 0">Finished tasks</h3>
                         <div class="task-item" v-for="task in getTasksByCategory(category.id).filter(task => task.finished)">
-                            <input type="text" :value="task.todo + printDueDate(task.dueDate)"
+                            <input type="text" :value="task.title + printDueDate(task.dueDate)"
                                 :id="'task-'+task.id" @click="editTask(task.id)" readonly>
                                 <button @click="finishTask(task.id)">Unfinish Task</button>
                         </div>
@@ -220,14 +223,10 @@ const todoList = {
         },
 
         saveCategory: function(newCategory){
-            let category = {
-                name: newCategory.name,
-                // get the next id
-                id: parseInt(this.$data.categories.reduce((biggerId, categoryActual) => {
-                    return Math.max(biggerId, categoryActual.id)
-                }, -1))+1
-            }
-            this.$data.categories.push({id: category.id, name: category.name, isSelected:false, openToEdit:false})
+            let nextId = parseInt(this.$data.categories.reduce((biggerId, categoryActual) => {return Math.max(biggerId, categoryActual.id)}, -1)) + 1
+            let category = new Category(nextId, newCategory.name)
+            
+            this.$data.categories.push(category)
             this.saveCategories()
             this.closeCreateCategoryModal()
         },
@@ -288,30 +287,15 @@ const todoList = {
             })
         },
 
-        selectCategory: function(categoryId){
-            this.$data.newItem.categoryId = categoryId
-        },
-
         saveTask: function({newItem}){
-            let newTask = {
-                task: newItem.todo,
-                categoryId: newItem.categoryId,
-                dueDate: newItem.dueDate,
-                id: parseInt(this.$data.tasks.reduce((biggerId, taskActual) => {
-                    return Math.max(biggerId, taskActual.id)
-                }, -1))+1,
-            }
+            let nextId = parseInt(this.$data.tasks.reduce((biggerId, taskActual) => {return Math.max(biggerId, taskActual.id)}, -1)) + 1
 
-            this.$data.tasks.push({
-                id: newTask.id,
-                todo: newTask.task,
-                categoryId: newTask.categoryId,
-                dueDate: newTask.dueDate,
-                finished: false,
-            })
+            let newTask = new Task(nextId, newItem.title, newItem.categoryId, false, newItem.dueDate, newItem.description)
+            
+            this.$data.tasks.push(newTask)
 
             this.saveTasks()
-            this.closeCreateTaskModal()
+            // this.closeCreateTaskModal()
         },
         
         finishTask: function(id){
