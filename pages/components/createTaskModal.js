@@ -1,3 +1,4 @@
+import { Task } from '../../js/classes.js'
 import {chooseCategoryModal} from './chooseCategoryModal.js'
 import {warningModal} from './warningModal.js'
 
@@ -6,12 +7,7 @@ const createTaskModal = {
 
     data(){
         return {
-            newItem:{
-                todo: '',
-                categoryId: -1,
-                dueDate: null,
-                description: '',
-            },
+            newItem: new Task(),
             showChooseCategoryModal: false,
             showWarningModal: false,
 
@@ -42,7 +38,7 @@ const createTaskModal = {
 
             <h1>Create Task</h1>
             <form @submit.prevent="addTask(newItem)">
-                <input type="text" v-model="newItem.todo" id="task-modal-todo" placeholder="Input your task">
+                <input type="text" v-model="newItem.title" id="task-modal-title" placeholder="Input your task">
                 <h3>Choose category:</h3>
                 <button @click.prevent="showChooseCategoryModal = true">{{ btnChooseCategoryText() }}</button>
                 <h3>Due Date:</h3>
@@ -95,7 +91,7 @@ const createTaskModal = {
 
         addTask: function(newItem){
             if(newItem){
-                if(newItem.todo.replace(/\s/g, '').length == 0){
+                if(newItem.title.replace(/\s/g, '').length == 0){
                     this.showWarning('Task Empty', 'Please, add a title to your task')
                 }else if(newItem.categoryId == -1){
                     this.showWarning('Category Empty', 'Select a category to your task')
@@ -108,7 +104,7 @@ const createTaskModal = {
                     this.closeModal()
 
                     //Reseting new item to next creation 
-                    this.$data.newItem = {todo: '', categoryId: -1, dueDate: null, description: ''}
+                    this.$data.newItem = new Task()
                 }
             }
         }

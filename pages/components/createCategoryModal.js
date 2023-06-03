@@ -1,3 +1,4 @@
+import { Category } from '../../js/classes.js'
 import {warningModal} from './warningModal.js'
 
 
@@ -8,9 +9,7 @@ const createCategoryModal = {
         return {
             showWarningCategory: false,
 
-            newCategory:{
-                name: '',
-            },
+            newCategory: new Category(),
 
             warning:{title:'',message:''},
         }
@@ -59,7 +58,7 @@ const createCategoryModal = {
                 this.showWarning('Duplicate Categories', 'This category already Exist')
             }else{
                 this.$emit('saveCategory', newCategory)
-                this.$data.newCategory = {}
+                this.$data.newCategory = new Category()
             }
         },
     }

@@ -73,7 +73,7 @@ const editTaskModal = {
 
         <div id="edit-task-modal" class="modal-body">
             <div>
-                <input v-model="task.todo" @click="saveActualName" type="text" placeholder="Insert Task tittle">
+                <input v-model="task.title" @click="saveActualName" type="text" placeholder="Insert Task tittle">
                 <button @click="endTask">{{ endTaskText }}</button>
                 <h3>Due Date:</h3>
                 <input id="task-edit-duedate" type="datetime-local" :value="getDueDate" @input="saveNewDueDate" />
@@ -123,7 +123,7 @@ const editTaskModal = {
         },
 
         saveActualName: function(){
-            this.$data.taskTodoBeforeChanges = this.task.todo
+            this.$data.taskTodoBeforeChanges = this.task.title
         },
 
         confirmDelete: function(){
@@ -168,11 +168,11 @@ const editTaskModal = {
         },
 
         resetTaskName: function(){
-            this.task.todo = this.$data.taskTodoBeforeChanges
+            this.task.title = this.$data.taskTodoBeforeChanges
         },
 
         verifyTask: function(){
-            if(this.task.todo.replace(/\s/g, '').length == 0){
+            if(this.task.title.replace(/\s/g, '').length == 0){
                 this.showWarning('Task Title Empty', 'Please, input something in tasks title')
                 this.resetTaskName()
             }else{
