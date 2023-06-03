@@ -1,5 +1,7 @@
+// Classes
 import {Task, Category} from '../js/classes.js'
 
+// Modals
 import {createTaskModal} from './components/createTaskModal.js'
 import {createCategoryModal} from './components/createCategoryModal.js'
 import {editTaskModal} from './components/editTaskModal.js'
@@ -23,7 +25,6 @@ const todoList = {
 
             taskSelectedId: -1,
             selectedCategoryId: -1,
-            selectedTabCategoryId: -1,
             
             newCategory: '',
             showAllTasks: true,
@@ -34,7 +35,7 @@ const todoList = {
 
     computed: {
         selectedCategory(){
-            return this.$data.selectedTabCategoryId != -1 ? this.$data.categories.find(category => category.id == this.$data.selectedTabCategoryId) : null
+            return this.$data.selectedCategoryId != -1 ? this.$data.categories.find(category => category.id == this.$data.selectedCategoryId) : null
         }
     },
 
