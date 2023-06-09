@@ -13,7 +13,6 @@ const todoList = {
     data(){
         return{
             showCreateTaskModal: false,
-            showCreateCategoryModal: false,
             showEditTaskModal: false,
             showEditCategoryModal: false,
             showTabCategoryModal: false,
@@ -80,9 +79,6 @@ const todoList = {
             <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
                 @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" />
 
-            <createCategoryModal v-show="showCreateCategoryModal" @closeModal="closeCreateCategoryModal"
-                @saveCategory="saveCategory" :categories="categories" />
-
             <editCategoryModal v-show="showEditCategoryModal" @closeModal="closeEditCategoryModal"
                 :categorySelected="selectedCategoryId" :categoriesList="categories"
                 @saveCategories="saveCategories" @deleteCategory="deleteCategory" />
@@ -93,11 +89,7 @@ const todoList = {
             <h2>Todo List</h2>
             <div class="todo-list">
                 <div id="add-task">
-                    <button id="add-task-button" @click="showCreateTaskModal=true">Add Task</button>
-                </div>
-                <br/>
-                <div id="add-category">
-                    <button id="add-category-button" @click="showCreateCategoryModal = true">Add Category</button>
+                    <button class="open-modal-btn" @click="showCreateTaskModal=true">Add Task</button>
                 </div>
                 <br/>
                 <br/>
@@ -106,9 +98,7 @@ const todoList = {
                     @closeModal="closeEditTaskModal" @saveCategory="saveCategory"
                     @deleteTask="removeTask" @saveChanges="saveTasks" />
                 
-                <ul class="category-tabs">
-                    <button @click="selectCategoryToShow()">Show Tasks by Category</button>
-                </ul>
+                <button class="open-modal-btn" @click="selectCategoryToShow()">Show Tasks by Category</button>
 
                 <div id="todo-wrapper">
                     <div v-if="showAllTasks">
