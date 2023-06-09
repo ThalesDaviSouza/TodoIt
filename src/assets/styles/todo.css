@@ -5,6 +5,11 @@
     --text-secondary-color: #5C5C5C;
     --placeholder-color: rgb(102, 102, 102);
     --title-color: #626B3F;
+    
+    --task-card-bg: white;
+    --overdue-task-color: #EB1F1F;
+    --task-button-bg: #E1F792;
+    --task-delete-btn-bg: #BFD17B;
 }
 
 .todo-list{
@@ -21,6 +26,53 @@ h1,h2,h3,h4,h5,h6{color: var(--title-color);}
 }
 
 .open-modal-btn{font-size: 1.8rem;}
+
+/* Task Card */
+.task-item-card{
+    background-color: var(--task-card-bg);
+    padding: 5px 18px 5px 18px;
+    border-radius: 20px;
+    margin: 10px 5px 10px 5px;
+}
+
+/* Header */
+.task-item-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    color: var(--text-secondary-color);
+}
+
+.task-item-header h3{color: var(--text-base-color);}
+
+.task-item-card.overdueTask > .task-item-header > *{
+    color: var(--overdue-task-color);
+}
+
+/* Body */
+.task-item-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+
+    color: var(--text-secondary-color);
+
+    word-break: break-all;
+}
+
+.task-item-description{width: 75%;}
+.task-item-actions-wrapper{width: 20%;}
+.task-item-action{
+    background-color: var(--task-button-bg);
+    border-radius: 5px;
+}
+.task-delete-btn{background-color: var(--task-delete-btn-bg);}
+
+
+
 
 .category-tabs {list-style-type: none;}
 
@@ -56,7 +108,7 @@ button{
     vertical-align: middle;
     width: 100%;
     padding: 4px 0 4px 0;
-    margin-top: 10px;
+    margin-top: 5px;
     background-color: var(--button-base-color);
     border: 0;
 }

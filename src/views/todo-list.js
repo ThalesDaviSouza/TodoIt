@@ -8,6 +8,9 @@ import {editTaskModal} from '../common/components/editTaskModal.js'
 import {editCategoryModal} from '../common/components/editCategory.js'
 import {tabCategoryModal} from '../common/components/tabCategoryModal.js'
 
+// Other Components
+import { taskItem } from '../common/components/taskItem.js';
+
 
 const todoList = {
     data(){
@@ -71,6 +74,7 @@ const todoList = {
         editTaskModal: editTaskModal,
         editCategoryModal: editCategoryModal,
         tabCategoryModal: tabCategoryModal,
+        taskItem: taskItem,
     },
 
     template:
@@ -104,6 +108,7 @@ const todoList = {
                     <div v-if="showAllTasks">
                         <h2>All Tasks</h2>
                         <div v-for="task in tasks">
+                            <taskItem :task="task" /> 
                             <div :class="'task-item ' + overdueTask(task.dueDate)" v-if="!task.finished">
                                 <input type="text" :value="task.title + printDueDate(task.dueDate)"
                                     :id="'task-'+task.id" @click="editTask(task.id)" readonly>
@@ -180,10 +185,13 @@ const todoList = {
             return this.$data.tasks.filter(task => task.categoryId == categoryId)
         },
 
+        // TODO: remover isso
+
         getDueDate: function(dueDate){
             return new Date(dueDate)
         },
 
+        // TODO: remover isso
         printDueDate: function(dueDate){
             if(dueDate){
                 let date = this.getDueDate(dueDate)
@@ -193,11 +201,13 @@ const todoList = {
             }
         },
 
+        // TODO: remover isso
         isOverdueTask: function(dueDate){
             let date = this.getDueDate(dueDate)
             return new Date() > date ? true : false
         },
 
+        // TODO: remover isso
         overdueTask: function(dueDate){
             // If the due date is empty
             if(!dueDate){
@@ -301,7 +311,6 @@ const todoList = {
         },
 
         removeTask: function(id){
-            //TODO: Make a modal to confirm it
             let task = this.$data.tasks.find(task => task.id === id)
             let taskIndex = this.$data.tasks.indexOf(task)
             this.$data.tasks.splice(taskIndex, 1)
