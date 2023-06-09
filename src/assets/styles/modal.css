@@ -1,7 +1,7 @@
 :root{
-    --border-color: white;
-    --modal-overlay-color: rgba(0, 0, 0, 0.507);
-    --modal-body-color: black;
+    --border-color: black;
+    --modal-overlay-color: rgba(28, 28, 28, 0.488);
+    --modal-body-color: #D6EB8A;
 }
 
 .modal-overlay{

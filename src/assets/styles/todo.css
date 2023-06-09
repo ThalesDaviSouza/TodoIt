@@ -1,9 +1,10 @@
 :root{
-    --background-color: black;
-    --background-select-color: darkgray;
-    --text-base-color: white;
-    --text-secondary-color: gray;
+    --background-color: #D6EB8A;
+    --button-base-color: white;
+    --text-base-color: black;
+    --text-secondary-color: #5C5C5C;
     --placeholder-color: rgb(102, 102, 102);
+    --title-color: #626B3F;
 }
 
 .todo-list{
@@ -17,6 +18,8 @@
     overflow-y: scroll;
     overflow-x: hidden;
 }
+
+h1,h2,h3,h4,h5,h6{color: var(--title-color);}
 
 .todo-list-container{
     display: flex;
@@ -37,12 +40,12 @@
 }
 
 .category-tabs li:hover{
-    background-color: var(--background-select-color);
+    background-color: var(--button-base-color);
 }
 
 .category-tabs li:hover button{
     cursor: pointer;
-    background-color: var(--background-select-color);
+    background-color: var(--button-base-color);
     color: var(--text-base-color);
 }
 
@@ -70,7 +73,7 @@ button{
     width: 100%;
     padding: 4px 0 4px 0;
     margin-top: 10px;
-    background-color: var(--background-select-color);
+    background-color: var(--button-base-color);
     border: 0;
 }
 
