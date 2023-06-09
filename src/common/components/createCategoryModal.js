@@ -1,4 +1,4 @@
-import { Category } from '../../js/classes.js'
+import { Category } from '../../assets/js/classes.js'
 import {warningModal} from './warningModal.js'
 
 

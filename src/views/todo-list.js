@@ -1,12 +1,12 @@
 // Classes
-import {Task, Category} from '../js/classes.js'
+import {Task, Category} from '../assets/js/classes.js'
 
 // Modals
-import {createTaskModal} from './components/createTaskModal.js'
-import {createCategoryModal} from './components/createCategoryModal.js'
-import {editTaskModal} from './components/editTaskModal.js'
-import {editCategoryModal} from './components/editCategory.js'
-import {tabCategoryModal} from './components/tabCategoryModal.js'
+import {createTaskModal} from '../common/components/createTaskModal.js'
+import {createCategoryModal} from '../common/components/createCategoryModal.js'
+import {editTaskModal} from '../common/components/editTaskModal.js'
+import {editCategoryModal} from '../common/components/editCategory.js'
+import {tabCategoryModal} from '../common/components/tabCategoryModal.js'
 
 
 const todoList = {
