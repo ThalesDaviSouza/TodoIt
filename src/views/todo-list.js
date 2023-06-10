@@ -92,11 +92,9 @@ const todoList = {
 
             <h2>Todo List</h2>
             <div class="todo-list">
-                <div id="add-task">
-                    <button class="open-modal-btn" @click="showCreateTaskModal=true">Add Task</button>
-                </div>
-                <br/>
-                <br/>
+                
+                <button class="open-modal-btn" @click="showCreateTaskModal=true">Add Task</button>
+
                 <editTaskModal v-if="showEditTaskModal"
                     :categories="categories" :tasks="tasks" :taskSelectedId="taskSelectedId"
                     @closeModal="closeEditTaskModal" @saveCategory="saveCategory"
@@ -104,11 +102,11 @@ const todoList = {
                 
                 <button class="open-modal-btn" @click="selectCategoryToShow()">Show Tasks by Category</button>
 
-                <div id="todo-wrapper">
+                <section id="todo-wrapper">
                     <div v-if="showAllTasks">
                         <h2>All Tasks</h2>
                         <div v-for="task in tasks">
-                        <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask" v-if="!task.finished"/> 
+                            <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask" v-if="!task.finished"/> 
                         </div>
                         <h3>Finished tasks</h3>
                         <div v-for="task in tasks">
@@ -116,20 +114,16 @@ const todoList = {
                         </div>
                     </div>
                     <div v-show="category.isSelected" :id="'category-wrapper-'+category.id" v-for="category in categories">
-                        <div class="category-title">
-                            <h2 @click="editCategory(category.id)" class="category-title">{{ category.name }}</h2>
-                        </div>
-                        <br/>
+                        <h2 @click="editCategory(category.id)" class="category-title">{{ category.name }}</h2>
                         <div :id="'container-'+task.id" v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)">
                             <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"/> 
                         </div>
-                        <br/>
                         <h3 v-if="getTasksByCategory(category.id).filter(task => task.finished).length > 0">Finished tasks</h3>
                         <div v-for="task in getTasksByCategory(category.id).filter(task => task.finished)">
                             <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"/> 
                         </div>
                     </div>
-                </div>
+                </section>
                 <br/>
                 
             </div>

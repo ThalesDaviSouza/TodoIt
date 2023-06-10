@@ -27,6 +27,8 @@ h1,h2,h3,h4,h5,h6{color: var(--title-color);}
 
 .open-modal-btn{font-size: 1.8rem;}
 
+#todo-wrapper > div > h3, #todo-wrapper > div > h2 {margin-left: 15px;}
+
 /* Task Card */
 .task-item-card{
     background-color: var(--task-card-bg);
@@ -95,20 +97,13 @@ input, select{
 
 input::placeholder{color: var(--placeholder-color);}
 
-#add-task{position: relative;}
-#add-task form{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
 button{
     cursor: pointer;
     vertical-align: middle;
     width: 100%;
     padding: 4px 0 4px 0;
     margin-top: 5px;
+    margin-bottom: 5px;
     background-color: var(--button-base-color);
     border: 0;
 }
