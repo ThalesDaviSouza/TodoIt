@@ -3,7 +3,7 @@ import { confirmModal } from "./confirmModal.js";
 const taskItem = {
     props: ['task'],
 
-    emits: ["editTask", "finishTask", "deleteTask"],
+    emits: ["viewTask", "editTask", "finishTask", "deleteTask"],
 
     computed:{
         Task(){
@@ -33,12 +33,12 @@ const taskItem = {
         :confirm="confirmData" :acceptFunction="deleteTask" />
 
     <div :class="'task-item-card ' + overdueTask(Task.dueDate)">
-        <div class="task-item-header">
+        <div class="task-item-header" @click="viewTask(Task.id)">
             <h3>{{ Task.title }}</h3>
             <span>Due Date: {{ printDueDate(Task.dueDate) }}</span>
         </div>
         <div class="task-item-body">
-            <div class="task-item-description">
+            <div class="task-item-description" @click="viewTask(Task.id)">
                 <p>{{ getDescriptionToShow() }}</p>
             </div>
             <div class="task-item-actions-wrapper">
@@ -53,6 +53,10 @@ const taskItem = {
     methods:{
         closeConfirmDeleteModal: function(){
             this.$data.showConfirmDeleteModal = false
+        },
+
+        viewTask: function(id){
+            this.$emit('viewTask', id)
         },
 
         editTask: function(id){

@@ -2,6 +2,10 @@
     --border-color: black;
     --modal-overlay-color: rgba(28, 28, 28, 0.488);
     --modal-body-color: #D6EB8A;
+
+    --text-base-color: black;
+    --text-secondary-color: #5C5C5C;
+    --button-action-bg: #EEFFAF;
 }
 
 .modal-overlay{
@@ -24,6 +28,15 @@
     margin-top: 15vh;
     padding: 35px;
     border-radius: 9px;
+}
+
+.btn-action{
+    background-color: var(--button-action-bg);
+    border: 2px solid black;
+    border-radius: 15px;
+    width: 40%;
+
+    font-size: 1.3rem;
 }
 
 #create-task-modal{
@@ -70,4 +83,56 @@
 #confirm-modal{
     width: 500px;
     height: 300px;
+}
+
+/* Task View Modal */
+#view-task-modal{
+    width: 100%;
+    height: 600px;
+}
+
+/* Header */
+#task-view-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+
+    margin-bottom: 30px;
+}
+
+.task-view-header-main-section{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.task-view-header-main-section{fill: white;}
+
+.task-view-title{
+    text-align: start;
+}
+
+.task-view-title > h1{
+    color: var(--text-base-color);
+    font-size: 2.9rem;
+}
+
+.task-view-title > span{color: var(--text-secondary-color);}
+
+/* Body */
+#task-view-body{margin: 10px 0 20px 0;}
+
+#task-view-body > p{
+    font-size: 1.2rem; 
+    color: var(--text-secondary-color);
+    word-break: break-all;
+    text-align: start;
+}
+
+/* Footer */
+#task-item-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
 }
