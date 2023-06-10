@@ -1,14 +1,37 @@
+import { confirmModal } from "./confirmModal.js";
+
 const taskItem = {
     props: ['task'],
+
+    emits: ["editTask", "finishTask", "deleteTask"],
 
     computed:{
         Task(){
             return this.task;
+        },
+
+        FinishMessage(){
+            return (!this.Task.finished) ? 'Finish' : 'Unfinish' 
         }
+    },
+
+    data(){
+        return{
+            showConfirmDeleteModal: false,
+
+            confirmData: {title:'', message:''},
+        }
+    },
+
+    components: {
+        confirmModal: confirmModal,
     },
 
     template:
     `
+    <confirmModal v-show="showConfirmDeleteModal" @closeModal="closeConfirmDeleteModal" 
+        :confirm="confirmData" :acceptFunction="deleteTask" />
+
     <div :class="'task-item-card ' + overdueTask(Task.dueDate)">
         <div class="task-item-header">
             <h3>{{ Task.title }}</h3>
@@ -19,25 +42,36 @@ const taskItem = {
                 <p>{{ Task.description }}</p>
             </div>
             <div class="task-item-actions-wrapper">
-                <button class="task-item-action" @click="editTask">Edit</button>
-                <button class="task-item-action" @click="finishTask">Finish</button>
-                <button class="task-item-action task-delete-btn" @click="deleteTask">Delete</button>
+                <button class="task-item-action" @click="editTask(Task.id)">Edit</button>
+                <button class="task-item-action" @click="finishTask(Task.id)">{{ FinishMessage }}</button>
+                <button class="task-item-action task-delete-btn" @click="confirmDelete">Delete</button>
             </div>
         </div>
     </div>
     `,
 
     methods:{
-        editTask: function(){
-            this.$emit('editTask')
+        closeConfirmDeleteModal: function(){
+            this.$data.showConfirmDeleteModal = false
         },
 
-        finishTask: function(){
-            this.$emit('finishTask')
+        editTask: function(id){
+            this.$emit('editTask', id)
+        },
+
+        finishTask: function(id){
+            this.$emit('finishTask', id)
+        },
+
+        confirmDelete: function(){
+            this.$data.confirmData.title = 'Are you sure?'
+            this.$data.confirmData.message = 'Are you sure you want to delete this task?'
+            this.$data.showConfirmDeleteModal = true
         },
 
         deleteTask: function(){
-            this.$emit('deleteTask')
+            this.closeConfirmDeleteModal()
+            this.$emit('deleteTask', this.Task.id)
         },
 
         getDueDate: function(dueDate){
@@ -60,7 +94,7 @@ const taskItem = {
 
         overdueTask: function(dueDate){
             // If the due date is empty
-            if(!dueDate){
+            if(!dueDate || this.Task.finished){
                 return ''
             }
 
