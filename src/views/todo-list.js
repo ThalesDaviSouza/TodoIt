@@ -38,7 +38,8 @@ const todoList = {
     computed: {
         selectedCategory(){
             return this.$data.selectedCategoryId != -1 ? this.$data.categories.find(category => category.id == this.$data.selectedCategoryId) : null
-        }
+        },
+
     },
 
     mounted(){
@@ -105,6 +106,7 @@ const todoList = {
                 <section id="todo-wrapper">
                     <div v-if="showAllTasks">
                         <h2>All Tasks</h2>
+                        <span>Complete: {{ getAllTasksDone().length }}/{{ tasks.length }}</span>
                         <div v-for="task in tasks">
                             <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask" v-if="!task.finished"/> 
                         </div>
@@ -164,6 +166,10 @@ const todoList = {
 
         getTasksByCategory: function(categoryId){
             return this.$data.tasks.filter(task => task.categoryId == categoryId)
+        },
+
+        getAllTasksDone(){
+            return this.$data.tasks.filter(task => task.finished)
         },
 
         saveCategory: function(newCategory){
