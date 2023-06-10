@@ -111,7 +111,11 @@ const taskItem = {
         },
 
         getDescriptionToShow: function(){
-            return this.Task.description.slice(0,150)
+            if(this.Task.description){
+                return this.Task.description.slice(0,150)
+            }else{
+                return ''
+            }
         }
     }
 

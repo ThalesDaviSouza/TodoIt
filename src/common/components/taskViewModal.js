@@ -1,6 +1,16 @@
+import { confirmModal } from "./confirmModal.js"
+
 const taskViewModal = {
     props: ['tasks', 'taskSelectedId'],
     emits: ['editTask', 'deleteTask', 'finishTask', 'closeModal'],
+
+    data(){
+        return{
+            showConfirmDeleteModal: false,
+
+            confirmData: {title:'', message:''}
+        }
+    },
 
     computed: {
         Tasks(){
@@ -15,9 +25,16 @@ const taskViewModal = {
         },
     },
 
+    components:{
+        confirmModal: confirmModal,
+    },
+
     template:
     `
+    
     <div class="modal-overlay" @click.self="closeModal">
+        <confirmModal v-show="showConfirmDeleteModal" @closeModal="closeConfirmDeleteModal" 
+            :confirm="confirmData" :acceptFunction="deleteTask" />
         <div id="view-task-modal" class="modal-body">
             <div id="task-view-header">
                 <div class="task-view-header-main-section">
@@ -40,8 +57,8 @@ const taskViewModal = {
             </div>
 
             <div id="task-item-footer">
-                <button class="task-item-action btn-action">Delete</button>
-                <button class="task-item-action btn-action">Edit</button>
+                <button class="task-item-action btn-action" @click="confirmDelete()">Delete</button>
+                <button class="task-item-action btn-action" @click="editTask(Task.id)">Edit</button>
             </div>
         </div>
     </div>
@@ -50,6 +67,26 @@ const taskViewModal = {
     methods:{
         closeModal: function(){
             this.$emit('closeModal')
+        },
+
+        closeConfirmDeleteModal: function(){
+            this.$data.showConfirmDeleteModal = false
+        },
+
+        editTask: function(id){
+            this.$emit('editTask', id)
+        },
+
+        confirmDelete: function(){
+            this.$data.confirmData.title = 'Are you sure?'
+            this.$data.confirmData.message = 'Are you sure you want to delete this task?'
+            this.$data.showConfirmDeleteModal = true
+        },
+
+        deleteTask: function(){
+            this.closeConfirmDeleteModal()
+            this.closeModal()
+            this.$emit('deleteTask', this.Task.id)
         },
 
         getDueDate: function(dueDate){

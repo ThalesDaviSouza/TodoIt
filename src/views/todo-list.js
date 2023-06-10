@@ -94,9 +94,10 @@ const todoList = {
             <tabCategoryModal v-show="showTabCategoryModal" @closeModal="closeTabCategoryModal"
                 @selectCategory="selectTabCategory" @saveCategory="saveCategory" :categories="categories"
                  :selectedCategory="selectedCategory" />
-
-            <taskViewModal v-show="showTaskViewModal" @closeModal="closeTaskViewModal"
-                :tasks="tasks" :taskSelectedId="taskSelectedId" />
+            <div v-show="showTaskViewModal">
+                <taskViewModal @closeModal="closeTaskViewModal"
+                    :tasks="tasks" :taskSelectedId="taskSelectedId" @editTask="editTask" @deleteTask="removeTask" />
+            </div>
             
             <editTaskModal v-if="showEditTaskModal"
                 :categories="categories" :tasks="tasks" :taskSelectedId="taskSelectedId"
@@ -156,7 +157,6 @@ const todoList = {
 
         closeEditTaskModal: function(){
             this.$data.showEditTaskModal = false
-            this.$data.taskSelectedId = -1
         },
 
         closeEditCategoryModal: function(){
@@ -288,6 +288,7 @@ const todoList = {
         removeTask: function(id){
             let task = this.$data.tasks.find(task => task.id === id)
             let taskIndex = this.$data.tasks.indexOf(task)
+            this.$data.taskSelectedId = -1
             this.$data.tasks.splice(taskIndex, 1)
 
             this.saveTasks()
