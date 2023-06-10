@@ -27,7 +27,9 @@ h1,h2,h3,h4,h5,h6{color: var(--title-color);}
 
 .open-modal-btn{font-size: 1.8rem;}
 
-#todo-wrapper > div > h3, #todo-wrapper > div > h2 {margin-left: 15px;}
+#todo-wrapper > div > h3, #todo-wrapper > div > h2,
+#todo-wrapper > div > span
+{margin-left: 15px;}
 
 /* Task Card */
 .task-item-card{

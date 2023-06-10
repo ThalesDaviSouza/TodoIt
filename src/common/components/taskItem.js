@@ -39,7 +39,7 @@ const taskItem = {
         </div>
         <div class="task-item-body">
             <div class="task-item-description">
-                <p>{{ Task.description }}</p>
+                <p>{{ getDescriptionToShow() }}</p>
             </div>
             <div class="task-item-actions-wrapper">
                 <button class="task-item-action" @click="editTask(Task.id)">Edit</button>
@@ -93,7 +93,7 @@ const taskItem = {
         },
 
         overdueTask: function(dueDate){
-            // If the due date is empty
+            // If the due date is empty or task is finished
             if(!dueDate || this.Task.finished){
                 return ''
             }
@@ -105,6 +105,10 @@ const taskItem = {
             }
             
         },
+
+        getDescriptionToShow: function(){
+            return this.Task.description.slice(0,150)
+        }
     }
 
 }
