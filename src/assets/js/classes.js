@@ -10,10 +10,10 @@ class Task {
 }
 
 class Category {
-    name = ''
-    constructor(id, name, isSelected = false, openToEdit = false){
+    constructor(id, name = '', description = '', isSelected = false, openToEdit = false){
         this.id = id
         this.name = name
+        this.description = description
         this.isSelected = isSelected
         this.openToEdit = openToEdit
     }

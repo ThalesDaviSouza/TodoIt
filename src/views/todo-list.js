@@ -196,7 +196,7 @@ const todoList = {
 
         saveCategory: function(newCategory){
             let nextId = parseInt(this.$data.categories.reduce((biggerId, categoryActual) => {return Math.max(biggerId, categoryActual.id)}, -1)) + 1
-            let category = new Category(nextId, newCategory.name)
+            let category = new Category(nextId, newCategory.name, newCategory.description)
             
             this.$data.categories.push(category)
             this.saveCategories()
