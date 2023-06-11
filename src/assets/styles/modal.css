@@ -9,11 +9,6 @@
     --button-action-bg: #EEFFAF;
 }
 
-.open-select-modal-btn{
-    border-radius: 15px;
-    width: 40%;
-}
-
 .modal-overlay{
     position: fixed;
     top: 0;
@@ -37,6 +32,11 @@
     overflow: scroll;
 }
 
+.open-select-modal-btn{
+    border-radius: 15px;
+    width: 40%;
+}
+
 .btn-action{
     background-color: var(--button-action-bg);
     border: 2px solid black;
@@ -46,10 +46,28 @@
     font-size: 1.3rem;
 }
 
-#create-task-modal{
-    height: 360px;
-    width: 500px;
+.task-description-input{
+    width: 95%;
+    height: 140px;
+    padding: 7px;
+    resize: vertical;
 }
+
+/* Create Task Modal */
+#create-task-modal{
+    width: 100%;
+    height: 500px;
+}
+/* Body */
+.create-task-body{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    margin: 0 0 15px 0;
+}
+.create-task-title{font-size: 1.42rem;}
+
 
 #create-category-modal{
     height: 200px;
@@ -100,6 +118,7 @@
     display: flex;
     justify-content: end;
 }
+
 /* Body */
 .edit-task-body{
     display: flex;
@@ -109,11 +128,6 @@
     margin: 15px 0 15px 0;
 }
 
-.edit-task-body > textarea{
-    width: 100%;
-    resize: vertical;
-    height: 140px;
-}
 /* Footer */
 .edit-task-footer{
     display: flex;

@@ -86,7 +86,7 @@ const editTaskModal = {
             </div>
             <div class="edit-task-body">
                 <h4>Task Description:</h4>
-                <textarea class="edit-task-description" name="task-edit-description" v-model="task.description" placeholder="Insert here the task's description">
+                <textarea class="task-description-input" name="task-edit-description" v-model="task.description" placeholder="Insert here the task's description">
                 </textarea>
                 <h4>Category:</h4>
                 <button class="open-select-modal-btn" @click="chooseCategory">{{ btnChooseCategoryText() }}</button>

@@ -1,7 +1,5 @@
 class Task {
-    title = ''
-    description = ''
-    constructor(id, title, categoryId, isFinished = false, dueDate, description){
+    constructor(id, title = '', categoryId = -1, isFinished = false, dueDate, description = ''){
         this.id = id
         this.title = title
         this. categoryId = categoryId
