@@ -29,12 +29,16 @@ const chooseCategoryModal = {
             <createCategoryModal v-show="showCreateCategoryModal" @closeModal="closeCreateCategoryModal"
                 @saveCategory="saveCategory" :categories="Categories" />
 
-            <button @click="addCategory">Add Category</button>
-            <h1>Choose Category</h1>
-            <div class="category-select" v-for="category in categories">
-                <label for="'category-'+category.id">{{ category.name }}</label> 
-                <input type="radio" id="'category-'+category.id" name="category-selected" @click="chooseCategory(category.id)" v-if="SelectedCategoryId != category.id" />
-                <input type="radio" id="'category-'+category.id" name="category-selected" @click="chooseCategory(category.id)" v-if="SelectedCategoryId == category.id" checked/>
+            <button class="btn-action" @click="addCategory">Add Category</button>
+            <div @click="chooseCategory(category.id)" class="category-select-card" v-for="category in categories">
+                <div class="category-select-header">
+                    <input type="radio" id="'category-'+category.id" name="category-selected" v-if="SelectedCategoryId != category.id" />
+                    <input type="radio" id="'category-'+category.id" name="category-selected" v-if="SelectedCategoryId == category.id" checked/>
+                    <h3>{{ category.name }}</h3>
+                </div>
+                <div class="category-select-body">
+                    <p>{{ getCategoryShortDescription(category) }}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -57,6 +61,15 @@ const chooseCategoryModal = {
         chooseCategory: function(categoryId){
             this.$emit('selectCategory', categoryId)
             this.closeModal()
+        },
+
+        getCategoryShortDescription: function(category){
+            if(category.description){
+                return category.description.slice(0,150)
+            }else{
+                return ''
+            }
+
         },
 
         addCategory: function(){
