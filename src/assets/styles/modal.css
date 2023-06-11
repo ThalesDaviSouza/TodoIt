@@ -9,6 +9,11 @@
     --button-action-bg: #EEFFAF;
 }
 
+.open-select-modal-btn{
+    border-radius: 15px;
+    width: 40%;
+}
+
 .modal-overlay{
     position: fixed;
     top: 0;
@@ -29,6 +34,7 @@
     margin-top: 15vh;
     padding: 35px;
     border-radius: 9px;
+    overflow: scroll;
 }
 
 .btn-action{
@@ -64,16 +70,57 @@
 
 .category-select input{width: auto;}
 
+
 #choose-category-tab-modal{
     width: 500px;
     height: 500px;
 }
 
-
+/* Edit Task Modal */
 #edit-task-modal{
-    width: 500px;
+    width: 100%;
     height: 450px;
+    padding: 20px;
 }
+
+/* Header */
+.edit-task-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+
+.edit-task-header > input{
+    width: 75%;
+    font-size: 1.6rem;
+}
+.edit-task-finish {width: 10%;}
+.close-modal{
+    display: flex;
+    justify-content: end;
+}
+/* Body */
+.edit-task-body{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    margin: 15px 0 15px 0;
+}
+
+.edit-task-body > textarea{
+    width: 100%;
+    resize: vertical;
+    height: 140px;
+}
+/* Footer */
+.edit-task-footer{
+    display: flex;
+    justify-content: space-around;
+}
+
+
 
 #warning-modal{
     width: 500px;
