@@ -93,10 +93,11 @@ const todoList = {
 
             <tabCategoryModal v-show="showTabCategoryModal" @closeModal="closeTabCategoryModal"
                 @selectCategory="selectTabCategory" @saveCategory="saveCategory" :categories="categories"
-                 :selectedCategory="selectedCategory" />
+                :selectedCategory="selectedCategory" />
+
             <div v-show="showTaskViewModal">
-                <taskViewModal @closeModal="closeTaskViewModal"
-                    :tasks="tasks" :taskSelectedId="taskSelectedId" @editTask="editTask" @deleteTask="removeTask" />
+                <taskViewModal @closeModal="closeTaskViewModal" :tasks="tasks" :taskSelectedId="taskSelectedId"
+                @editTask="editTask" @deleteTask="removeTask" @finishTask="finishTask" />
             </div>
             
             <editTaskModal v-if="showEditTaskModal"

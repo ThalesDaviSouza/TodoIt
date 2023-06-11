@@ -40,10 +40,14 @@ const taskViewModal = {
                 <div class="task-view-header-main-section">
                     <div class="task-view-title">
                         <h1>{{ Task.title }}</h1>
-                        <span>{{ printDueDate(Task.dueDate) }}</span>
+                        <span :class="overdueTask(Task.dueDate)">{{ printDueDate(Task.dueDate) }}</span>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" class="bi bi-check-lg" viewBox="0 0 16 16">
-                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                    <!-- TODO: indicate that task is finished or not -->
+                    <svg v-if="!Task.finished" @click="finishTask(Task.id)" xmlns="http://www.w3.org/2000/svg" width="56" height="56" class="bi bi-toggle-off" viewBox="0 0 16 16">
+                        <path d="M11 4a4 4 0 0 1 0 8H8a4.992 4.992 0 0 0 2-4 4.992 4.992 0 0 0-2-4h3zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5z"/>
+                    </svg>
+                    <svg v-if="Task.finished" @click="finishTask(Task.id)" xmlns="http://www.w3.org/2000/svg" width="56" height="56" class="bi bi-toggle-on" viewBox="0 0 16 16">
+                        <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10H5zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
                     </svg>
                 </div>
                 <svg @click="closeModal" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
@@ -77,6 +81,10 @@ const taskViewModal = {
             this.$emit('editTask', id)
         },
 
+        finishTask: function(id){
+            this.$emit('finishTask', id)
+        },
+
         confirmDelete: function(){
             this.$data.confirmData.title = 'Are you sure?'
             this.$data.confirmData.message = 'Are you sure you want to delete this task?'
@@ -91,6 +99,25 @@ const taskViewModal = {
 
         getDueDate: function(dueDate){
             return new Date(dueDate)
+        },
+
+        isOverdueTask: function(dueDate){
+            let date = this.getDueDate(dueDate)
+            return new Date() > date ? true : false
+        },
+
+        overdueTask: function(dueDate){
+            // If the due date is empty or task is finished
+            if(!dueDate || this.Task.finished){
+                return ''
+            }
+
+            if(this.isOverdueTask(dueDate)){
+                return 'overdueTask'
+            }else{
+                return ''
+            }
+            
         },
 
         printDueDate: function(dueDate){
