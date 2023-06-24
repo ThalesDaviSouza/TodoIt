@@ -87,7 +87,8 @@ const todoList = {
     template:
         `
         <div class="todo-list-container">
-            <sideMenu v-show="showMenu" @closeMenu="closeMenu" :categories="categories" />
+            <sideMenu v-if="showMenu" @closeMenu="closeMenu" @selectCategory="selectTabCategory"
+                :categories="categories" :selectedCategoryId="selectedCategoryId" />
 
             <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
                 @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" />
@@ -266,6 +267,7 @@ const todoList = {
                     category.isSelected = false
                 }
             })
+            this.$data.selectedCategoryId = id
         },
 
         viewTask: function(id){

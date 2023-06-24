@@ -1,6 +1,6 @@
 const menu = {
-    props: ['categories'],
-    emits: ['chooseCategory', 'closeMenu'],
+    props: ['categories', 'selectedCategoryId'],
+    emits: ['chooseCategory', 'closeMenu', 'selectCategory'],
 
     computed: {
         
@@ -22,7 +22,14 @@ const menu = {
                     </div>
                 </div>
                 <div class="menu-body">
-                    <div class="category-menu-card" v-for="category in categories">
+                    <div class="category-menu-card" :class="isSelected(-1)" @click="selectCategory(-1)">
+                        <div class="category-header">
+                            <h3>All Tasks</h3>
+                        </div>
+                        <div class="category-body"></div>
+                    </div>
+                    <div class="category-menu-card" :class="isSelected(category.id)"
+                        @click="selectCategory(category.id)" v-for="category in categories">
                         <div class="category-header">
                             <h3>{{ category.name }}</h3>
                             <span>Edit Category</span>
@@ -45,7 +52,17 @@ const menu = {
 
         getShortDescription: function(description){
             return (description + '').slice(0,120)
+        },
+
+        selectCategory: function(id){
+            this.$emit('selectCategory', id)
+            this.closeMenu()
+        },
+
+        isSelected(id){
+            return this.selectedCategoryId == id ? 'selected-category' : ''
         }
+
     }
 
 }

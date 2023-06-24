@@ -1,12 +1,12 @@
 :root{
     --border-color: black;
     --modal-overlay-color: rgba(28, 28, 28, 0.488);
-    --modal-body-color: #D6EB8A;
-
+    
     --text-base-color: black;
     --text-secondary-color: #5C5C5C;
     
     --category-select-card-bg: white;
+    --category-selected-bg: #FAFFE9;
 }
 
 .menu-overlay{
@@ -57,7 +57,13 @@
     width: 100%;
     padding: 10px 0 10px 0;
     color: var(--text-base-color);
+    font-weight: 100;
 }
+.category-menu-card.selected-category{
+    background-color: var(--category-selected-bg);
+    font-weight: bolder;
+}
+.category-menu-card.selected-category>.category-header>h3{font-size: 2.1rem;}
 
 .category-header{
     padding: 10px 20px 10px 20px;
