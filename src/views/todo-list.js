@@ -11,6 +11,7 @@ import {tabCategoryModal} from '../common/components/tabCategoryModal.js'
 
 // Other Components
 import { taskItem } from '../common/components/taskItem.js';
+import { menu } from '../common/components/menu.js';
 
 
 const todoList = {
@@ -21,6 +22,7 @@ const todoList = {
             showEditCategoryModal: false,
             showTabCategoryModal: false,
             showTaskViewModal: false,
+            showMenu: false,
 
             warning: {
                 title:'',
@@ -79,11 +81,14 @@ const todoList = {
         editCategoryModal: editCategoryModal,
         tabCategoryModal: tabCategoryModal,
         taskItem: taskItem,
+        sideMenu: menu,
     },
 
     template:
         `
         <div class="todo-list-container">
+            <sideMenu v-show="showMenu" @closeMenu="closeMenu" :categories="categories" />
+
             <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
                 @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" />
 
@@ -107,9 +112,9 @@ const todoList = {
 
             <h2>Todo List</h2>
             <div class="todo-list">
+                <button class="open-modal-btn" @click="showMenu=true">Open Menu</button>
                 
                 <button class="open-modal-btn" @click="showCreateTaskModal=true">Add Task</button>
-
                 
                 <button class="open-modal-btn" @click="selectCategoryToShow()">Show Tasks by Category</button>
 
@@ -148,6 +153,10 @@ const todoList = {
     `,
     
     methods: {
+        closeMenu: function(){
+            this.$data.showMenu = false
+        },
+
         closeCreateTaskModal: function(){
             this.$data.showCreateTaskModal = false
         },
