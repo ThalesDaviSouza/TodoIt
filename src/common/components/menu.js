@@ -2,8 +2,23 @@ const menu = {
     props: ['categories', 'selectedCategoryId'],
     emits: ['chooseCategory', 'closeMenu', 'selectCategory'],
 
+    data: function(){
+        return {
+            searchInput: '',
+        }
+    },
+
     computed: {
-        
+        Results(){
+            let results
+
+            if(this.searchInput != ''){
+                results = this.categories.filter(c => c.name.toLowerCase().includes(this.searchInput.toLowerCase()))
+            }
+
+            return results
+        }
+
     },
 
     template:
@@ -17,7 +32,7 @@ const menu = {
                     </div>
                     <h1>Todo It</h1>
                     <div class="menu-search">
-                        <input type="text" placeholder="Search...">
+                        <input v-model="searchInput" type="text" placeholder="Search...">
                         <button>Search</button>
                     </div>
                 </div>
@@ -28,14 +43,28 @@ const menu = {
                         </div>
                         <div class="category-body"></div>
                     </div>
-                    <div class="category-menu-card" :class="isSelected(category.id)"
-                        @click="selectCategory(category.id)" v-for="category in categories">
-                        <div class="category-header">
-                            <h3>{{ category.name }}</h3>
-                            <span>Edit Category</span>
+                    <div v-show="!Results">
+                        <div class="category-menu-card" :class="isSelected(category.id)"
+                            @click="selectCategory(category.id)" v-for="category in categories">
+                            <div class="category-header">
+                                <h3>{{ category.name }}</h3>
+                                <span>Edit Category</span>
+                            </div>
+                            <div class="category-body">
+                                <p>{{ getShortDescription(category.description) }}</p>
+                            </div>
                         </div>
-                        <div class="category-body">
-                            <p>{{ getShortDescription(category.description) }}</p>
+                    </div>
+                    <div class="results" v-show="Results">
+                        <div class="category-menu-card" :class="isSelected(category.id)"
+                            @click="selectCategory(category.id)" v-for="category in Results">
+                            <div class="category-header">
+                                <h3>{{ category.name }}</h3>
+                                <span>Edit Category</span>
+                            </div>
+                            <div class="category-body">
+                                <p>{{ getShortDescription(category.description) }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
