@@ -112,6 +112,7 @@ const createTaskModal = {
 
                     //Reseting new item to next creation 
                     this.$data.newItem = new Task()
+                    this.$data.selectedCategory = -1
                 }
             }
         }

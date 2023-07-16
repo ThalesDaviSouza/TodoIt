@@ -7,7 +7,6 @@ import {taskViewModal} from '../common/components/taskViewModal.js'
 import {editTaskModal} from '../common/components/editTaskModal.js'
 import {createCategoryModal} from '../common/components/createCategoryModal.js'
 import {editCategoryModal} from '../common/components/editCategory.js'
-import {tabCategoryModal} from '../common/components/tabCategoryModal.js'
 
 // Other Components
 import { taskItem } from '../common/components/taskItem.js';
