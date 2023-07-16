@@ -11,6 +11,8 @@ const createTaskModal = {
             showChooseCategoryModal: false,
             showWarningModal: false,
 
+            selectedCategory: null,
+
             warning: {title:'', message:''},
         }
     },
@@ -34,7 +36,8 @@ const createTaskModal = {
             <warningModal :warning="warning" v-show="showWarningModal" @closeModal="closeWarningModal" />
 
             <chooseCategoryModal v-show="showChooseCategoryModal" @closeModal="closeChooseCategoryModal"
-                @selectCategory="selectCategory" @saveCategory="saveCategory" :categories="Categories" />
+                @selectCategory="selectCategory" @saveCategory="saveCategory" :categories="Categories" :selectedCategory="selectedCategory" />
+
             <div class="close-modal">
                 <svg @click="closeModal" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -90,6 +93,7 @@ const createTaskModal = {
 
         selectCategory: function(categoryId){
             this.$data.newItem.categoryId = categoryId
+            this.$data.selectedCategory = this.categories.find(cat => cat.id == categoryId)
         },
 
         addTask: function(newItem){

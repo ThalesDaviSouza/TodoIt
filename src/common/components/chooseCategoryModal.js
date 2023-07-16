@@ -32,8 +32,8 @@ const chooseCategoryModal = {
             <button class="btn-action" @click="addCategory">Add Category</button>
             <div @click="chooseCategory(category.id)" class="category-select-card" v-for="category in categories">
                 <div class="category-select-header">
-                    <input type="radio" id="'category-'+category.id" name="category-selected" v-if="SelectedCategoryId != category.id" />
-                    <input type="radio" id="'category-'+category.id" name="category-selected" v-if="SelectedCategoryId == category.id" checked/>
+                    <input type="radio" :id="'category-'+category.id" name="category-selected" v-if="SelectedCategoryId != category.id" />
+                    <input type="radio" :id="'category-'+category.id" name="category-selected" v-if="SelectedCategoryId == category.id" checked/>
                     <h3>{{ category.name }}</h3>
                 </div>
                 <div class="category-select-body">

@@ -97,7 +97,7 @@ const todoList = {
 
             <div v-show="showTaskViewModal">
                 <taskViewModal @closeModal="closeTaskViewModal" :tasks="tasks" :taskSelectedId="taskSelectedId"
-                @editTask="editTask" @deleteTask="removeTask" @finishTask="finishTask" />
+                    @editTask="editTask" @deleteTask="removeTask" @finishTask="finishTask" />
             </div>
             
             <editTaskModal v-if="showEditTaskModal"
