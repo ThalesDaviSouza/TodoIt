@@ -20,7 +20,6 @@ const todoList = {
             showCreateTaskModal: false,
             showEditTaskModal: false,
             showEditCategoryModal: false,
-            showTabCategoryModal: false,
             showTaskViewModal: false,
             showMenu: false,
 
@@ -79,7 +78,6 @@ const todoList = {
         editTaskModal: editTaskModal,
         createCategoryModal: createCategoryModal,
         editCategoryModal: editCategoryModal,
-        tabCategoryModal: tabCategoryModal,
         taskItem: taskItem,
         sideMenu: menu,
     },
@@ -87,8 +85,8 @@ const todoList = {
     template:
         `
         <div class="todo-list-container">
-            <sideMenu v-if="showMenu" @closeMenu="closeMenu" @selectCategory="selectTabCategory"
-                :categories="categories" :selectedCategoryId="selectedCategoryId" />
+            <sideMenu v-if="showMenu" @closeMenu="closeMenu" @selectCategory="selectTabCategory" @editCategory="editCategory"
+                :categories="categories" :selectedCategoryId="selectedCategoryId"  />
 
             <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
                 @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" />
@@ -96,10 +94,6 @@ const todoList = {
             <editCategoryModal v-show="showEditCategoryModal" @closeModal="closeEditCategoryModal"
                 :categorySelected="selectedCategoryId" :categoriesList="categories"
                 @saveCategories="saveCategories" @deleteCategory="deleteCategory" />
-
-            <tabCategoryModal v-show="showTabCategoryModal" @closeModal="closeTabCategoryModal"
-                @selectCategory="selectTabCategory" @saveCategory="saveCategory" :categories="categories"
-                :selectedCategory="selectedCategory" />
 
             <div v-show="showTaskViewModal">
                 <taskViewModal @closeModal="closeTaskViewModal" :tasks="tasks" :taskSelectedId="taskSelectedId"
@@ -117,8 +111,6 @@ const todoList = {
                 
                 <button class="open-modal-btn" @click="showCreateTaskModal=true">Add Task</button>
                 
-                <button class="open-modal-btn" @click="selectCategoryToShow()">Show Tasks by Category</button>
-
                 <section id="todo-wrapper">
                     <div v-if="showAllTasks">
                         <h2>All Tasks</h2>
@@ -138,7 +130,7 @@ const todoList = {
                         <span>Complete: {{ getTasksDoneByCategory(category.id).length }}/{{ getTasksByCategory(category.id).length }}</span>
                         <div :id="'container-'+task.id" v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)">
                             <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"
-                            @viewTask="viewTask"/> 
+                                @viewTask="viewTask"/> 
                         </div>
                         <h3 v-if="getTasksByCategory(category.id).filter(task => task.finished).length > 0">Finished tasks</h3>
                         <div v-for="task in getTasksByCategory(category.id).filter(task => task.finished)">
@@ -172,10 +164,6 @@ const todoList = {
 
         closeEditCategoryModal: function(){
             this.$data.showEditCategoryModal = false
-        },
-
-        closeTabCategoryModal: function(){
-            this.$data.showTabCategoryModal = false
         },
 
         closeTaskViewModal: function(){
@@ -248,10 +236,6 @@ const todoList = {
             })
             
             this.$data.selectedTabCategoryId = id
-        },
-
-        selectCategoryToShow: function(){
-            this.$data.showTabCategoryModal = true
         },
 
         selectTabCategory: function(id){
