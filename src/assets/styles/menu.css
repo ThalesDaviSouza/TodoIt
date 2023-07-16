@@ -9,6 +9,21 @@
     --category-selected-bg: #FAFFE9;
 }
 
+.open-menu-btn{
+    position: fixed;
+    left: 20px;
+    top: 15px;
+
+    display: flex;
+    width: auto;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 7px;
+    border: black 1px solid;
+}
+
 .menu-overlay{
     position: fixed;
     top: 0;
@@ -23,6 +38,7 @@
 }
 
 .menu-body {
+    position: relative;
     background-color: white;
     width: 86vw;
 
@@ -35,7 +51,15 @@
     text-align: center;
 }
 
-.menu-close-btn{text-align: end;}
+.menu-close-btn{
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    cursor: pointer;
+}
 
 .menu-search{
     display: flex;
