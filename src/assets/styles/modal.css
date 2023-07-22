@@ -279,3 +279,12 @@ span.overdueTask{color: var(--overdue-task-color); font-weight: bold;}
     #view-task-modal{width: 52vw;}
     #edit-category-modal{width: 52vw;}
 }
+
+@media only screen and (min-width: 1200px){
+    #create-task-modal{width: 38vw;}
+    #create-category-modal{width: 38vw;}
+    #choose-category-modal{width: 38vw;}
+    #edit-task-modal{width: 38vw;}
+    #view-task-modal{width: 38vw;}
+    #edit-category-modal{width: 38vw;}
+}
