@@ -129,7 +129,7 @@ const todoList = {
                         </div>
                     </div>
                     <div v-show="category.isSelected" :id="'category-wrapper-'+category.id" v-for="category in categories">
-                        <h2 @click="editCategory(category.id)" class="category-title">{{ category.name }}</h2>
+                        <h2 class="category-title">{{ category.name }}</h2>
                         <span>Complete: {{ getTasksDoneByCategory(category.id).length }}/{{ getTasksByCategory(category.id).length }}</span>
                         <div :id="'container-'+task.id" v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)">
                             <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"

@@ -42,8 +42,8 @@ const taskItem = {
                 <p>{{ getDescriptionToShow() }}</p>
             </div>
             <div class="task-item-actions-wrapper">
-                <button class="task-item-action" @click="editTask(Task.id)">Edit</button>
-                <button class="task-item-action" @click="finishTask(Task.id)">{{ FinishMessage }}</button>
+                <button class="task-item-action task-edit-btn" @click="editTask(Task.id)">Edit</button>
+                <button class="task-item-action task-finish-btn" @click="finishTask(Task.id)">{{ FinishMessage }}</button>
                 <button class="task-item-action task-delete-btn" @click="confirmDelete">Delete</button>
             </div>
         </div>

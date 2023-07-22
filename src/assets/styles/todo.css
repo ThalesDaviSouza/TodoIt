@@ -13,7 +13,9 @@
     --task-card-border: #626B3F;
     --overdue-task-color: #EB1F1F;
     --task-button-bg: #E1F792;
-    --task-delete-btn-bg: #BFD17B;
+    --task-delete-btn-bg: #f93434;
+    --task-edit-btn-bg: #5fe2fc;
+    --task-finish-btn-bg: #E1F792;
 }
 
 .todo-list{
@@ -79,6 +81,8 @@ h1,h2,h3,h4,h5,h6{color: var(--title-color);}
     border-radius: 5px;
 }
 .task-delete-btn{background-color: var(--task-delete-btn-bg);}
+.task-edit-btn{background-color: var(--task-edit-btn-bg);}
+.task-finish-btn{background-color: var(--task-finish-btn-bg);}
 
 
 
