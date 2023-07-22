@@ -8,6 +8,9 @@
     --overdue-task-color: #EB1F1F;
     --button-action-bg: white;
     
+    --delete-btn-color: #f93434;
+    --save-btn-color: #E1F792;
+
     --category-select-card-bg: white;
 }
 
@@ -28,7 +31,7 @@
     text-align: center;
     border: 1px solid var(--border-color);
     background-color: var(--modal-body-color);
-    margin-top: 15vh;
+    margin-top: 10vh;
     padding: 35px;
     border-radius: 9px;
     overflow: auto;
@@ -48,6 +51,9 @@
 
     font-size: 1.3rem;
 }
+
+.btn-delete {background-color: var(--delete-btn-color);}
+.btn-save {background-color: var(--save-btn-color);}
 
 .task-description-input{
     width: 95%;
@@ -262,7 +268,6 @@ span.overdueTask{color: var(--overdue-task-color); font-weight: bold;}
     height: 140px;
     resize: vertical;
 }
-
 
 /* Media query */
 

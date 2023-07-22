@@ -65,8 +65,8 @@ const taskViewModal = {
             </div>
 
             <div id="task-item-footer">
-                <button class="task-item-action btn-action" @click="confirmDelete()">Delete</button>
-                <button class="task-item-action btn-action" @click="editTask(Task.id)">Edit</button>
+                <button class="task-item-action btn-action btn-delete" @click="confirmDelete()">Delete</button>
+                <button class="task-item-action btn-action btn-save" @click="editTask(Task.id)">Edit</button>
             </div>
         </div>
     </div>

@@ -45,7 +45,7 @@ const createCategoryModal = {
                 </textarea>
             </div>
             <div class="create-category-footer">
-                <button class="btn-action" @click="addCategory(newCategory)">Add Category</button>
+                <button class="btn-action btn-save" @click="addCategory(newCategory)">Add Category</button>
             </div>
         </div>
     </div>

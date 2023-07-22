@@ -97,8 +97,8 @@ const editTaskModal = {
                 <input id="task-edit-duedate" type="datetime-local" :value="getDueDate" @input="saveNewDueDate" />
             </div>
             <div class="edit-task-footer">
-                <button class="btn-action" @click="confirmDelete">Delete Task</button>
-                <button class="btn-action" @click="closeModal">Save Task</button>
+                <button class="btn-action btn-delete" @click="confirmDelete">Delete Task</button>
+                <button class="btn-action btn-save" @click="closeModal">Save Task</button>
             </div>
         </div>
     </div>

@@ -54,7 +54,7 @@ const createTaskModal = {
                 <h4>Due Date:</h4>
                 <input type="datetime-local" v-model="newItem.dueDate">
             </div>
-            <button class="btn-action" @click="addTask(newItem)">Save Task</button>
+            <button class="btn-action btn-save" @click="addTask(newItem)">Create Task</button>
         </div>
     </div>
     `,

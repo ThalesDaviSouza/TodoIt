@@ -46,8 +46,8 @@ const editCategoryModal = {
                 <h3>Category Description:</h3>
                 <textarea class="category-description-input" v-model="category.description" placeholder="Insert here the category's description" @blur="saveChanges"></textarea>
                 
-                <button @click="confirmDelete">Delete Category</button>
-                <button @click="closeModal">Save Category</button>
+                <button class="btn-delete" @click="confirmDelete">Delete Category</button>
+                <button class="btn-save" @click="closeModal">Save Category</button>
             </div>
         </div>
     </div>
