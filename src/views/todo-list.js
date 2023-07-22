@@ -3,20 +3,24 @@ import {Task, Category} from '../assets/js/classes.js'
 
 // Modals
 import {createTaskModal} from '../common/components/createTaskModal.js'
-import {createCategoryModal} from '../common/components/createCategoryModal.js'
+import {taskViewModal} from '../common/components/taskViewModal.js'
 import {editTaskModal} from '../common/components/editTaskModal.js'
+import {createCategoryModal} from '../common/components/createCategoryModal.js'
 import {editCategoryModal} from '../common/components/editCategory.js'
-import {tabCategoryModal} from '../common/components/tabCategoryModal.js'
+
+// Other Components
+import { taskItem } from '../common/components/taskItem.js';
+import { menu } from '../common/components/menu.js';
 
 
 const todoList = {
     data(){
         return{
             showCreateTaskModal: false,
-            showCreateCategoryModal: false,
             showEditTaskModal: false,
             showEditCategoryModal: false,
-            showTabCategoryModal: false,
+            showTaskViewModal: false,
+            showMenu: false,
 
             warning: {
                 title:'',
@@ -25,6 +29,7 @@ const todoList = {
 
             taskSelectedId: -1,
             selectedCategoryId: -1,
+            editCategoryId: -1,
             
             newCategory: '',
             showAllTasks: true,
@@ -36,7 +41,12 @@ const todoList = {
     computed: {
         selectedCategory(){
             return this.$data.selectedCategoryId != -1 ? this.$data.categories.find(category => category.id == this.$data.selectedCategoryId) : null
+        },
+
+        isDesktop(){
+            return (window.getComputedStyle(document.querySelector('.open-menu-btn')).display == 'none')
         }
+
     },
 
     mounted(){
@@ -64,97 +74,92 @@ const todoList = {
                 localStorage.removeItem('categories')
             }
         }
+        if(this.isDesktop){
+            this.showMenu = true
+        }
     },
 
     components:{
         createTaskModal: createTaskModal,
-        createCategoryModal: createCategoryModal,
+        taskViewModal: taskViewModal,
         editTaskModal: editTaskModal,
+        createCategoryModal: createCategoryModal,
         editCategoryModal: editCategoryModal,
-        tabCategoryModal: tabCategoryModal,
+        taskItem: taskItem,
+        sideMenu: menu,
     },
 
     template:
         `
         <div class="todo-list-container">
+            <sideMenu v-if="showMenu" @closeMenu="closeMenu" @selectCategory="selectTabCategory" @editCategory="editCategory"
+                :categories="categories" :selectedCategoryId="selectedCategoryId" :isDesktop="isDesktop" />
+
             <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
                 @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" />
 
-            <createCategoryModal v-show="showCreateCategoryModal" @closeModal="closeCreateCategoryModal"
-                @saveCategory="saveCategory" :categories="categories" />
-
             <editCategoryModal v-show="showEditCategoryModal" @closeModal="closeEditCategoryModal"
-                :categorySelected="selectedCategoryId" :categoriesList="categories"
+                :categorySelected="editCategoryId" :categoriesList="categories"
                 @saveCategories="saveCategories" @deleteCategory="deleteCategory" />
 
-            <tabCategoryModal v-show="showTabCategoryModal" @closeModal="closeTabCategoryModal"
-                @selectCategory="selectTabCategory" @saveCategory="saveCategory" :categories="categories" :selectedCategory="selectedCategory" />
+            <div v-show="showTaskViewModal">
+                <taskViewModal @closeModal="closeTaskViewModal" :tasks="tasks" :taskSelectedId="taskSelectedId"
+                    @editTask="editTask" @deleteTask="removeTask" @finishTask="finishTask" />
+            </div>
+            
+            <editTaskModal v-if="showEditTaskModal"
+                :categories="categories" :tasks="tasks" :taskSelectedId="taskSelectedId"
+                @closeModal="closeEditTaskModal" @saveCategory="saveCategory"
+                @deleteTask="removeTask" @saveChanges="saveTasks" />
 
-            <h2>Todo List</h2>
             <div class="todo-list">
-                <div id="add-task">
-                    <button id="add-task-button" @click="showCreateTaskModal=true">Add Task</button>
-                </div>
-                <br/>
-                <div id="add-category">
-                    <button id="add-category-button" @click="showCreateCategoryModal = true">Add Category</button>
-                </div>
-                <br/>
-                <br/>
-                <editTaskModal v-if="showEditTaskModal"
-                    :categories="categories" :tasks="tasks" :taskSelectedId="taskSelectedId"
-                    @closeModal="closeEditTaskModal" @saveCategory="saveCategory"
-                    @deleteTask="removeTask" @saveChanges="saveTasks" />
+                <button class="open-menu-btn" @click="showMenu=true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" class="bi bi-list" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </button>
                 
-                <ul class="category-tabs">
-                    <button @click="selectCategoryToShow()">Show Tasks by Category</button>
-                </ul>
-
-                <div id="todo-wrapper">
+                <button class="open-modal-btn" @click="showCreateTaskModal=true">Add Task</button>
+                
+                <section id="todo-wrapper">
                     <div v-if="showAllTasks">
                         <h2>All Tasks</h2>
+                        <span>Complete: {{ getAllTasksDone().length }}/{{ tasks.length }}</span>
                         <div v-for="task in tasks">
-                            <div :class="'task-item ' + overdueTask(task.dueDate)" v-if="!task.finished">
-                                <input type="text" :value="task.title + printDueDate(task.dueDate)"
-                                    :id="'task-'+task.id" @click="editTask(task.id)" readonly>
-                                <button @click="finishTask(task.id)">Finish Task</button>
-                            </div>
+                            <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"
+                            @viewTask="viewTask" v-if="!task.finished"/> 
                         </div>
                         <h3>Finished tasks</h3>
                         <div v-for="task in tasks">
-                            <div class="task-item" v-if="task.finished">
-                                <input type="text" :value="task.title + printDueDate(task.dueDate)"
-                                :id="'task-'+task.id" @click="editTask(task.id)" readonly>
-                                <button @click="finishTask(task.id)">Unfinish Task</button>
-                            </div>
+                            <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"
+                            @viewTask="viewTask" v-if="task.finished"/> 
                         </div>
                     </div>
                     <div v-show="category.isSelected" :id="'category-wrapper-'+category.id" v-for="category in categories">
-                        <div class="category-title">
-                            <h2 @click="editCategory(category.id)" class="category-title">{{ category.name }}</h2>
+                        <h2 class="category-title">{{ category.name }}</h2>
+                        <span>Complete: {{ getTasksDoneByCategory(category.id).length }}/{{ getTasksByCategory(category.id).length }}</span>
+                        <div :id="'container-'+task.id" v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)">
+                            <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"
+                                @viewTask="viewTask"/> 
                         </div>
-                        <br/>
-                        <div :class="'task-item ' + overdueTask(task.dueDate)" :id="'container-'+task.id" v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)">
-                            <input type="text" :value="task.title + printDueDate(task.dueDate)"
-                                :id="'task-'+task.id" @click="editTask(task.id)" readonly>
-                                <button @click="finishTask(task.id)">Finish Task</button>
-                        </div>
-                        <br/>
                         <h3 v-if="getTasksByCategory(category.id).filter(task => task.finished).length > 0">Finished tasks</h3>
-                        <div class="task-item" v-for="task in getTasksByCategory(category.id).filter(task => task.finished)">
-                            <input type="text" :value="task.title + printDueDate(task.dueDate)"
-                                :id="'task-'+task.id" @click="editTask(task.id)" readonly>
-                                <button @click="finishTask(task.id)">Unfinish Task</button>
+                        <div v-for="task in getTasksByCategory(category.id).filter(task => task.finished)">
+                            <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"
+                            @viewTask="viewTask"/> 
                         </div>
                     </div>
-                </div>
+                </section>
                 <br/>
                 
             </div>
         </div>
     `,
-    
+
     methods: {
+        closeMenu: function(){
+            this.$data.showMenu = false
+        },
+
         closeCreateTaskModal: function(){
             this.$data.showCreateTaskModal = false
         },
@@ -165,15 +170,14 @@ const todoList = {
 
         closeEditTaskModal: function(){
             this.$data.showEditTaskModal = false
-            this.$data.taskSelectedId = -1
         },
 
         closeEditCategoryModal: function(){
             this.$data.showEditCategoryModal = false
         },
 
-        closeTabCategoryModal: function(){
-            this.$data.showTabCategoryModal = false
+        closeTaskViewModal: function(){
+            this.$data.showTaskViewModal = false
         },
 
         saveCategories: function(){
@@ -190,41 +194,17 @@ const todoList = {
             return this.$data.tasks.filter(task => task.categoryId == categoryId)
         },
 
-        getDueDate: function(dueDate){
-            return new Date(dueDate)
+        getAllTasksDone: function(){
+            return this.$data.tasks.filter(task => task.finished)
         },
 
-        printDueDate: function(dueDate){
-            if(dueDate){
-                let date = this.getDueDate(dueDate)
-                return ` - ${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
-            }else{
-                return ''
-            }
-        },
-
-        isOverdueTask: function(dueDate){
-            let date = this.getDueDate(dueDate)
-            return new Date() > date ? true : false
-        },
-
-        overdueTask: function(dueDate){
-            // If the due date is empty
-            if(!dueDate){
-                return ''
-            }
-
-            if(this.isOverdueTask(dueDate)){
-                return 'overdueTask'
-            }else{
-                return ''
-            }
-            
+        getTasksDoneByCategory: function(categoryId){
+            return this.getTasksByCategory(categoryId).filter(task => task.finished)
         },
 
         saveCategory: function(newCategory){
             let nextId = parseInt(this.$data.categories.reduce((biggerId, categoryActual) => {return Math.max(biggerId, categoryActual.id)}, -1)) + 1
-            let category = new Category(nextId, newCategory.name)
+            let category = new Category(nextId, newCategory.name, newCategory.description)
             
             this.$data.categories.push(category)
             this.saveCategories()
@@ -232,7 +212,7 @@ const todoList = {
         },
 
         editCategory: function(id){
-            this.$data.selectedCategoryId = id
+            this.$data.editCategoryId = id
             this.$data.showEditCategoryModal = true
         },
 
@@ -268,10 +248,6 @@ const todoList = {
             this.$data.selectedTabCategoryId = id
         },
 
-        selectCategoryToShow: function(){
-            this.$data.showTabCategoryModal = true
-        },
-
         selectTabCategory: function(id){
             if(id != -1){
                 this.$data.showAllTasks = false
@@ -285,6 +261,12 @@ const todoList = {
                     category.isSelected = false
                 }
             })
+            this.$data.selectedCategoryId = id
+        },
+
+        viewTask: function(id){
+            this.$data.taskSelectedId = id
+            this.$data.showTaskViewModal = true
         },
 
         saveTask: function({newItem}){
@@ -295,7 +277,6 @@ const todoList = {
             this.$data.tasks.push(newTask)
 
             this.saveTasks()
-            // this.closeCreateTaskModal()
         },
         
         finishTask: function(id){
@@ -311,9 +292,9 @@ const todoList = {
         },
 
         removeTask: function(id){
-            //TODO: Make a modal to confirm it
             let task = this.$data.tasks.find(task => task.id === id)
             let taskIndex = this.$data.tasks.indexOf(task)
+            this.$data.taskSelectedId = -1
             this.$data.tasks.splice(taskIndex, 1)
 
             this.saveTasks()

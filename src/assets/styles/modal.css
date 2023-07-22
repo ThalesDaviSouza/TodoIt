@@ -1,7 +1,17 @@
 :root{
-    --border-color: white;
-    --modal-overlay-color: rgba(0, 0, 0, 0.507);
-    --modal-body-color: black;
+    --border-color: #626B3F;
+    --modal-overlay-color: rgba(28, 28, 28, 0.488);
+    --modal-body-color: #FAFFE9;
+
+    --text-base-color: black;
+    --text-secondary-color: #5C5C5C;
+    --overdue-task-color: #EB1F1F;
+    --button-action-bg: white;
+    
+    --delete-btn-color: #f93434;
+    --save-btn-color: #E1F792;
+
+    --category-select-card-bg: white;
 }
 
 .modal-overlay{
@@ -21,45 +31,159 @@
     text-align: center;
     border: 1px solid var(--border-color);
     background-color: var(--modal-body-color);
-    margin-top: 15vh;
+    margin-top: 10vh;
     padding: 35px;
     border-radius: 9px;
+    overflow: auto;
 }
 
+.open-select-modal-btn{
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    width: 40%;
+}
+
+.btn-action{
+    background-color: var(--button-action-bg);
+    border: 2px solid black;
+    border-radius: 15px;
+    width: 40%;
+
+    font-size: 1.3rem;
+}
+
+.btn-delete {background-color: var(--delete-btn-color);}
+.btn-save {background-color: var(--save-btn-color);}
+
+.task-description-input{
+    width: 95%;
+    height: 140px;
+    padding: 7px;
+    resize: vertical;
+}
+
+
+
+/* Create Task Modal */
 #create-task-modal{
-    height: 360px;
-    width: 500px;
-}
-
-#create-category-modal{
-    height: 200px;
-    width: 500px;
-}
-
-#choose-category-modal{
-    width: 500px;
+    width: 100%;
     height: 500px;
+}
+/* Body */
+.create-task-body{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    margin: 0 0 15px 0;
+}
+.create-task-title{font-size: 1.42rem;}
+
+
+/* Create Category Modal */
+#create-category-modal{
+    width: 100%;
+    height: 450px;
+    text-align: start;
+}
+.create-category-body{margin-bottom: 15px;}
+.create-category-footer{
+    display: flex;
+    justify-content: center;
+}
+
+
+/* Choose Category Modal */
+#choose-category-modal{
+    width: 100%;
+    height: 500px;
+
     z-index: 12;
 }
 
-.category-select{
+.category-select-card{
+    background-color: var(--category-select-card-bg);
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column;
+
+    padding: 15px;
+    border-radius: 10px;
+    margin: 10px 0 10px 0;
+    border: 1px solid var(--border-color);
+}
+.category-select-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: start;
+
+    margin-bottom: 10px;
+}
+.category-select-header > input{
+    width: 15%;
+    height: 27px;
+}
+.category-select-body{
+    padding: 5px;
+    text-align: start;
 }
 
-.category-select input{width: auto;}
 
 #choose-category-tab-modal{
     width: 500px;
     height: 500px;
 }
 
-
+/* Edit Task Modal */
 #edit-task-modal{
-    width: 500px;
-    height: 450px;
+    width: 100%;
+    height: 550px;
+    padding: 20px;
 }
+
+/* Header */
+.edit-task-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.edit-task-header > input{
+    width: 75%;
+    font-size: 1.6rem;
+}
+.edit-task-finish {
+    width: 10%;
+    margin-left: 10px;
+}
+.close-modal{
+    display: flex;
+    justify-content: end;
+}
+
+/* Body */
+.edit-task-body{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    margin: 15px 0 15px 0;
+}
+.edit-task-finished{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+
+/* Footer */
+.edit-task-footer{
+    display: flex;
+    justify-content: space-around;
+}
+
+
 
 #warning-modal{
     width: 500px;
@@ -70,4 +194,98 @@
 #confirm-modal{
     width: 500px;
     height: 300px;
+}
+
+/* Task View Modal */
+#view-task-modal{
+    width: 100%;
+    height: 600px;
+}
+
+/* Header */
+#task-view-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+
+    margin-bottom: 30px;
+}
+
+
+.task-view-header-main-section{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+.task-view-header-main-section{fill: white;}
+
+.task-view-title{
+    text-align: start;
+}
+
+.task-view-title > h1{
+    color: var(--text-base-color);
+    font-size: 2.9rem;
+}
+
+.task-view-title > span{color: var(--text-secondary-color);}
+span.overdueTask{color: var(--overdue-task-color); font-weight: bold;}
+
+/* Body */
+#task-view-body{margin: 10px 0 20px 0;}
+
+#task-view-body > p{
+    font-size: 1.2rem; 
+    color: var(--text-secondary-color);
+    word-break: break-all;
+    text-align: start;
+}
+
+.task-view-finished{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
+.task-view-finished > h4 {margin-left: 10px;}
+
+/* Footer */
+#task-item-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+/* Edit Category Modal */
+#edit-category-modal{
+    width: 100%;
+    height: 450px;
+}
+
+.category-description-input {
+    width: 100%;
+    height: 140px;
+    resize: vertical;
+}
+
+/* Media query */
+
+@media only screen and (min-width: 960px){
+    #create-task-modal{width: 52vw;}
+    #create-category-modal{width: 52vw;}
+    #choose-category-modal{width: 52vw;}
+    #edit-task-modal{width: 52vw;}
+    #view-task-modal{width: 52vw;}
+    #edit-category-modal{width: 52vw;}
+}
+
+@media only screen and (min-width: 1200px){
+    #create-task-modal{width: 38vw;}
+    #create-category-modal{width: 38vw;}
+    #choose-category-modal{width: 38vw;}
+    #edit-task-modal{width: 38vw;}
+    #view-task-modal{width: 38vw;}
+    #edit-category-modal{width: 38vw;}
 }

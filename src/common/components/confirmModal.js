@@ -18,8 +18,8 @@ const confirmModal = {
         <div id="confirm-modal" class="modal-body">
             <h1>{{ confirmTitle }}</h1>
             <h3>{{ confirmMessage }}</h3>
-            <button @click="acceptFunction">Confirm</button>
-            <button @click="closeModal">Cancel</button>
+            <button class="btn-delete" @click="acceptFunction">Confirm</button>
+            <button class="btn-save" @click="closeModal">Cancel</button>
         </div>
     </div>
     `,

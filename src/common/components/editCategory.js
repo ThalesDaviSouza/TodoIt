@@ -33,16 +33,22 @@ const editCategoryModal = {
     template:
     `
     <div class="modal-overlay" @click.self="closeModal">
-        <div id="confirm-modal" class="modal-body">
+        <div id="edit-category-modal" class="modal-body">
             <warningModal :warning="warning" v-show="showWarningCategory" @closeModal="closeWarningModal" />
             
             <confirmModal v-show="showConfirmDeleteModal" @closeModal="closeConfirmDeleteModal" 
                 :confirm="confirmDeleteData" :acceptFunction="deleteCategory" />
 
-            <h1>Category Title:</h1>
-            <input type="text" @click="saveActualName" @blur="saveChanges" v-model="category.name" v-if="category">
-            <button @click="confirmDelete">Delete Category</button>
-            <button @click="closeModal">Save Category</button>
+            <div v-if="category">
+                <h2>Category Title:</h2>
+                <input type="text" placeholder="Insert here the category's title" @click="saveActualName" @blur="saveChanges" v-model="category.name" />
+                
+                <h3>Category Description:</h3>
+                <textarea class="category-description-input" v-model="category.description" placeholder="Insert here the category's description" @blur="saveChanges"></textarea>
+                
+                <button class="btn-delete" @click="confirmDelete">Delete Category</button>
+                <button class="btn-save" @click="closeModal">Save Category</button>
+            </div>
         </div>
     </div>
     `,

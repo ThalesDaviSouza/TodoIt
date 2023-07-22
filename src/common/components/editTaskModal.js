@@ -47,10 +47,6 @@ const editTaskModal = {
         Categories(){
             return this.categories
         },
-
-        endTaskText(){
-            return this.task.finished ? 'Unfinish task' : 'Finish Task'
-        },
     },
 
     components: {
@@ -72,22 +68,38 @@ const editTaskModal = {
         <warningModal :warning="warning" v-show="showWarningModal" @closeModal="closeWarningModal" />
 
         <div id="edit-task-modal" class="modal-body">
-            <div>
+            <div class="close-modal">
+                <svg @click="closeModal" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+            </div>
+            <div class="edit-task-header">
                 <input v-model="task.title" @click="saveActualName" type="text" placeholder="Insert Task tittle">
-                <button @click="endTask">{{ endTaskText }}</button>
-                <h3>Due Date:</h3>
-                <input id="task-edit-duedate" type="datetime-local" :value="getDueDate" @input="saveNewDueDate" />
-                <h3>Task Description:</h3>
-                <textarea name="task-edit-description" v-model="task.description"
-                    cols="68" rows="5" placeholder="Insert here the task's description">
+            </div>
+            <div class="edit-task-body">
+                <div class="edit-task-finished">
+                    <h4>Task Finished?</h4>
+                    <svg v-if="!task.finished" @click="endTask" xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="bi bi-square edit-task-finish" viewBox="0 0 16 16">
+                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                    </svg>
+                    <svg v-if="task.finished" @click="endTask" xmlns="http://www.w3.org/2000/svg" width="28" height="28" class="bi bi-check-square edit-task-finish" viewBox="0 0 16 16">
+                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                        <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z"/>
+                    </svg>
+                </div>
+                <h4>Task Description:</h4>
+                <textarea class="task-description-input" name="task-edit-description" v-model="task.description" placeholder="Insert here the task's description">
                 </textarea>
-            </div>
-            <div>
                 <h4>Category:</h4>
-                <button @click="chooseCategory">{{ btnChooseCategoryText() }}</button>
+                <button class="open-select-modal-btn" @click="chooseCategory">{{ btnChooseCategoryText() }}</button>
+                <h4>Due Date:</h4>
+                <input id="task-edit-duedate" type="datetime-local" :value="getDueDate" @input="saveNewDueDate" />
             </div>
-            <button @click="confirmDelete">Delete Task</button>
-            <button @click="closeModal">Save Task</button>
+            <div class="edit-task-footer">
+                <button class="btn-action btn-delete" @click="confirmDelete">Delete Task</button>
+                <button class="btn-action btn-save" @click="closeModal">Save Task</button>
+            </div>
         </div>
     </div>
     `,

@@ -1,0 +1,120 @@
+:root{
+    --border-color: black;
+    --modal-overlay-color: rgba(28, 28, 28, 0.488);
+    
+    --text-base-color: black;
+    --text-secondary-color: #5C5C5C;
+    
+    --category-select-card-bg: white;
+    --category-selected-bg: #FAFFE9;
+}
+
+.open-menu-btn{
+    position: fixed;
+    left: 20px;
+    top: 15px;
+
+    display: flex;
+    width: auto;
+
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 7px;
+    border: black 1px solid;
+}
+
+.menu-overlay{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: left;
+    background-color: var(--modal-overlay-color);
+
+    z-index: 10;
+}
+
+.menu-body {
+    position: relative;
+    background-color: white;
+    width: 86vw;
+
+    overflow-y: scroll;
+    overflow-x: hidden;
+    word-break: break-all;
+}
+
+.menu-header{
+    text-align: center;
+}
+
+.menu-close-btn{
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    cursor: pointer;
+}
+
+.menu-search{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 26px;
+}
+
+.menu-search > input{
+    border: var(--border-color) 1px solid;
+    border-radius: 18px;
+    width: 80%;
+}
+
+.menu-search > button{width: 20%;}
+
+.category-menu-card{
+    border: var(--border-color) 1px solid;
+    width: 100%;
+    padding: 10px 0 10px 0;
+    color: var(--text-base-color);
+    font-weight: 100;
+}
+.category-menu-card.selected-category{
+    background-color: var(--category-selected-bg);
+    font-weight: bolder;
+}
+.category-menu-card.selected-category>.category-header>h3{font-size: 2.1rem;}
+
+.category-header{
+    padding: 10px 20px 10px 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-body{
+    padding: 0 30px 10px 20px;
+}
+
+/* Responsible */
+@media screen and (min-width: 960px) {
+    .open-menu-btn{display: none;}
+    
+    .menu-overlay{
+        width: 27vw;
+        background-color: transparent;
+    }
+    
+    .menu-body{
+        width: 27vw;
+        border-right: 1px solid black;
+    }
+
+    .menu-close-btn{display: none;}
+}

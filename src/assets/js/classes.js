@@ -1,7 +1,5 @@
 class Task {
-    title = ''
-    description = ''
-    constructor(id, title, categoryId, isFinished = false, dueDate, description){
+    constructor(id, title = '', categoryId = -1, isFinished = false, dueDate, description = ''){
         this.id = id
         this.title = title
         this. categoryId = categoryId
@@ -12,10 +10,10 @@ class Task {
 }
 
 class Category {
-    name = ''
-    constructor(id, name, isSelected = false, openToEdit = false){
+    constructor(id, name = '', description = '', isSelected = false, openToEdit = false){
         this.id = id
         this.name = name
+        this.description = description
         this.isSelected = isSelected
         this.openToEdit = openToEdit
     }
