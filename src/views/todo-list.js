@@ -43,6 +43,10 @@ const todoList = {
             return this.$data.selectedCategoryId != -1 ? this.$data.categories.find(category => category.id == this.$data.selectedCategoryId) : null
         },
 
+        isDesktop(){
+            return (window.getComputedStyle(document.querySelector('.open-menu-btn')).display == 'none')
+        }
+
     },
 
     mounted(){
@@ -70,6 +74,9 @@ const todoList = {
                 localStorage.removeItem('categories')
             }
         }
+        if(this.isDesktop){
+            this.showMenu = true
+        }
     },
 
     components:{
@@ -86,7 +93,7 @@ const todoList = {
         `
         <div class="todo-list-container">
             <sideMenu v-if="showMenu" @closeMenu="closeMenu" @selectCategory="selectTabCategory" @editCategory="editCategory"
-                :categories="categories" :selectedCategoryId="selectedCategoryId"  />
+                :categories="categories" :selectedCategoryId="selectedCategoryId" :isDesktop="isDesktop" />
 
             <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
                 @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" />
@@ -147,7 +154,7 @@ const todoList = {
             </div>
         </div>
     `,
-    
+
     methods: {
         closeMenu: function(){
             this.$data.showMenu = false

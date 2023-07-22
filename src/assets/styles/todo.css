@@ -147,10 +147,11 @@ button{
     color: var(--text-base-color);
 }
 
-@media (min-width:650px) and (max-width:1200px) {
-    .todo-list{width: 60vw;}
-}
+/* Media Query */
 
-@media (min-width:1200px){
-    .todo-list{width: 40vw;}
+@media only screen and (min-width: 960px) {
+    .todo-list-container{align-items: end;}
+    .todo-list{
+        width: 73vw;
+    }
 }

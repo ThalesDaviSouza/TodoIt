@@ -101,3 +101,17 @@
 .category-body{
     padding: 0 30px 10px 20px;
 }
+
+/* Responsible */
+@media screen and (min-width: 960px) {
+    .open-menu-btn{display: none;}
+    
+    .menu-overlay{background-color: transparent;}
+    
+    .menu-body{
+        width: 27vw;
+        border-right: 1px solid black;
+    }
+
+    .menu-close-btn{display: none;}
+}

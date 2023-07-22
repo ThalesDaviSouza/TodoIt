@@ -1,5 +1,5 @@
 const menu = {
-    props: ['categories', 'selectedCategoryId'],
+    props: ['categories', 'selectedCategoryId', 'isDesktop'],
     emits: ['chooseCategory', 'closeMenu', 'selectCategory', 'editCategory'],
 
     data: function(){
@@ -98,7 +98,9 @@ const menu = {
 
         selectCategory: function(id){
             this.$emit('selectCategory', id)
-            this.closeMenu()
+            if(!this.isDesktop){
+                this.closeMenu()
+            }
         },
 
         isSelected: function(id){
