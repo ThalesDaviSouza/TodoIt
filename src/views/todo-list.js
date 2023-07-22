@@ -29,6 +29,7 @@ const todoList = {
 
             taskSelectedId: -1,
             selectedCategoryId: -1,
+            editCategoryId: -1,
             
             newCategory: '',
             showAllTasks: true,
@@ -91,7 +92,7 @@ const todoList = {
                 @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" />
 
             <editCategoryModal v-show="showEditCategoryModal" @closeModal="closeEditCategoryModal"
-                :categorySelected="selectedCategoryId" :categoriesList="categories"
+                :categorySelected="editCategoryId" :categoriesList="categories"
                 @saveCategories="saveCategories" @deleteCategory="deleteCategory" />
 
             <div v-show="showTaskViewModal">
@@ -104,7 +105,6 @@ const todoList = {
                 @closeModal="closeEditTaskModal" @saveCategory="saveCategory"
                 @deleteTask="removeTask" @saveChanges="saveTasks" />
 
-            <h2>Todo List</h2>
             <div class="todo-list">
                 <button class="open-menu-btn" @click="showMenu=true">
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" class="bi bi-list" viewBox="0 0 16 16">
@@ -205,7 +205,7 @@ const todoList = {
         },
 
         editCategory: function(id){
-            this.$data.selectedCategoryId = id
+            this.$data.editCategoryId = id
             this.$data.showEditCategoryModal = true
         },
 
