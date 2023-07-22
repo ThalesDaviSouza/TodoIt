@@ -32,19 +32,19 @@ const taskItem = {
     <confirmModal v-show="showConfirmDeleteModal" @closeModal="closeConfirmDeleteModal" 
         :confirm="confirmData" :acceptFunction="deleteTask" />
 
-    <div :class="'task-item-card ' + overdueTask(Task.dueDate)">
-        <div class="task-item-header" @click="viewTask(Task.id)">
+    <div :class="'task-item-card ' + overdueTask(Task.dueDate)" @click="viewTask(Task.id)">
+        <div class="task-item-header">
             <h3>{{ Task.title }}</h3>
             <span>Due Date: {{ printDueDate(Task.dueDate) }}</span>
         </div>
         <div class="task-item-body">
-            <div class="task-item-description" @click="viewTask(Task.id)">
+            <div class="task-item-description" >
                 <p>{{ getDescriptionToShow() }}</p>
             </div>
             <div class="task-item-actions-wrapper">
-                <button class="task-item-action task-edit-btn" @click="editTask(Task.id)">Edit</button>
-                <button class="task-item-action task-finish-btn" @click="finishTask(Task.id)">{{ FinishMessage }}</button>
-                <button class="task-item-action task-delete-btn" @click="confirmDelete">Delete</button>
+                <button class="task-item-action task-edit-btn" @click.stop="editTask(Task.id)">Edit</button>
+                <button class="task-item-action task-finish-btn" @click.stop="finishTask(Task.id)">{{ FinishMessage }}</button>
+                <button class="task-item-action task-delete-btn" @click.stop="confirmDelete">Delete</button>
             </div>
         </div>
     </div>

@@ -31,7 +31,7 @@
     margin-top: 15vh;
     padding: 35px;
     border-radius: 9px;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .open-select-modal-btn{
@@ -258,8 +258,19 @@ span.overdueTask{color: var(--overdue-task-color); font-weight: bold;}
 }
 
 .category-description-input {
-    width: 95%;
+    width: 100%;
     height: 140px;
-    padding: 7px;
     resize: vertical;
+}
+
+
+/* Media query */
+
+@media only screen and (min-width: 960px){
+    #create-task-modal{width: 52vw;}
+    #create-category-modal{width: 52vw;}
+    #choose-category-modal{width: 52vw;}
+    #edit-task-modal{width: 52vw;}
+    #view-task-modal{width: 52vw;}
+    #edit-category-modal{width: 52vw;}
 }

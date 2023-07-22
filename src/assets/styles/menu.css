@@ -106,7 +106,10 @@
 @media screen and (min-width: 960px) {
     .open-menu-btn{display: none;}
     
-    .menu-overlay{background-color: transparent;}
+    .menu-overlay{
+        width: 27vw;
+        background-color: transparent;
+    }
     
     .menu-body{
         width: 27vw;
