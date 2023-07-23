@@ -127,13 +127,13 @@ const todoList = {
                     <div v-if="showAllTasks">
                         <h2>All Tasks</h2>
                         <span>Complete: {{ getAllTasksDone().length }}/{{ tasks.length }}</span>
-                        <TransitionGroup name="all-tasks">
+                        <TransitionGroup name="tasks">
                             <taskItem v-for="task in tasks" :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"
                                 @viewTask="viewTask" :key="task.id" v-show="!task.finished" /> 
                         </TransitionGroup>
 
                         <h3>Finished tasks</h3>
-                        <TransitionGroup name="all-tasks-done">
+                        <TransitionGroup name="tasks-done">
                             <taskItem v-for="task in tasks" :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"
                                 @viewTask="viewTask" :key="task.id" v-show="task.finished"/> 
                         </TransitionGroup>
@@ -141,15 +141,16 @@ const todoList = {
                     <div v-show="category.isSelected" :id="'category-wrapper-'+category.id" v-for="category in categories">
                         <h2 class="category-title">{{ category.name }}</h2>
                         <span>Complete: {{ getTasksDoneByCategory(category.id).length }}/{{ getTasksByCategory(category.id).length }}</span>
-                        <div :id="'container-'+task.id" v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)">
-                            <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"
-                                @viewTask="viewTask"/> 
-                        </div>
+                        <TransitionGroup name="tasks">
+                            <taskItem v-for="task in getTasksByCategory(category.id).filter(task => !task.finished)" :task="task" :key="task.id" 
+                                @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask" @viewTask="viewTask"/> 
+                        </TransitionGroup>
+                        
                         <h3 v-if="getTasksByCategory(category.id).filter(task => task.finished).length > 0">Finished tasks</h3>
-                        <div v-for="task in getTasksByCategory(category.id).filter(task => task.finished)">
-                            <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"
-                            @viewTask="viewTask"/> 
-                        </div>
+                        <TransitionGroup name="tasks-done">
+                            <taskItem v-for="task in getTasksByCategory(category.id).filter(task => task.finished)" :task="task" :key="task.id" 
+                                @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask" @viewTask="viewTask"/> 
+                        </TransitionGroup>
                     </div>
                 </section>
             </div>

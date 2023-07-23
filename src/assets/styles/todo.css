@@ -152,43 +152,43 @@ button{
 /* Animations */
 
 /* All tasks animations */
-.all-tasks-enter-active,
-.all-tasks-leave-active {
+.tasks-enter-active,
+.tasks-leave-active {
     transition: 0.5s ease;
 }
 
-.all-tasks-enter-from{
+.tasks-enter-from{
     transform: translateX(0);
 }
-.all-tasks-enter-to{
+.tasks-enter-to{
     transform: translateX(20px);
 }
-.all-tasks-enter-to > *{
+.tasks-enter-to > *{
     background-color: var(--task-created-card-bg);
 }
 
-.all-tasks-leave-from {
+.tasks-leave-from {
     transform: translateX(0);
 }
-.all-tasks-leave-to {
+.tasks-leave-to {
     transform: translateX(20px);
 }
-.all-tasks-leave-to > * {
+.tasks-leave-to > * {
     background-color: var(--task-finished-card-bg);
 }
 
-.all-tasks-leave-active > .modal-overlay {display: none;}
+.tasks-leave-active > .modal-overlay {display: none;}
 
 /* All tasks done animations */
-.all-tasks-done-enter-active,
-.all-tasks-done-leave-active {
+.tasks-done-enter-active,
+.tasks-done-leave-active {
     transition-delay: 0.5s;
 }
 
-.all-tasks-done-enter-from,
-.all-tasks-done-enter-to,
-.all-tasks-done-leave-from,
-.all-tasks-done-leave-to{
+.tasks-done-enter-from,
+.tasks-done-enter-to,
+.tasks-done-leave-from,
+.tasks-done-leave-to{
     display: none;
 }
 
