@@ -84,10 +84,21 @@
     font-weight: 100;
 }
 .category-menu-card.selected-category{
+    animation: selected 0.5s ease-in;
     background-color: var(--category-selected-bg);
     font-weight: bolder;
 }
-.category-menu-card.selected-category>.category-header>h3{font-size: 2.1rem;}
+.category-menu-card.selected-category>.category-header>h3{
+    font-size: 2.1rem; 
+    animation: enlarge-font 0.3s ease-in-out;
+}
+
+.unselected-category{
+    animation: unselected 0.5s ease-in;
+}
+.category-menu-card.unselected-category>.category-header>h3{
+    animation: reduce-font 0.3s ease-in-out;
+}
 
 .category-header{
     padding: 10px 20px 10px 20px;
@@ -101,6 +112,54 @@
 .category-body{
     padding: 0 30px 10px 20px;
 }
+
+/* Animations */
+
+.menu-enter-active{
+    animation: appear 0.125s ease-in;
+}
+.menu-leave-active{
+    animation: appear 0.125s ease-in reverse;
+}
+
+.category-selected-enter-active{
+    animation: selected 0.5s ease-in;
+}
+
+@keyframes appear {
+    from{
+        opacity: 0;
+        z-index: 100;
+    }
+
+    to {
+        opacity: 1;
+        z-index: 100;
+    }
+}
+
+@keyframes selected {
+    from{
+        background-color: white;
+    }
+}
+@keyframes unselected {
+    from{
+        background-color: var(--category-selected-bg);
+    }
+}
+
+@keyframes enlarge-font {
+    from{
+        font-size: 1.5rem;
+    }
+}
+@keyframes reduce-font {
+    from{
+        font-size: 2.1rem;
+    }
+}
+
 
 /* Responsible */
 @media screen and (min-width: 960px) {

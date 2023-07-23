@@ -147,6 +147,8 @@ button{
     color: var(--text-base-color);
 }
 
+
+
 /* Media Query */
 
 @media only screen and (min-width: 960px) {

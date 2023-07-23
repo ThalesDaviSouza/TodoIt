@@ -92,8 +92,10 @@ const todoList = {
     template:
         `
         <div class="todo-list-container">
-            <sideMenu v-if="showMenu" @closeMenu="closeMenu" @selectCategory="selectTabCategory" @editCategory="editCategory"
-                :categories="categories" :selectedCategoryId="selectedCategoryId" :isDesktop="isDesktop" />
+            <Transition name="menu">
+                <sideMenu v-if="showMenu" @closeMenu="closeMenu" @selectCategory="selectTabCategory" @editCategory="editCategory"
+                    :categories="categories" :selectedCategoryId="selectedCategoryId" :isDesktop="isDesktop" />
+            </Transition>
 
             <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
                 @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" />
@@ -120,7 +122,7 @@ const todoList = {
                 </button>
                 
                 <button class="open-modal-btn" @click="showCreateTaskModal=true">Add Task</button>
-                
+
                 <section id="todo-wrapper">
                     <div v-if="showAllTasks">
                         <h2>All Tasks</h2>
@@ -149,8 +151,6 @@ const todoList = {
                         </div>
                     </div>
                 </section>
-                <br/>
-                
             </div>
         </div>
     `,
