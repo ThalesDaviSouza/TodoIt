@@ -10,6 +10,8 @@
     --border: #626B3F;
 
     --task-card-bg: #FAFFE9;
+    --task-created-card-bg: #f0fbcb;
+    --task-finished-card-bg: #ddff6c;
     --task-card-border: #626B3F;
     --overdue-task-color: #EB1F1F;
     --task-button-bg: #E1F792;
@@ -149,39 +151,47 @@ button{
 
 /* Animations */
 
-.list-enter-active,
-.list-leave-active {
-  animation: appear 1s ease;
-}
-.list-enter-from,
-.list-leave-to {
-    animation: appear 1s ease reverse;
+/* All tasks animations */
+.all-tasks-enter-active,
+.all-tasks-leave-active {
+    transition: 0.5s ease;
 }
 
-@keyframes appear {
-    from{
-        opacity: 0;
-        z-index: 100;
-    }
-
-    to {
-        opacity: 1;
-        z-index: 100;
-    }
+.all-tasks-enter-from{
+    transform: translateX(0);
+}
+.all-tasks-enter-to{
+    transform: translateX(20px);
+}
+.all-tasks-enter-to > *{
+    background-color: var(--task-created-card-bg);
 }
 
-@keyframes disappear {
-    from{
-        opacity: 1;
-        background-color: red;
-    }
-
-    to {
-        opacity: 0;
-        background-color: blue;
-
-    }
+.all-tasks-leave-from {
+    transform: translateX(0);
 }
+.all-tasks-leave-to {
+    transform: translateX(20px);
+}
+.all-tasks-leave-to > * {
+    background-color: var(--task-finished-card-bg);
+}
+
+.all-tasks-leave-active > .modal-overlay {display: none;}
+
+/* All tasks done animations */
+.all-tasks-done-enter-active,
+.all-tasks-done-leave-active {
+    transition-delay: 0.5s;
+}
+
+.all-tasks-done-enter-from,
+.all-tasks-done-enter-to,
+.all-tasks-done-leave-from,
+.all-tasks-done-leave-to{
+    display: none;
+}
+
 
 /* Media Query */
 

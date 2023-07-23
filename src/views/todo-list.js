@@ -127,15 +127,16 @@ const todoList = {
                     <div v-if="showAllTasks">
                         <h2>All Tasks</h2>
                         <span>Complete: {{ getAllTasksDone().length }}/{{ tasks.length }}</span>
-                        <TransitionGroup name="list">
+                        <TransitionGroup name="all-tasks">
                             <taskItem v-for="task in tasks" :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"
                                 @viewTask="viewTask" :key="task.id" v-show="!task.finished" /> 
                         </TransitionGroup>
+
                         <h3>Finished tasks</h3>
-                        <div v-for="task in tasks">
-                            <taskItem :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"
-                            @viewTask="viewTask" v-if="task.finished"/> 
-                        </div>
+                        <TransitionGroup name="all-tasks-done">
+                            <taskItem v-for="task in tasks" :task="task" @editTask="editTask" @finishTask="finishTask" @deleteTask="removeTask"
+                                @viewTask="viewTask" :key="task.id" v-show="task.finished"/> 
+                        </TransitionGroup>
                     </div>
                     <div v-show="category.isSelected" :id="'category-wrapper-'+category.id" v-for="category in categories">
                         <h2 class="category-title">{{ category.name }}</h2>
