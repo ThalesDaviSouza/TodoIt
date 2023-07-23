@@ -147,7 +147,41 @@ button{
     color: var(--text-base-color);
 }
 
+/* Animations */
 
+.list-enter-active,
+.list-leave-active {
+  animation: appear 1s ease;
+}
+.list-enter-from,
+.list-leave-to {
+    animation: appear 1s ease reverse;
+}
+
+@keyframes appear {
+    from{
+        opacity: 0;
+        z-index: 100;
+    }
+
+    to {
+        opacity: 1;
+        z-index: 100;
+    }
+}
+
+@keyframes disappear {
+    from{
+        opacity: 1;
+        background-color: red;
+    }
+
+    to {
+        opacity: 0;
+        background-color: blue;
+
+    }
+}
 
 /* Media Query */
 

@@ -29,10 +29,11 @@ const taskItem = {
 
     template:
     `
+    <div>
     <confirmModal v-show="showConfirmDeleteModal" @closeModal="closeConfirmDeleteModal" 
         :confirm="confirmData" :acceptFunction="deleteTask" />
-
-    <div :class="'task-item-card ' + overdueTask(Task.dueDate)" @click="viewTask(Task.id)">
+    
+    <div :class="{ 'task-item-card':true, 'overdueTask': isOverdueTask(Task.dueDate) }" @click="viewTask(Task.id)">
         <div class="task-item-header">
             <h3>{{ Task.title }}</h3>
             <span>Due Date: {{ printDueDate(Task.dueDate) }}</span>
@@ -47,6 +48,7 @@ const taskItem = {
                 <button class="task-item-action task-delete-btn" @click.stop="confirmDelete">Delete</button>
             </div>
         </div>
+    </div>
     </div>
     `,
 
@@ -93,21 +95,7 @@ const taskItem = {
 
         isOverdueTask: function(dueDate){
             let date = this.getDueDate(dueDate)
-            return new Date() > date ? true : false
-        },
-
-        overdueTask: function(dueDate){
-            // If the due date is empty or task is finished
-            if(!dueDate || this.Task.finished){
-                return ''
-            }
-
-            if(this.isOverdueTask(dueDate)){
-                return 'overdueTask'
-            }else{
-                return ''
-            }
-            
+            return new Date() > date && !this.Task.finished ? true : false
         },
 
         getDescriptionToShow: function(){
