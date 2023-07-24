@@ -110,6 +110,8 @@
     border-radius: 10px;
     margin: 10px 0 10px 0;
     border: 1px solid var(--border-color);
+
+    cursor: pointer;
 }
 .category-select-header{
     display: flex;
@@ -122,6 +124,7 @@
 .category-select-header > input{
     width: 15%;
     height: 27px;
+    cursor: pointer;
 }
 .category-select-body{
     padding: 5px;

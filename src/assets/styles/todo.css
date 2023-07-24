@@ -12,6 +12,8 @@
     --task-card-bg: #FAFFE9;
     --task-created-card-bg: #f0fbcb;
     --task-finished-card-bg: #ddff6c;
+    --task-deleted-card-bg: #ec4c4c;
+    
     --task-card-border: #626B3F;
     --overdue-task-color: #EB1F1F;
     --task-button-bg: #E1F792;
@@ -190,6 +192,32 @@ button{
 .tasks-done-leave-from,
 .tasks-done-leave-to{
     display: none;
+}
+
+
+/* Deleting a task */
+.tasks-leave-to > .deleted-task, .tasks-done-leave-to > .deleted-task {
+    background-color: var(--task-deleted-card-bg);
+}
+.tasks-leave-to > .deleted-task > .task-item-header > h3,
+.tasks-done-leave-to > .deleted-task > .task-item-header > h3{
+    color: white
+}
+
+
+.tasks-done-leave-active:has(.deleted-task){
+    transition: 0.5s ease;
+    transition-delay: 0;
+}
+.tasks-done-leave-from:has(.deleted-task),
+.tasks-done-leave-to:has(.deleted-task){
+    display: block;
+}
+.tasks-done-leave-from:has(.deleted-task){
+    transform: translateX(0);
+}
+.tasks-done-leave-to:has(.deleted-task){
+    transform: translateX(20px);
 }
 
 

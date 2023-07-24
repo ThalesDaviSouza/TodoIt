@@ -19,6 +19,8 @@ const taskItem = {
         return{
             showConfirmDeleteModal: false,
 
+            deletedTask: false,
+
             confirmData: {title:'', message:''},
         }
     },
@@ -33,7 +35,7 @@ const taskItem = {
         <confirmModal v-show="showConfirmDeleteModal" @closeModal="closeConfirmDeleteModal" 
             :confirm="confirmData" :acceptFunction="deleteTask" />
         
-        <div :class="{ 'task-item-card':true, 'overdueTask': isOverdueTask(Task.dueDate) }" @click="viewTask(Task.id)">
+        <div :class="{ 'task-item-card':true, 'overdueTask': isOverdueTask(Task.dueDate), 'deleted-task': deletedTask }" @click="viewTask(Task.id)">
             <div class="task-item-header">
                 <h3>{{ Task.title }}</h3>
                 <span>Due Date: {{ printDueDate(Task.dueDate) }}</span>
@@ -77,7 +79,12 @@ const taskItem = {
 
         deleteTask: function(){
             this.closeConfirmDeleteModal()
-            this.$emit('deleteTask', this.Task.id)
+            this.$data.deletedTask = true
+
+            // To apply the deleted-task class to component
+            this.$nextTick(() => {
+                this.$emit('deleteTask', this.Task.id)
+            })
         },
 
         getDueDate: function(dueDate){
