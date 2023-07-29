@@ -115,27 +115,22 @@
 
 /* Animations */
 
-.menu-enter-active{
-    animation: appear 0.125s ease-in;
-}
-.menu-leave-active{
-    animation: appear 0.125s ease-in reverse;
+.menu-show-enter-active,
+.menu-show-leave-active{
+    transition: all .11s ease-in;
 }
 
-.category-selected-enter-active{
-    animation: selected 0.5s ease-in;
+.menu-show-enter-from,
+.menu-show-leave-to{
+    opacity: 0;
+    z-index: 100;
+    /* transform: translateX(-100vw); */
 }
-
-@keyframes appear {
-    from{
-        opacity: 0;
-        z-index: 100;
-    }
-
-    to {
-        opacity: 1;
-        z-index: 100;
-    }
+.menu-show-enter-to,
+.menu-show-leave-from{
+    opacity: 1;
+    z-index: 100;
+    /* transform: translateX(0); */
 }
 
 @keyframes selected {

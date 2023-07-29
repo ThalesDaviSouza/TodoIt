@@ -92,7 +92,7 @@ const todoList = {
     template:
         `
         <div class="todo-list-container">
-            <Transition name="menu">
+            <Transition name="menu-show">
                 <sideMenu v-if="showMenu" @closeMenu="closeMenu" @selectCategory="selectTabCategory" @editCategory="editCategory"
                     :categories="categories" :selectedCategoryId="selectedCategoryId" :isDesktop="isDesktop" />
             </Transition>
