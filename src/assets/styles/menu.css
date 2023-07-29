@@ -117,20 +117,32 @@
 
 .menu-show-enter-active,
 .menu-show-leave-active{
-    transition: all .11s ease-in;
+    transition: all .25s ease;
 }
 
 .menu-show-enter-from,
 .menu-show-leave-to{
-    opacity: 0;
+    opacity: 0.5;
     z-index: 100;
-    /* transform: translateX(-100vw); */
 }
 .menu-show-enter-to,
 .menu-show-leave-from{
     opacity: 1;
     z-index: 100;
-    /* transform: translateX(0); */
+}
+
+.menu-show-enter-active>.menu-body,
+.menu-show-leave-active>.menu-body{
+    transition-delay: .03s;
+    transition: all .22s ease;
+}
+.menu-show-enter-from>.menu-body,
+.menu-show-leave-to>.menu-body{
+    transform: translateX(-100%);
+}
+.menu-show-enter-to>.menu-body,
+.menu-show-leave-from>.menu-body{
+    transform: translateX(0px);
 }
 
 @keyframes selected {
