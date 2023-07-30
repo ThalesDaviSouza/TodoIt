@@ -31,7 +31,6 @@ const taskViewModal = {
 
     template:
     `
-    
     <div class="modal-overlay" @click.self="closeModal">
         <confirmModal v-show="showConfirmDeleteModal" @closeModal="closeConfirmDeleteModal" 
             :confirm="confirmData" :acceptFunction="deleteTask" />

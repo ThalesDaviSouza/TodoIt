@@ -282,6 +282,7 @@ span.overdueTask{color: var(--overdue-task-color); font-weight: bold;}
 
 .appear-enter-active, .appear-leave-active{
     transition: all .125s ease;
+    z-index: 100;
 }
 
 .appear-enter-from{opacity: 0;}

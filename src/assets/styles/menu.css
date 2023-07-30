@@ -82,6 +82,7 @@
     padding: 10px 0 10px 0;
     color: var(--text-base-color);
     font-weight: 100;
+    cursor: pointer;
 }
 .category-menu-card.selected-category{
     animation: selected 0.5s ease-in;

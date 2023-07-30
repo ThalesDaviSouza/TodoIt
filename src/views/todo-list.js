@@ -102,20 +102,26 @@ const todoList = {
                     @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" />
             </Transition>
 
-            <editCategoryModal v-show="showEditCategoryModal" @closeModal="closeEditCategoryModal"
-                :categorySelected="editCategoryId" :categoriesList="categories"
-                @saveCategories="saveCategories" @deleteCategory="deleteCategory" />
-
-            <div v-show="showTaskViewModal">
-                <taskViewModal @closeModal="closeTaskViewModal" :tasks="tasks" :taskSelectedId="taskSelectedId"
-                    @editTask="editTask" @deleteTask="removeTask" @finishTask="finishTask" />
-            </div>
+            <Transition name="appear">
+                <editCategoryModal v-show="showEditCategoryModal" @closeModal="closeEditCategoryModal"
+                    :categorySelected="editCategoryId" :categoriesList="categories"
+                    @saveCategories="saveCategories" @deleteCategory="deleteCategory" />
+            </Transition>
             
-            <editTaskModal v-if="showEditTaskModal"
-                :categories="categories" :tasks="tasks" :taskSelectedId="taskSelectedId"
-                @closeModal="closeEditTaskModal" @saveCategory="saveCategory"
-                @deleteTask="removeTask" @saveChanges="saveTasks" />
-
+            <Transition name="appear">
+                <div v-show="showTaskViewModal">
+                    <taskViewModal @closeModal="closeTaskViewModal" :tasks="tasks" :taskSelectedId="taskSelectedId"
+                        @editTask="editTask" @deleteTask="removeTask" @finishTask="finishTask" />
+                </div>
+            </Transition>
+            
+            <Transition name="appear">
+                <editTaskModal v-if="showEditTaskModal"
+                    :categories="categories" :tasks="tasks" :taskSelectedId="taskSelectedId"
+                    @closeModal="closeEditTaskModal" @saveCategory="saveCategory"
+                    @deleteTask="removeTask" @saveChanges="saveTasks" />
+            </Transition>
+            
             <div class="todo-list">
                 <button class="open-menu-btn" @click="showMenu=true">
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" class="bi bi-list" viewBox="0 0 16 16">
