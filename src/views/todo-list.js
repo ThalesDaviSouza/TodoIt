@@ -97,8 +97,10 @@ const todoList = {
                     :categories="categories" :selectedCategoryId="selectedCategoryId" :isDesktop="isDesktop" />
             </Transition>
 
-            <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
-                @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" />
+            <Transition name="appear">
+                <createTaskModal v-show="showCreateTaskModal" @closeModal="closeCreateTaskModal"
+                    @saveTask="saveTask" :categories="categories" @saveCategory="saveCategory" />
+            </Transition>
 
             <editCategoryModal v-show="showEditCategoryModal" @closeModal="closeEditCategoryModal"
                 :categorySelected="editCategoryId" :categoriesList="categories"

@@ -273,6 +273,17 @@ span.overdueTask{color: var(--overdue-task-color); font-weight: bold;}
     resize: vertical;
 }
 
+/* Animações */
+
+.appear-enter-active, .appear-leave-active{
+    transition: all .125s ease;
+}
+
+.appear-enter-from{opacity: 0;}
+.appear-enter-to{opacity: 1;}
+.appear-leave-from{opacity: 1;}
+.appear-leave-to{opacity: 0;}
+
 /* Media query */
 
 @media only screen and (min-width: 960px){
