@@ -9,9 +9,10 @@
     --button-action-bg: white;
     
     --delete-btn-color: #f93434;
-    --save-btn-color: #E1F792;
+    --save-btn-color: #e1f792;
 
     --category-select-card-bg: white;
+    --category-selected-card-bg: #eeffba;
 }
 
 .modal-overlay{
@@ -113,6 +114,9 @@
 
     cursor: pointer;
 }
+.category-select-card.selected{
+    background-color: var(--category-selected-card-bg);
+}
 .category-select-header{
     display: flex;
     flex-direction: row;
@@ -126,6 +130,7 @@
     height: 27px;
     cursor: pointer;
 }
+
 .category-select-body{
     padding: 5px;
     text-align: start;

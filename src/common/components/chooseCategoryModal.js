@@ -26,11 +26,13 @@ const chooseCategoryModal = {
     `
     <div class="modal-overlay" @click.self="closeModal">
         <div id="choose-category-modal" class="modal-body">
-            <createCategoryModal v-show="showCreateCategoryModal" @closeModal="closeCreateCategoryModal"
-                @saveCategory="saveCategory" :categories="Categories" />
-
+            <Transition name="appear">
+                <createCategoryModal v-show="showCreateCategoryModal" @closeModal="closeCreateCategoryModal"
+                    @saveCategory="saveCategory" :categories="Categories" />
+            </Transition>
             <button class="btn-action" @click="addCategory">Add Category</button>
-            <div @click="chooseCategory(category.id)" class="category-select-card" v-for="category in categories">
+            <div @click="chooseCategory(category.id)" :class="{'category-select-card':true, 'selected':SelectedCategoryId==category.id}" 
+                v-for="category in categories" :key="category.id">
                 <div class="category-select-header">
                     <input type="radio" :id="'category-'+category.id" name="category-selected" v-if="SelectedCategoryId != category.id" />
                     <input type="radio" :id="'category-'+category.id" name="category-selected" v-if="SelectedCategoryId == category.id" checked/>
@@ -60,7 +62,11 @@ const chooseCategoryModal = {
 
         chooseCategory: function(categoryId){
             this.$emit('selectCategory', categoryId)
-            this.closeModal()
+            setTimeout(()=>{
+                this.$nextTick(() => {
+                    this.closeModal()
+                })
+            }, 60);
         },
 
         getCategoryShortDescription: function(category){
