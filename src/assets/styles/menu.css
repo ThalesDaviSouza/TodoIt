@@ -2,11 +2,13 @@
     --border-color: black;
     --modal-overlay-color: rgba(28, 28, 28, 0.488);
     
-    --text-base-color: black;
+    --text-base-color: #044C2B;
     --text-secondary-color: #5C5C5C;
     
-    --category-select-card-bg: white;
-    --category-selected-bg: #FAFFE9;
+    --menu-bg-color: #C1E3C5;
+
+    --category-select-card-bg: #DBE69B;
+    --category-selected-bg: #DBE69B;
 }
 
 .open-menu-btn{
@@ -39,7 +41,7 @@
 
 .menu-body {
     position: relative;
-    background-color: white;
+    background-color: var(--menu-bg-color);
     width: 86vw;
 
     overflow-y: scroll;
@@ -49,6 +51,10 @@
 
 .menu-header{
     text-align: center;
+}
+
+.menu-header > h1{
+    color: #044C2B;
 }
 
 .menu-close-btn{
@@ -109,6 +115,8 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.category-header > h3{color: #044C2B;}
 
 .category-body{
     padding: 0 30px 10px 20px;
