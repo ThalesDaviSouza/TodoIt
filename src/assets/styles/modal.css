@@ -79,6 +79,7 @@
 
     margin: 0 0 15px 0;
 }
+.create-task-body > h4 {color: var(--text-base-color-modal);}
 .create-task-title{font-size: 1.42rem;}
 
 
@@ -172,6 +173,7 @@
     display: flex;
     justify-content: end;
 }
+.close-modal > svg {fill:var(--text-base-color-modal);}
 
 /* Body */
 .edit-task-body{
