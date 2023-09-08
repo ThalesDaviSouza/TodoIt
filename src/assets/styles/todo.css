@@ -88,7 +88,7 @@ h1,h2,h3,h4,h5,h6{color: var(--title-color);}
     color: var(--text-secondary-color);
     font-weight: bold;
 }
-.task-delete-btn{background-color: var(--task-delete-btn-bg); color: var(--title-color);}
+.task-delete-btn{background-color: var(--task-delete-btn-bg); color: white;}
 .task-edit-btn{background-color: var(--task-edit-btn-bg);}
 .task-finish-btn{background-color: var(--task-finish-btn-bg);}
 
