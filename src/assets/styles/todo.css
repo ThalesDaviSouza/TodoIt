@@ -1,24 +1,24 @@
 :root{
-    --background-color: white;
-    --button-base-color: white;
-    --text-base-color: black;
-    --text-secondary-color: #5C5C5C;
+    --background-color: #044C2B;
+    --button-base-color: #044C2B;
+    --text-base-color: #C1E3C5;
+    --text-secondary-color: #044C2B;
     --placeholder-color: rgb(102, 102, 102);
-    --title-color: #626B3F;
+    --title-color: #DBE69B;
     
-    --input-border: #626B3F;
-    --border: #626B3F;
+    --input-border: #C1E3C5;
+    --border: #C1E3C5;
 
-    --task-card-bg: #FAFFE9;
-    --task-created-card-bg: #f0fbcb;
-    --task-finished-card-bg: #ddff6c;
-    --task-deleted-card-bg: #ec4c4c;
+    --task-card-bg: #044C2B;
+    --task-created-card-bg: #109e5e;
+    --task-finished-card-bg: #066c3e;
+    --task-deleted-card-bg: #cf342c;
     
-    --task-card-border: #626B3F;
-    --overdue-task-color: #EB1F1F;
+    --task-card-border: #C1E3C5;
+    --overdue-task-color: #FFD561;
     --task-button-bg: #E1F792;
-    --task-delete-btn-bg: #f93434;
-    --task-edit-btn-bg: #5fe2fc;
+    --task-delete-btn-bg: #B5231B;
+    --task-edit-btn-bg: #9EECFF;
     --task-finish-btn-bg: #E1F792;
 }
 
@@ -58,7 +58,7 @@ h1,h2,h3,h4,h5,h6{color: var(--title-color);}
     justify-content: space-between;
     align-items: center;
 
-    color: var(--text-secondary-color);
+    color: var(--text-base-color);
 }
 
 .task-item-header h3{color: var(--text-base-color);}
@@ -74,7 +74,7 @@ h1,h2,h3,h4,h5,h6{color: var(--title-color);}
     justify-content: space-between;
     align-items: start;
 
-    color: var(--text-secondary-color);
+    color: var(--text-base-color);
 
     word-break: break-all;
 }
@@ -84,8 +84,11 @@ h1,h2,h3,h4,h5,h6{color: var(--title-color);}
 .task-item-action{
     background-color: var(--task-button-bg);
     border-radius: 5px;
+    border: 0;
+    color: var(--text-secondary-color);
+    font-weight: bold;
 }
-.task-delete-btn{background-color: var(--task-delete-btn-bg);}
+.task-delete-btn{background-color: var(--task-delete-btn-bg); color: var(--title-color);}
 .task-edit-btn{background-color: var(--task-edit-btn-bg);}
 .task-finish-btn{background-color: var(--task-finish-btn-bg);}
 
@@ -96,7 +99,7 @@ h1,h2,h3,h4,h5,h6{color: var(--title-color);}
 
 .category-tabs li button{
     background-color: var(--background-color);
-    color: var(--text-secondary-color);
+    color: var(--text-base-color);
     border: 0;
     width: 100%;
     height: 100%;
@@ -122,6 +125,7 @@ button{
     margin-bottom: 5px;
     background-color: var(--button-base-color);
     border: 1px solid var(--border);
+    color: var(--text-base-color);
 }
 
 .task-item{
@@ -136,7 +140,7 @@ button{
 .category-title{position: relative;}
 .category-title .category-edit, .category-title .category-delete{
     background-color: transparent;
-    color: var(--text-secondary-color);
+    color: var(--text-base-color);
     cursor: pointer;
     border: 0;
     display: none;

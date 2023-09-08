@@ -2,8 +2,7 @@
     --border-color: black;
     --modal-overlay-color: rgba(28, 28, 28, 0.488);
     
-    --text-base-color: #044C2B;
-    --text-secondary-color: #5C5C5C;
+    --text-base-color-menu: #044C2B;
     
     --menu-bg-color: #C1E3C5;
 
@@ -23,7 +22,10 @@
     align-items: center;
 
     border-radius: 7px;
-    border: black 1px solid;
+    border: #C1E3C5 1px solid;
+}
+.open-menu-btn > svg {
+    fill: #C1E3C5;
 }
 
 .menu-overlay{
@@ -86,7 +88,7 @@
     border: var(--border-color) 1px solid;
     width: 100%;
     padding: 10px 0 10px 0;
-    color: var(--text-base-color);
+    color: var(--text-base-color-menu);
     font-weight: 100;
     cursor: pointer;
 }
